@@ -1,11 +1,13 @@
 package com.example.devbox.domain.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity(name = "User")
 @Data
@@ -17,12 +19,39 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "user_name")
+    private String username;
 
+    @Column(name = "user_password")
+    @JsonIgnore
+    private String password;
 
+    @Column(name = "user_email")
+    private String email;
 
+    @Column(name = "user_nickName")
+    private String nickname;
 
+    @Column(name = "user_regDate")
+    private String regDate;
 
+    @Column(name = "user_image")
+    private String image;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @Builder.Default
+    @JsonIgnore
+    private List<Authority> authorities = new ArrayList<>();
+
+    public void addAuthoriy(Authority... authorities){
+        Collections.addAll(this.authorities, authorities);
+    }
+
+    private String provider;
+
+    private String providerId;
 }

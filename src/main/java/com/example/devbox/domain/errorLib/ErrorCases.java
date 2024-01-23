@@ -1,5 +1,6 @@
 package com.example.devbox.domain.errorLib;
 
+import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
 
@@ -38,4 +38,7 @@ public class ErrorCases {
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
     private LocalDateTime eCreatedAt;
 
+    @ManyToOne
+    @Column(name = "user_id")
+    private User userId;
 }
