@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
+import com.example.devbox.domain.common.Authority;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,19 +52,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         Collection<GrantedAuthority> collect = new ArrayList<>();
 
         // DB 에서 user 의 권한(들) 읽어오기
-        List<Authority> list = userService.selectAuthoritiesById(user.getUserId());
+        User user1 = userRepository.findById(user.getUserId()).orElse(null);
+        List<Authority> list = user1.getAuthorities();
 
         for(Authority auth : list){
             collect.add(new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return auth.getName();
-                }
-
-                // thymeleaf 등에서 확인 활용하기 위하 문자열 (학습목적)
-                @Override
-                public String toString() {
-                    return auth.getName();
+                    return auth.getAuthName();
                 }
             });
         }

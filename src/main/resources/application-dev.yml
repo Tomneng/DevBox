@@ -28,3 +28,9 @@ spring:
       ddl-auto: create # ??? ???? ??? ??? ????
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+app:
+  # 파일 업로드 경로
+  upload:
+    path: upload
+

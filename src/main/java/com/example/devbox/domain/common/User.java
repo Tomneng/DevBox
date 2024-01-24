@@ -3,6 +3,7 @@ package com.example.devbox.domain.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class User {
     @JsonIgnore
     private String password;
 
+    @ToString.Exclude
+    @JsonIgnore
+    private String rePassword;
+
     @Column(name = "user_email")
     private String email;
 
@@ -36,10 +41,8 @@ public class User {
     private String nickname;
 
     @Column(name = "user_regDate")
+    @CreatedDate
     private String regDate;
-
-    @Column(name = "user_image")
-    private String image;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
