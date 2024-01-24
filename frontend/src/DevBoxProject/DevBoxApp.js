@@ -1,11 +1,33 @@
-import React from 'react';
+import React from "react";
+import ShareList from "../pages/share/ShareList";
+import ShareWrite from "../pages/share/ShareWrite";
+import ShareDetail from "../pages/share/ShareDetail";
+import ShareUpdate from "../pages/share/ShareUpdate";
 
 const DevBoxApp = () => {
-    return (
-        <>
+  return (
+    <div>
+      <Container>
+        <Routes>
 
-        </>
-    );
+          {/* Error */}
+
+        
+          {/* Share  */}
+          <Route path="/list" Component={ShareList}></Route>{/*  Share 목록 */}
+          <Route path="/write" Component={ShareWrite}></Route>{/* Share 작성 */}
+          <Route path="/detail/:id" Component={ShareDetail}></Route>{/* Share 상세 */}
+          <Route path="/update/:id" Component={ShareUpdate}></Route>{/* Share 수정 */}
+
+
+
+          {/* profile */}
+
+
+        </Routes>
+      </Container>
+    </div>
+  );
 };
 
 export default DevBoxApp;

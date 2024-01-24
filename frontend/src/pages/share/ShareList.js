@@ -1,17 +1,12 @@
 import React from "react";
+import ShareWrite from "./ShareWrite";
+import ShareDetail from "./ShareDetail";
+import ShareUpdate from "./ShareUpdate";
 
 const ShareList = () => {
   return (
     <div>
-      <Container>
-        <Routes>
-          <Route path="/" Component={home}></Route> {/*  목록 */}
-          <Route path="/list" Component={ShareList}></Route> {/*  목록 */}
-          <Route path="/write" Component={}></Route> {/* 글 작성 */}
-          <Route path="/detail/:id" Component={}></Route> {/* 글 상세 */}
-          <Route path="/update/:id" Component={}></Route> {/* 글 수정 */}
-        </Routes>
-      </Container>
+
     </div>
   );
 };
