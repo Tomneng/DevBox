@@ -4,6 +4,7 @@ package com.example.devbox.service.share;
 import com.example.devbox.domain.share.Share;
 import com.example.devbox.repository.share.ShareRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,7 @@ public class ShareService {
     // 글 목록 불러오기
     @Transactional(readOnly = true)
     public List<Share> shareList() {
-        return shareRepository.findAll();
+        return shareRepository.findAll(Sort.by(Sort.Order.desc("sid")));
     }
 
     // 글 디테일

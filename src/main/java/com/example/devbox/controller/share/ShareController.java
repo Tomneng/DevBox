@@ -16,12 +16,14 @@ public class ShareController {
     private final ShareService shareService;
 
     // 글작성
+    @CrossOrigin
     @PostMapping("/write")
     public ResponseEntity<?> write(@RequestBody Share share) {
         return new ResponseEntity<>(shareService.shareWrite(share), HttpStatus.CREATED);
     }
 
     //  글 목록
+    @CrossOrigin
     @GetMapping("/list")
     public ResponseEntity<?> list() {
         return new ResponseEntity<>(shareService.shareList(), HttpStatus.OK);
@@ -29,13 +31,15 @@ public class ShareController {
 
 
     // 글 디테일
-    @GetMapping("/detail/{SId}")
-    public ResponseEntity<?> detail(@PathVariable Long sId){
-    return new ResponseEntity<>(shareService.shareDetail(sId), HttpStatus.OK);
+    @CrossOrigin
+    @GetMapping("/detail/{sid}")
+    public ResponseEntity<?> detail(@PathVariable Long sid){
+    return new ResponseEntity<>(shareService.shareDetail(sid), HttpStatus.OK);
     }
 
     // 글 수정
 
+    @CrossOrigin
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody Share share){
         return new ResponseEntity<>(shareService.shareUpdate(share), HttpStatus.OK);
@@ -43,9 +47,10 @@ public class ShareController {
 
     // 글 삭제
 
-    @DeleteMapping("/delete/{sId}")
-    public ResponseEntity<?> delete(@PathVariable Long sId){
-        return new ResponseEntity<>(shareService.shareDelete(sId), HttpStatus.OK);
+    @CrossOrigin
+    @DeleteMapping("/delete/{sid}")
+    public ResponseEntity<?> delete(@PathVariable Long sid){
+        return new ResponseEntity<>(shareService.shareDelete(sid), HttpStatus.OK);
     }
 
 

@@ -18,8 +18,8 @@ const DevBoxApp = () => {
           {/* Share  */}
           <Route path="/list" Component={ShareList}></Route>{/*  Share 목록 */}
           <Route path="/write" Component={ShareWrite}></Route>{/* Share 작성 */}
-          <Route path="/detail/:id" Component={ShareDetail}></Route>{/* Share 상세 */}
-          <Route path="/update/:id" Component={ShareUpdate}></Route>{/* Share 수정 */}
+          <Route path="/detail/:sid" Component={ShareDetail}></Route>{/* Share 상세 */}
+          <Route path="/update/:sid" Component={ShareUpdate}></Route>{/* Share 수정 */}
 
 
 
