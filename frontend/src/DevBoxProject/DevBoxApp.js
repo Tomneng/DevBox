@@ -6,9 +6,10 @@ import ShareUpdate from "../pages/share/ShareUpdate";
 import {Container} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const DevBoxApp = () => {
   return (
-    <div>
       <Container>
         <Routes>
 
@@ -28,7 +29,6 @@ const DevBoxApp = () => {
 
         </Routes>
       </Container>
-    </div>
   );
 };
 

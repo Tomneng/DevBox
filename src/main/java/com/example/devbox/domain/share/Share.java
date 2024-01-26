@@ -2,15 +2,12 @@ package com.example.devbox.domain.share;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -42,6 +39,11 @@ public class Share {
     @Column(nullable = false)
     private Boolean spublic;
 
+    private String sdescription;
+
+    @ColumnDefault(value = "0")
+    private int sviewCnt;
+
 
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -57,7 +59,7 @@ public class Share {
     @JoinTable(
             name = "collection",
             joinColumns = @JoinColumn(name = "sid"),
-            inverseJoinColumns = @JoinColumn(name = "CId")
+            inverseJoinColumns = @JoinColumn(name = "cid")
     )
     private List<Comment> comments = new ArrayList<>();
 

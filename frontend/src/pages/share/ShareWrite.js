@@ -9,7 +9,8 @@ const ShareWrite = () => {
     stitle: '',
     scontent: '',
     slanguage: '',
-    spublic: ''
+    spublic: '',
+    sdescription: '',
   });
   const changeValue = (e) => {
     setShare({
@@ -54,16 +55,18 @@ const ShareWrite = () => {
 
       <Form onSubmit={submitShare}>
         {/* 공개 여부 */}
-        <Form.Group>
-          <Form.Label>공개 여부</Form.Label>
+        <Form.Group className={'d-flex gap-4'}>
+          <Form.Label>공개 여부 : </Form.Label>
+
           <Form.Check
               type={"radio"}
               label={"Public"}
               id={"public"}
               name={"spublic"}
               value={"true"}
-              checked={share.spublic === 'true'}
-              onChange={changeValue}/>
+              onChange={changeValue}
+          defaultChecked={"ture"}/>
+          {/*  작성시 기본값 true  */}
 
           {/*checked 속성은 share.spublic의 값에 따라 설정됩니다.
 만약 share.spublic이 문자열 'true'와 같다면, 라디오 버튼은 초기에 선택된 상태가 되고,
@@ -75,9 +78,10 @@ const ShareWrite = () => {
               id={"Private"}
               name={"spublic"}
               value={"false"}
-              checked={share.spublic === 'false'}
               onChange={changeValue}/>
+
         </Form.Group>
+
 
 
         {/*  글 제목 입력 란  */}
@@ -88,6 +92,17 @@ const ShareWrite = () => {
               placeholder={"제목 입력"}
               onChange={changeValue}
               name={"stitle"}
+              required/>
+        </Form.Group>
+
+        {/* 글 간략 설명*/}
+        <Form.Group>
+          <Form.Label>간략 설명 :</Form.Label>
+          <Form.Control
+              type={"text"}
+              placeholder={"간략설명"}
+              onChange={changeValue}
+              name={"sdescription"}
               required/>
         </Form.Group>
 
@@ -103,10 +118,11 @@ const ShareWrite = () => {
         </Form.Group>
 
         {/* 코드 사진 첨부 */}
+
+        <div className={'mt-3'}>
         <Button type={"submit"}>나눔 하기</Button>
-        <Link to={"/list"}>
-          목록
-        </Link>
+        <Link className='btn btn-outline-dark ms-2' to="/list">목록</Link>
+        </div>
       </Form>
     </Container>
   );

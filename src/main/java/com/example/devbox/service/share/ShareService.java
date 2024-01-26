@@ -32,7 +32,11 @@ public class ShareService {
     // 글 디테일
     @Transactional(readOnly = true)
     public Share shareDetail(Long sid) {
-        return shareRepository.findById(sid).orElseThrow(() -> new IllegalArgumentException("다시 확인"));
+         Share plusView = shareRepository.findById(sid).orElseThrow(() -> new IllegalArgumentException("다시 확인"));
+
+         plusView.setSviewCnt(plusView.getSviewCnt() + 1);
+
+        return plusView;
     }
 
 
@@ -62,7 +66,7 @@ public class ShareService {
     public String shareDelete(Long sid) {
         // 삭제 작업 수행
         shareRepository.deleteById(sid);
-        return "삭제 성공";
+        return "ok";
     }
 }
 

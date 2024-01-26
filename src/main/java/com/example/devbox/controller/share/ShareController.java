@@ -54,6 +54,17 @@ public class ShareController {
     }
 
 
-
+//    @CrossOrigin
+//    @DeleteMapping("/delete/{sid}")
+//    public ResponseEntity<?> delete(@PathVariable Long sid){
+//        return new ResponseEntity<>(new ResponseStatus(shareService.shareDelete(sid)), HttpStatus.OK);
+//    }
+//
+//    @Data
+//    @AllArgsConstructor
+//    public static class ResponseStatus {
+//        private String status;
+//
+//    }
 
 }
