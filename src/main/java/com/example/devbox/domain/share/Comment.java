@@ -27,7 +27,7 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cId;
+    private Long cid;
 
     // FK
     @ManyToOne(optional = false)
@@ -49,8 +49,8 @@ public class Comment {
     @JsonProperty("cRegDate")
     private LocalDateTime localDateTime;
 
-
-    @ManyToMany(mappedBy = "comments")
-    private List<Share> shares = new ArrayList<>();
+//
+//    @ManyToMany(mappedBy = "comments")
+//    private List<Share> shares = new ArrayList<>();
 
 }

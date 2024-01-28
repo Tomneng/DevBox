@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,8 +37,9 @@ public class Share {
     @Column(nullable = false)
     private String slanguage;
 
+
     @Column(nullable = false)
-    private Boolean spublic;
+    private String  spublic;
 
     private String sdescription;
 
@@ -55,13 +57,13 @@ public class Share {
 //    private User user;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "collection",
-            joinColumns = @JoinColumn(name = "sid"),
-            inverseJoinColumns = @JoinColumn(name = "cid")
-    )
-    private List<Comment> comments = new ArrayList<>();
-
+//    @ManyToMany
+//    @JoinTable(
+//            name = "collection",
+//            joinColumns = @JoinColumn(name = "sid"),
+//            inverseJoinColumns = @JoinColumn(name = "cid")
+//    )
+//    private List<Comment> comments = new ArrayList<>();
+//
 
 }

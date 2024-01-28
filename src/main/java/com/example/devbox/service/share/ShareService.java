@@ -30,7 +30,7 @@ public class ShareService {
     }
 
     // 글 디테일
-    @Transactional(readOnly = true)
+    @Transactional
     public Share shareDetail(Long sid) {
          Share plusView = shareRepository.findById(sid).orElseThrow(() -> new IllegalArgumentException("다시 확인"));
 

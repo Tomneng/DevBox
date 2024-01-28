@@ -19,25 +19,25 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cRId;
 
-
-
-    @ManyToOne
-    @ToString.Exclude
-    @JoinColumn(name = "bue_user")
-    private User bueUsers;
-
-
-    @ManyToOne
-    @ToString.Exclude
-    @JoinColumn(name = "SId")
-    private Share share;
-
-
-    @ManyToOne
-    @ToString.Exclude
-    @JoinColumn(name = "sale_user")
-    private Share saleUser;
-
+//
+//
+//    @ManyToOne
+//    @ToString.Exclude
+//    @JoinColumn(name = "bue_user")
+//    private User bueUsers;
+//
+//
+//    @ManyToOne
+//    @ToString.Exclude
+//    @JoinColumn(name = "SId")
+//    private Share share;
+//
+//
+//    @ManyToOne
+//    @ToString.Exclude
+//    @JoinColumn(name = "sale_user")
+//    private Share saleUser;
+//
 
 
 }

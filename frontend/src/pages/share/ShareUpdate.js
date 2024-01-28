@@ -61,6 +61,7 @@ const ShareUpdate = () => {
             });
     };
 
+    console.log(share.spublic)
     return (
         <Container mt={3}>
             <h2>수정 : {share.stitle}</h2>
@@ -105,14 +106,16 @@ const ShareUpdate = () => {
                 {/* 공개여부 */}
                 <Form.Group className="my-3" controlId="formBasicSpublic">
 
+               
+
                         <Form.Label>공개 여부</Form.Label>
                         <Form.Check
                             type={"radio"}
                             label={"Public"}
                             id={"public"}
                             name={"spublic"}
-                            value={"true"}
-                            checked={share.spublic === 'true'}
+                            value={"PUBLIC"}
+                            checked={share.spublic === "PUBLIC"}
                             onChange={changeValue}/>
 
                         {/*checked 속성은 share.spublic의 값에 따라 설정됩니다.
@@ -124,8 +127,8 @@ const ShareUpdate = () => {
                             label={"Private"}
                             id={"Private"}
                             name={"spublic"}
-                            value={"false"}
-                            checked={share.spublic === 'false'}
+                            value={"PRIVATE"}
+                            checked={share.spublic === "PRIVATE"}
                             onChange={changeValue}/>
 
                 </Form.Group>
