@@ -8,29 +8,33 @@ import {Container} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from "../components/Header";
+
+import "../components/default.css"
 
 const DevBoxApp = () => {
-  return (
-      <Container>
-        <Routes>
+		return (
+				<Container>
+						<Header/>
 
-          {/* Error */}
+						<Routes>
 
-        
-          {/* Share  */}
-          <Route path="/list" Component={ShareList}></Route>{/*  Share 목록 */}
-          <Route path="/write" Component={ShareWrite}></Route>{/* Share 작성 */}
-          <Route path="/detail/:sid" Component={ShareDetail}></Route>{/* Share 상세 */}
-          <Route path="/update/:sid" Component={ShareUpdate}></Route>{/* Share 수정 */}
+								{/* Error */}
 
 
+								{/* Share  */}
+								<Route path="/list" Component={ShareList}></Route>{/*  Share 목록 */}
+								<Route path="/write" Component={ShareWrite}></Route>{/* Share 작성 */}
+								<Route path="/detail/:sid" Component={ShareDetail}></Route>{/* Share 상세 */}
+								<Route path="/update/:sid" Component={ShareUpdate}></Route>{/* Share 수정 */}
 
-          {/* profile */}
+
+								{/* profile */}
 
 
-        </Routes>
-      </Container>
-  );
+						</Routes>
+				</Container>
+		);
 };
 
 export default DevBoxApp;

@@ -6,7 +6,7 @@ const ShareListItem = (props) => {
 		const {sid,stitle, sdescription, sviewCnt, sregDate, spublic } =  props.share;
 		return (
 
-				<Col key={sid} xs={12} md={4}>
+				<Col key={sid}  xs={12} md={6} lg={4} className="mb-4 p-4" >
 
 						<Card className="mb-4">
 								{/* 사진 부분 (이미지 URL이 있다고 가정) */}
