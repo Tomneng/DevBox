@@ -3,10 +3,11 @@ import {Button, Card, Col} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 const ShareListItem = (props) => {
-		const {sid,stitle, sdescription, sviewCnt, sregDate } =  props.share;
+		const {sid,stitle, sdescription, sviewCnt, sregDate, spublic } =  props.share;
 		return (
 
 				<Col key={sid} xs={12} md={4}>
+
 						<Card className="mb-4">
 								{/* 사진 부분 (이미지 URL이 있다고 가정) */}
 								{/*<Card.Img variant="top" src={imageURL} alt="Share Image"/>*/}

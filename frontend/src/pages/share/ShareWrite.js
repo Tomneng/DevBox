@@ -10,7 +10,7 @@ const ShareWrite = () => {
 				stitle: '',
 				scontent: '',
 				slanguage: '',
-				spublic: '',
+				spublic: 'PUBLIC',
 				sdescription: '',
 		});
 		const changeValue = (e) => {
