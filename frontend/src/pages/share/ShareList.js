@@ -34,9 +34,8 @@ const ShareList = () => {
 						<Row>
 								<div>
 										{shareList.map((share) => (
-												console.log(share.spublic) &&
 												share.spublic === "PUBLIC" && (
-												<ShareListItem key={shareList.sid} share={share}/>)
+												<ShareListItem key={share.sid} share={share}/>)
 										))}
 								</div>
 						</Row>
