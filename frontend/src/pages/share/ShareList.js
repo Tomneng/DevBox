@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import ShareListItem from "../../components/ShareListItem";
 
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faJava} from "@fortawesome/free-brands-svg-icons"
+
 const ShareList = () => {
 		// 원본 글 리스트
 		const [shareList, setShareList] = useState([]);
@@ -48,10 +51,12 @@ const ShareList = () => {
 
 				<Container>
 
+
 						{/*content wrapper*/}
 						<div className={"mt-5"}>
 								<div className={"d-flex justify-content-between mb-4 p-4"}>
 										<form className={"d-flex gap-2"} onSubmit={submitSearch}>
+												<FontAwesomeIcon icon={faJava} />
 												<input
 														type={"text"}
 														placeholder={"검색"}

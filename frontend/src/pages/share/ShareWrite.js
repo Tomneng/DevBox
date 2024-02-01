@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Container, Form} from "react-bootstrap";
+import {Button, Col, Container, Form} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 
 const ShareWrite = () => {
@@ -14,11 +14,32 @@ const ShareWrite = () => {
 				sdescription: '',
 		});
 		const changeValue = (e) => {
-				setShare({
-						...share,
-						[e.target.name]: e.target.value,
+				const { name, value, type, checked } = e.target;
+
+				setShare((prevShare) => {
+						if (type === 'checkbox') {
+								// 체크박스의 경우 checked 값을 사용
+								return {
+										...prevShare,
+										[name]: checked
+												? prevShare[name].length > 0
+														? `${prevShare[name]},${value}`
+														: value
+												: prevShare[name]
+														.split(',')
+														.filter((item) => item !== value)
+														.join(','),
+								};
+						} else {
+								// 그 외의 경우 value 값을 사용
+								return {
+										...prevShare,
+										[name]: value,
+								};
+						}
 				});
 		};
+
 
 		const submitShare = (e) => {
 				e.preventDefault();
@@ -84,6 +105,107 @@ const ShareWrite = () => {
 												onChange={changeValue}/>
 
 								</Form.Group>
+
+								{/* 사용 언어 태그 */}
+
+								<Form.Group>
+										<Form.Label>사용 언어</Form.Label>
+										<Col className={"d-flex gap-3 flex-wrap justify-content-start"}>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"JAVA"}
+														label={"JAVA"}
+												/>
+
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"C"}
+														label={"C"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"C+"}
+														label={"C+"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"C++"}
+														label={"C++"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"HTML"}
+														label={"HTML"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"CSS"}
+														label={"CSS"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"JS"}
+														label={"JS"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"REACT"}
+														label={"REACT"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"GO LANG"}
+														label={"GO LANG"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"UM LANG"}
+														label={"UM LANG"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"PYTHON"}
+														label={"PYTHON"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"TYPE SCRIPT"}
+														label={"TYPE SCRIPT"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"SQL"}
+														label={"SQL"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"KOTLIN"}
+														label={"KOTLIN"}
+												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"SWIFT"}
+														label={"SWIFT"}
+												/>
+										</Col>
+								</Form.Group>
+
+								{/* 사용 언어 아이콘*/}
 
 
 								{/*  글 제목 입력 란  */}
