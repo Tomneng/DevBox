@@ -51,7 +51,7 @@ const ShareList = () => {
 
 				<Container>
 
-
+<div>왜 내가 커밋 한게 아닌거디</div>
 						{/*content wrapper*/}
 						<div className={"mt-5"}>
 								<div className={"d-flex justify-content-between mb-4 p-4"}>
