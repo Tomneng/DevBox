@@ -51,12 +51,10 @@ const ShareList = () => {
 
 				<Container>
 
-<div>이젠 내끄야~~</div>
 						{/*content wrapper*/}
 						<div className={"mt-5"}>
 								<div className={"d-flex justify-content-between mb-4 p-4"}>
 										<form className={"d-flex gap-2"} onSubmit={submitSearch}>
-												<FontAwesomeIcon icon={faJava} />
 												<input
 														type={"text"}
 														placeholder={"검색"}

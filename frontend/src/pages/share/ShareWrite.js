@@ -16,9 +16,6 @@ import PYTHONLogo from "../../components/image/python.png"
 import REACTLogo from "../../components/image/react.png"
 
 
-
-
-
 const ShareWrite = () => {
 
 		const navigate = useNavigate();
@@ -30,13 +27,28 @@ const ShareWrite = () => {
 				spublic: 'PUBLIC',
 				sdescription: '',
 		});
+
+		// 빈 배열을 만든후 이 배열에 체크된 언어만 넣고 이 배열을 가지고 언어 아이콘을 보여줄 계획
+		// const [language, setLanguage] = useState([]);
+
 		const changeValue = (e) => {
 				const {name, value, type, checked} = e.target;
 
 				setShare((prevShare) => {
 						if (type === 'checkbox') {
 								// 체크박스의 경우 checked 값을 사용
-								console.log(share.slanguage)
+								// let updatedLanguage = [...language]; // 새로운 배열로 복사
+								//
+								// if (checked) {
+								// 		updatedLanguage.push(prevShare[name]);
+								// } else {
+								// 		updatedLanguage = updatedLanguage.filter((item) => item !== prevShare[name]);
+								// }
+								//
+								// console.log(updatedLanguage);
+								//
+								// setLanguage(updatedLanguage);
+
 								return {
 										...prevShare,
 										[name]: checked
@@ -46,7 +58,7 @@ const ShareWrite = () => {
 												: prevShare[name]
 														.split(',')
 														.filter((item) => item !== value)
-														.join(','),
+														.join(',')
 								};
 						} else {
 								// 그 외의 경우 value 값을 사용
@@ -170,7 +182,6 @@ const ShareWrite = () => {
 												/>
 
 
-
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
@@ -247,8 +258,8 @@ const ShareWrite = () => {
 										{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
 										{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
 										{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
-										{share.slanguage.includes("CSS") && <Image src={CSSLogo}/> }
-										{share.slanguage.includes("JS") && <Image src={JSLogo} />}
+										{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
+										{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
 										{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
 										{share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
 										{share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
