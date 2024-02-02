@@ -1,6 +1,23 @@
 import React, {useState} from 'react';
-import {Button, Col, Container, Form} from "react-bootstrap";
+import {Button, Col, Container, Form, Image} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
+import {faCss3Alt, faHtml5, faJava, faPython, faReact, faSquareJs, faSwift} from "@fortawesome/free-brands-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faC, faDatabase} from "@fortawesome/free-solid-svg-icons";
+
+import CLogo from "../../components/image/c.png"
+import CPPLogo from "../../components/image/cpp.png"
+import CSHARPLogo from "../../components/image/csharp.png"
+import CSSLogo from "../../components/image/css.png"
+import HTMLLogo from "../../components/image/html.png"
+import JAVALogo from "../../components/image/java.png"
+import JSLogo from "../../components/image/javascript.png"
+import PYTHONLogo from "../../components/image/python.png"
+import REACTLogo from "../../components/image/react.png"
+
+
+
+
 
 const ShareWrite = () => {
 
@@ -14,11 +31,12 @@ const ShareWrite = () => {
 				sdescription: '',
 		});
 		const changeValue = (e) => {
-				const { name, value, type, checked } = e.target;
+				const {name, value, type, checked} = e.target;
 
 				setShare((prevShare) => {
 						if (type === 'checkbox') {
 								// 체크박스의 경우 checked 값을 사용
+								console.log(share.slanguage)
 								return {
 										...prevShare,
 										[name]: checked
@@ -111,103 +129,130 @@ const ShareWrite = () => {
 								<Form.Group>
 										<Form.Label>사용 언어</Form.Label>
 										<Col className={"d-flex gap-3 flex-wrap justify-content-start"}>
+
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
-														value={"JAVA"}
-														label={"JAVA"}
+														value={"PYTHON"}
+														label={"PYTHON"}
+														onChange={changeValue}
 												/>
 
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
-														value={"C"}
-														label={"C"}
+														value={"JAVA"}
+														label={"JAVA"}
+														onChange={changeValue}
 												/>
+
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
-														value={"C+"}
-														label={"C+"}
+														value={"BASICC"}
+														label={"C"}
+														onChange={changeValue}
 												/>
+
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"C++"}
 														label={"C++"}
+														onChange={changeValue}
 												/>
+												<Form.Check
+														type={"checkbox"}
+														name={"slanguage"}
+														value={"C#"}
+														label={"C#"}
+														onChange={changeValue}
+												/>
+
+
+
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"HTML"}
 														label={"HTML"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"CSS"}
 														label={"CSS"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"JS"}
 														label={"JS"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"REACT"}
 														label={"REACT"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"GO LANG"}
 														label={"GO LANG"}
+														onChange={changeValue}
 												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"UM LANG"}
-														label={"UM LANG"}
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"PYTHON"}
-														label={"PYTHON"}
-												/>
+
+
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"TYPE SCRIPT"}
 														label={"TYPE SCRIPT"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"SQL"}
 														label={"SQL"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"KOTLIN"}
 														label={"KOTLIN"}
+														onChange={changeValue}
 												/>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
 														value={"SWIFT"}
 														label={"SWIFT"}
+														onChange={changeValue}
 												/>
 										</Col>
 								</Form.Group>
 
 								{/* 사용 언어 아이콘*/}
-
-
+								<div>
+										{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
+										{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
+										{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
+										{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
+										{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
+										{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
+										{share.slanguage.includes("CSS") && <Image src={CSSLogo}/> }
+										{share.slanguage.includes("JS") && <Image src={JSLogo} />}
+										{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
+										{share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
+										{share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
+								</div>
 								{/*  글 제목 입력 란  */}
 								<Form.Group>
 										<Form.Label>제목 : </Form.Label>
