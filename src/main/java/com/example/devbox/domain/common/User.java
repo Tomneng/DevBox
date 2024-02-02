@@ -1,60 +1,57 @@
 package com.example.devbox.domain.common;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Entity(name = "User")
 @Data
+@ToString(callSuper = true)
+@Entity(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(value = AuditingEntityListener.class)
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "user_name")
     private String username;
 
-    @Column(name = "user_password")
-    @JsonIgnore
     private String password;
 
     @ToString.Exclude
     @JsonIgnore
     private String rePassword;
 
-    @Column(name = "user_email")
+    private String name;
+
     private String email;
 
-    @Column(name = "user_nickName")
-    private String nickname;
-
-    @Column(name = "user_regDate")
     @CreatedDate
-    private String regDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime regDate;
+
+    @ColumnDefault(value = "1")
+    private Integer enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     @Builder.Default
-    @JsonIgnore
     private List<Authority> authorities = new ArrayList<>();
 
     public void addAuthoriy(Authority... authorities){
         Collections.addAll(this.authorities, authorities);
     }
 
-    private String provider;
 
-    private String providerId;
 }

@@ -1,19 +1,21 @@
-import React, {useState} from 'react';
-import '../CSS/LoginPage.css'
+import React from 'react';
 import Header from "../components/Header";
 import {Container} from "react-bootstrap";
 import LoginContextCounsumer from "../contexts/LoginContextCounsumer";
-import LoginForm from "../components/Login/LoginForm";
 
-const LoginPage = () => {
+const AboutPage = () => {
     return (
         <>
-            <Header />
+        <Header />
                 <div className="container">
-                    <LoginForm/>
+                    <h1>About</h1>
+                    <hr />
+                    <h2>소개페이지</h2>
+                    <LoginContextCounsumer/>
                 </div>
+
         </>
     );
 };
 
-export default LoginPage;
+export default AboutPage;
