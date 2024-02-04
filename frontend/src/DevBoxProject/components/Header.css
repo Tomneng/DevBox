@@ -1,17 +1,67 @@
-header{
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    background-color: #ffffff;
     border-bottom: 1px solid black;
+    height: 100px;
+    padding: 20px 40px;
 }
 
-.logo {width: 80px;}
+.logo {
+    width: 126px;
+    height: 84px;
+    background-image: url("../public/img/DevBoxLogo.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
-.util ul{
+.top-nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    column-gap: 12px;
+    width: 50%;
 }
 
+.navs {
+    width: 126px;
+    height: 84px;
+    border: 2px solid black;
+    text-align: center;
+    font-size: large;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    position: relative;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navs:hover {
+    background-color: #555; /* hover 시 배경색 변경 */
+}
+
+.util {
+    display: flex;
+    align-items: center;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .header {
+        padding: 20px;
+    }
+
+    .top-nav {
+        width: 100%;
+    }
+
+    .navs {
+        margin: 12px 0;
+    }
+}
