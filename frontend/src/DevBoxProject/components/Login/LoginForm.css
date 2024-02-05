@@ -28,9 +28,6 @@ input {
 input::placeholder {
     color: black;
 }
-
-
-
 button, .signup-button {
     background-color: #ffffff;
     color: black;

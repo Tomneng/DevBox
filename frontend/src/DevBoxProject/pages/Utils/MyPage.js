@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import Header from "../components/Header";
-import LoginContextCounsumer from "../contexts/LoginContextCounsumer";
-import UserForm from "../components/User/UserForm";
-import * as auth from "../apis/auth";
-import {login} from "../apis/auth";
-import {LoginContext} from "../contexts/LoginContextProvider";
+import Header from "../../components/Header";
+import LoginContextCounsumer from "../../contexts/LoginContextCounsumer";
+import UserForm from "../../components/User/UserForm";
+import * as auth from "../../apis/auth";
+import {login} from "../../apis/auth";
+import {LoginContext} from "../../contexts/LoginContextProvider";
 import {useNavigate} from "react-router-dom";
-import * as Swal from "../apis/alert";
+import * as Swal from "../../apis/alert";
 
 const MyPage = () => {
 

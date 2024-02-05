@@ -26,8 +26,4 @@ public class ErrorDoc {
     @Column(name = "error_kindNum")
     private Long errorKindNum; // 에러 종류번호(상속도)
 
-
-
-
-
 }

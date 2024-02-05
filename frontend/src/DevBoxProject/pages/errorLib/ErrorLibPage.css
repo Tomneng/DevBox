@@ -1,0 +1,45 @@
+.fullPage{
+    display: flex;
+    justify-content: center;
+}
+
+/* 기본 스타일 */
+.errcontainer {
+    width: 80%;
+    padding: 50px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 1500px;
+    position: relative;
+    margin-top: 120px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: start;
+}
+
+.title{
+    font-size: 50px;
+    width: 100%;
+    height: auto;
+}
+
+.line{
+    width: 100%;
+    border: 1px solid black;
+    height: 50px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.selectors{
+    height: 100%;
+    width: 10%;
+    border: 2px solid black;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+

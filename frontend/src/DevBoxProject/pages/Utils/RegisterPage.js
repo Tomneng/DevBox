@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import '../CSS/LoginPage.css'
-import Header from "../components/Header";
+import './LoginPage.css'
+import Header from "../../components/Header";
 import {Container} from "react-bootstrap";
-import LoginContextCounsumer from "../contexts/LoginContextCounsumer";
-import RegisterForm from "../components/register/RegisterForm";
-import * as auth from '../apis/auth'
+import LoginContextCounsumer from "../../contexts/LoginContextCounsumer";
+import RegisterForm from "../../components/register/RegisterForm";
+import * as auth from '../../apis/auth'
 import {Link, useNavigate} from "react-router-dom";
-import * as Swal from '../apis/alert'
+import * as Swal from '../../apis/alert'
 
 const RegisterPage = () => {
 
