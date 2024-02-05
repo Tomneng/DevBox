@@ -49,8 +49,6 @@ const ShareListItem = (props) => {
                                 {slanguage.includes("CSS") && <Image src={CSSLogo}/>}
                                 {slanguage.includes("JS") && <Image src={JSLogo}/>}
                                 {slanguage.includes("REACT") && <Image src={REACTLogo}/>}
-
-
                         </div>
                     </Card.Body>
 
