@@ -7,5 +7,17 @@ body {
     height: 100vh;
     margin: 0;
     flex-direction: column;
+    text-align: center;
+}
+.h1{
+    color: black;
+    font-size: 70px;
+    font-family: "Showcard Gothic";
+    position: fixed;
+    z-index: 100;
+    top: 150px;
+    left: 0;
+    width: 100%;
+    text-align: center;
 }
 

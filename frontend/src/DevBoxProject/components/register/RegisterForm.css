@@ -1,10 +1,32 @@
 .form{
-    width: 400px;
-    margin: auto;
-    padding: 36px 48px 48px 48px;
-    background-color: #2ecc71;
-    border-radius: 11px;
-    box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.15);
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border: 2px solid #E0E0E0;
+    color: black;
+    border-radius: 4px;
+    outline: none;
+}
+
+input::placeholder {
+    color: black;
 }
 
 .login-title{
@@ -35,4 +57,20 @@
 .login-form input:focus{
     outline: none;
     box-shadow: 0 0 0 4px rgba(253, 242,233,0.5);
+}
+
+button, .signup-button {
+    background-color: #ffffff;
+    color: black;
+    padding: 15px 0;
+    border: 2px solid #E0E0E0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 0;
+    width: 100%;
+    font-size: 1rem;
+}
+
+button:hover, .signup-button:hover {
+    background-color: #f4f4f4;
 }

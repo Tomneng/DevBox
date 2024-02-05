@@ -4,11 +4,14 @@ import Header from "../components/Header";
 import {Container} from "react-bootstrap";
 import LoginContextCounsumer from "../contexts/LoginContextCounsumer";
 import LoginForm from "../components/Login/LoginForm";
+import {Link} from "react-router-dom";
 
 const LoginPage = () => {
     return (
         <>
-            <Header/>
+            <div className="h1">
+                <Link to="/">DEV BOX</Link>
+            </div>
                 <div className="container">
                     <LoginForm/>
                 </div>

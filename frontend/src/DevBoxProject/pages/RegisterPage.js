@@ -5,7 +5,7 @@ import {Container} from "react-bootstrap";
 import LoginContextCounsumer from "../contexts/LoginContextCounsumer";
 import RegisterForm from "../components/register/RegisterForm";
 import * as auth from '../apis/auth'
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import * as Swal from '../apis/alert'
 
 const RegisterPage = () => {
@@ -41,11 +41,12 @@ const RegisterPage = () => {
 
     return (
         <>
-            <Header/>
+            <div className="h1">
+                <Link to="/">DEV BOX</Link>
+            </div>
             <div className="container">
                 <RegisterForm join={join}/>
             </div>
-
         </>
     );
 };

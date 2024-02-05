@@ -19,27 +19,36 @@ const Header = () => {
                         </div>
                     </Link>
                 </div>
-
                 <div className="navs">
+                    <span className="nav">
                     <Link to="/codeShare">Code Share</Link>
-                </div>
-                <div className="navs">
+                    </span>
+                    <span className="nav">
                     <Link to="/errorLib">Error Library</Link>
-                </div>
-                <div className="navs">
+                    </span>
+                    <span className="nav">
                     <Link to="/profile">Profile</Link>
+                    </span>
                 </div>
-            </div>
-            <div className="util">
-                {!isLogin
-                    ?
-                    <div>
-                        <Link to="/login">로그인</Link>
-                        <Link to="/register">회원가입</Link>
-                    </div>
-                    :
-                    <Link to="/mypage">MY</Link>
-                }
+
+                <div className="util">
+                    {!isLogin ? (
+                        <div className="navs">
+                            <span className="nav">
+                                <Link to="/login">Login</Link>
+                            </span>
+                            <span className="nav">
+                                <Link to="/register">Register</Link>
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="navs">
+                            <span className="nav">
+                                <Link to="/mypage">MY</Link>
+                            </span>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

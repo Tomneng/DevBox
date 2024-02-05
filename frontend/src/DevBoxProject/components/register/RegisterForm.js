@@ -4,7 +4,7 @@ import {Button} from "react-bootstrap";
 
 const RegisterForm = ({join}) => {
 
-    const onRegister = (e) =>{
+    const onRegister = (e) => {
         e.preventDefault();
         const form = e.target
         const username = form.username.value
@@ -16,53 +16,39 @@ const RegisterForm = ({join}) => {
         join({username, password, name, email})
     }
     return (
-        <div className="form">
-            <h2 className="login-title">Login</h2>
-            <form className="login-form" onSubmit={(e)  => onRegister(e)}>
-                <div>
-                    <label htmlFor="name">username</label>
-                    <input type="text"
-                           id="username"
-                           placeholder='username'
-                           name='username'
-                           autoComplete='username'
-                           required />
+        <div className="login-container">
+            <form className="login-form" onSubmit={(e) => onRegister(e)}>
+                <input type="text"
+                       id="username"
+                       placeholder='아이디'
+                       name='username'
+                       autoComplete='username'
+                       required/>
 
-                </div>
+                <input type="password"
+                       id="password"
+                       placeholder='비밀번호'
+                       name='password'
+                       autoComplete='password'
+                       required/>
 
-                <div>
-                    <label htmlFor="name">password</label>
-                    <input type="password"
-                           id="password"
-                           placeholder='password'
-                           name='password'
-                           autoComplete='password'
-                           required />
-                </div>
 
-                <div>
-                    <label htmlFor="name">name</label>
-                    <input type="text"
-                           id="name"
-                           placeholder='name'
-                           name='name'
-                           autoComplete='name'
-                           required />
+                <input type="text"
+                       id="name"
+                       placeholder='닉네임'
+                       name='name'
+                       autoComplete='name'
+                       required/>
 
-                </div>
-                <div>
-                    <label htmlFor="name">email</label>
-                    <input type="text"
-                           id="email"
-                           placeholder='email'
-                           name='email'
-                           autoComplete='email'
-                           required />
 
-                </div>
-                <Button type="submit">
-                    Register
-                </Button>
+                <input type="text"
+                       id="email"
+                       placeholder='이메일'
+                       name='email'
+                       autoComplete='email'
+                       required/>
+
+                <button type="submit">회원가입</button>
             </form>
         </div>
     );

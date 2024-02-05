@@ -21,21 +21,23 @@ const LoginForm = () => {
 
     return (
         <div className="login-container">
-            <h2>DevBox 로그인</h2>
             <form id="loginForm" onSubmit={(e) => onLogin(e)}>
                 <input type="text" id="username" placeholder="아이디" name="username" autoComplete="username" required/>
                     <input type="password" id="password" placeholder="비밀번호" name="password" autoComplete="password" required/>
                         <button type="submit">로그인</button>
                         <button className="signup-button" type="button">회원가입</button>
-                        <div className="oauth-container">SNS 로그인
+                        <div className="oauth-container">
                             <Link className="btn btn-oauth" to="/oauth2/authorization/kakao">
-                                <img src="" alt="Kakao" />
+                                <img src="img/ico_s_kakao_talk.png" alt="Kakao" />
                             </Link>
                             <Link className="btn btn-oauth" to="/oauth2/authorization/google">
-                                <img src="" alt="Google" />
+                                <img src="/img/Googleimage.png" alt="Google" />
                             </Link>
                             <Link className="btn btn-oauth" to="/oauth2/authorization/google">
-                                <img src="" alt="Naver" />
+                                <img src="/img/btnG_naver.png" alt="Naver" />
+                            </Link>
+                            <Link className="btn btn-oauth" to="/oauth2/authorization/google">
+                                <img src="/img/Facebook_f_logo_(2019).svg" alt="Facebook" />
                             </Link>
                         </div>
             </form>

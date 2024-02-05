@@ -5,18 +5,18 @@
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    border-bottom: 1px solid black;
     height: 100px;
-    padding: 20px 40px;
+    padding: 20px 10%;
+    box-sizing: border-box;
 }
 
 .logo {
     width: 126px;
     height: 84px;
-    background-image: url("../public/img/DevBoxLogo.png");
+    background-image: url("../../../public/img/DevBoxLogo.png");
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -24,26 +24,59 @@
 .top-nav {
     display: flex;
     align-items: center;
-    width: 50%;
+    width: 80%;
+    justify-content: space-between;
 }
 
 .navs {
-    width: 126px;
-    height: 84px;
-    border: 2px solid black;
+    width: 100%;
+    height: 100%;
     text-align: center;
-    font-size: large;
-    background-color: #333;
+    font-size: 30px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-left: 12px;
+    justify-content: space-between;
+    margin: 0px 12px;
     position: relative;
     transition: background-color 0.3s ease-in-out;
+    padding: 0px 10%;
 }
 
-.navs:hover {
-    background-color: #555; /* hover 시 배경색 변경 */
+.nav {
+    display: block;
+    padding: 5px;
+    height: 100%;
+    align-content: center;
+    position: relative; /* 상대 위치 설정 */
+}
+
+/* .nav에 마우스를 올렸을 때의 스타일 */
+.nav:hover::after {
+    content: ""; /* 가상 요소(content)를 생성 */
+    position: absolute; /* 절대 위치 설정 */
+    bottom: -5px; /* 아래로 5px 내려감 */
+    left: 50%; /* 중앙에 위치 */
+    width: 0; /* 초기에는 길이가 0 */
+    height: 4px; /* 선의 두께 */
+    background-color: black; /* 색상 변경 */
+    transition: width 0.5s ease-in-out; /* 선이 나타날 때의 전환 효과 */
+}
+
+.nav:hover::before {
+    content: ""; /* 가상 요소(content)를 생성 */
+    position: absolute; /* 절대 위치 설정 */
+    bottom: -5px; /* 아래로 5px 내려감 */
+    right: 50%; /* 중앙에 위치 */
+    width: 0; /* 초기에는 길이가 0 */
+    height: 4px; /* 선의 두께 */
+    background-color: black; /* 색상 변경 */
+    transition: width 0.5s ease-in-out; /* 선이 나타날 때의 전환 효과 */
+}
+
+/* .nav에 마우스를 올렸을 때의 선 길이 조절 */
+.nav:hover::after,
+.nav:hover::before {
+    width: 50%; /* 선의 길이를 조절하여 가운데에서 양쪽으로 펼쳐지는 효과 */
 }
 
 .util {
@@ -51,17 +84,34 @@
     align-items: center;
 }
 
-/* 반응형 스타일 */
-@media (max-width: 768px) {
-    .header {
-        padding: 20px;
-    }
+.utilTags {
+    margin: 5px;
+    position: relative;
+}
 
-    .top-nav {
-        width: 100%;
-    }
+.utilTags::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 4px;
+    background-color: black;
+    transition: width 0.3s ease-in-out;
+}
 
-    .navs {
-        margin: 12px 0;
-    }
+.utilTags::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    right: 50%;
+    width: 0;
+    height: 4px;
+    background-color: black;
+    transition: width 0.3s ease-in-out;
+}
+
+.utilTags:hover::after,
+.utilTags:hover::before{
+    width: 50%;
 }
