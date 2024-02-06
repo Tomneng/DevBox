@@ -1,13 +1,13 @@
 import React from "react";
-import ShareList from "../pages/share/ShareList";
-import ShareWrite from "../pages/share/ShareWrite";
-import ShareDetail from "../pages/share/ShareDetail";
-import ShareUpdate from "../pages/share/ShareUpdate";
+import ShareList from "./pages/share/ShareList";
+import ShareWrite from "./pages/share/ShareWrite";
+import ShareDetail from "./pages/share/ShareDetail";
+import ShareUpdate from "./pages/share/ShareUpdate";
 import {Route, Routes} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import "../components/default.css"
+import "./components/default.css"
 import HomePage from "./pages/Utils/HomePage";
 import RegisterPage from "./pages/Utils/RegisterPage";
 import LoginPage from "./pages/Utils/LoginPage";

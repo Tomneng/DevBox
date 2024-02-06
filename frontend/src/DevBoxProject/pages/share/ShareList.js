@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import ShareListItem from "../../components/ShareListItem";
+import ShareListItem from "../../components/Share/ShareListItem";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faJava} from "@fortawesome/free-brands-svg-icons"

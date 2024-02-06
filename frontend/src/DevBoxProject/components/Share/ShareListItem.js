@@ -1,20 +1,20 @@
 import React from 'react';
 import {Button, Card, Col, Image} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import PYTHONLogo from "./image/python.png";
-import JAVALogo from "./image/java.png";
-import CLogo from "./image/c.png";
-import CPPLogo from "./image/cpp.png";
-import CSHARPLogo from "./image/csharp.png";
-import HTMLLogo from "./image/html.png";
-import CSSLogo from "./image/css.png";
-import JSLogo from "./image/javascript.png";
-import REACTLogo from "./image/react.png";
+import PYTHONLogo from "../image/python.png";
+import JAVALogo from "../image/java.png";
+import CLogo from "../image/c.png";
+import CPPLogo from "../image/cpp.png";
+import CSHARPLogo from "../image/csharp.png";
+import HTMLLogo from "../image/html.png";
+import CSSLogo from "../image/css.png";
+import JSLogo from "../image/javascript.png";
+import REACTLogo from "../image/react.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDatabase} from "@fortawesome/free-solid-svg-icons";
 import {faSwift} from "@fortawesome/free-brands-svg-icons";
 
-import "../components/ShareCSS/ShareListItemCSS.css"
+import "../ShareCSS/ShareListItemCSS.css"
 
 const ShareListItem = (props) => {
     const {sid, stitle, sdescription, sviewCnt, sregDate, spublic, slanguage} = props.share;
