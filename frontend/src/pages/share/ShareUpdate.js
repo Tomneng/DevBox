@@ -1,6 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Image, Row} from "react-bootstrap";
+import PYTHONLogo from "../../components/image/python.png";
+import JAVALogo from "../../components/image/java.png";
+import CLogo from "../../components/image/c.png";
+import CPPLogo from "../../components/image/cpp.png";
+import CSHARPLogo from "../../components/image/csharp.png";
+import HTMLLogo from "../../components/image/html.png";
+import CSSLogo from "../../components/image/css.png";
+import JSLogo from "../../components/image/javascript.png";
+import REACTLogo from "../../components/image/react.png";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faDatabase} from "@fortawesome/free-solid-svg-icons";
+import {faSwift} from "@fortawesome/free-brands-svg-icons";
 
 const ShareUpdate = () => {
 
@@ -14,6 +26,7 @@ const ShareUpdate = () => {
         spublic: '',
         sregDate: '',
         sdescription: '',
+        slanguage: '',
 
     })
 
@@ -24,9 +37,29 @@ const ShareUpdate = () => {
     }, []);
 
     const changeValue = (e) => {
-        setShare({
-            ...share,
-            [e.target.name]: e.target.value,
+        const {name, value, type, checked} = e.target;
+
+        setShare((prevShare) => {
+            if (type === 'checkbox') {
+
+                return {
+                    ...prevShare,
+                    [name]: checked
+                        ? prevShare[name].length > 0
+                            ? `${prevShare[name]},${value}`
+                            : value
+                        : prevShare[name]
+                            .split(',')
+                            .filter((item) => item !== value)
+                            .join(',')
+                };
+            } else {
+                // 그 외의 경우 value 값을 사용
+                return {
+                    ...prevShare,
+                    [name]: value,
+                };
+            }
         });
     };
 
@@ -91,22 +124,10 @@ const ShareUpdate = () => {
                         name={"stitle"}
                     />
                 </Form.Group>
-                {/* 내용 */}
-                <Form.Group className="my-3" controlId="formBasicScontent">
-                    <Form.Label>내용 : </Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={share.scontent}
-                        onChange={changeValue}
-                        name="subject"
-
-
-                    />
-                </Form.Group>
                 {/* 공개여부 */}
-                <Form.Group className="my-3" controlId="formBasicSpublic">
+                <Form.Group className={'d-flex gap-4'} controlId="formBasicSpublic">
 
-               
+
 
                         <Form.Label>공개 여부</Form.Label>
                         <Form.Check
@@ -131,6 +152,147 @@ const ShareUpdate = () => {
                             checked={share.spublic === "PRIVATE"}
                             onChange={changeValue}/>
 
+                </Form.Group>
+                {/* 사용 언어 태그 */}
+
+                <Form.Group>
+                    <Form.Label>사용 언어</Form.Label>
+                    <Col className={"d-flex gap-3 flex-wrap justify-content-start"}>
+
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"PYTHON"}
+                            label={"PYTHON"}
+                            onChange={changeValue}
+                        />
+
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"JAVA"}
+                            label={"JAVA"}
+                            onChange={changeValue}
+                        />
+
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"BASICC"}
+                            label={"C"}
+                            onChange={changeValue}
+                        />
+
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"C++"}
+                            label={"C++"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"C#"}
+                            label={"C#"}
+                            onChange={changeValue}
+                        />
+
+
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"HTML"}
+                            label={"HTML"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"CSS"}
+                            label={"CSS"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"JS"}
+                            label={"JS"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"REACT"}
+                            label={"REACT"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"GO LANG"}
+                            label={"GO LANG"}
+                            onChange={changeValue}
+                        />
+
+
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"TYPE SCRIPT"}
+                            label={"TYPE SCRIPT"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"SQL"}
+                            label={"SQL"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"KOTLIN"}
+                            label={"KOTLIN"}
+                            onChange={changeValue}
+                        />
+                        <Form.Check
+                            type={"checkbox"}
+                            name={"slanguage"}
+                            value={"SWIFT"}
+                            label={"SWIFT"}
+                            onChange={changeValue}
+                        />
+                    </Col>
+                </Form.Group>
+
+                {/* 사용 언어 아이콘*/}
+                <div>
+                    {share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
+                    {share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
+                    {share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
+                    {share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
+                    {share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
+                    {share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
+                    {share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
+                    {share.slanguage.includes("JS") && <Image src={JSLogo}/>}
+                    {share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
+                    {share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
+                    {share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
+                </div>
+
+                {/* 내용 */}
+                <Form.Group className="my-3" controlId="formBasicScontent">
+                    <Form.Label>내용 : </Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={share.scontent}
+                        onChange={changeValue}
+                        name="subject"
+
+
+                    />
                 </Form.Group>
 
                 <Button variant="outline-dark" type="submit">
