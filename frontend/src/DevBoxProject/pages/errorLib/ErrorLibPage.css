@@ -58,6 +58,43 @@
     background-color: #282c34;
 }
 
+.table-container {
+    width: 91.5%;
+    margin-top: 20px;
+}
 
+.custom-table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.custom-table div {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.custom-table .header {
+    background-color: #282c34;
+    color: white;
+}
+
+.custom-table .number, .custom-table .reference {
+    width: 10%;
+}
+
+.custom-table .title {
+    width: 40%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-table .language, .custom-table .datetime {
+    width: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 

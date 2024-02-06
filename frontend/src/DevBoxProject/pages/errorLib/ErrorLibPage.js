@@ -16,6 +16,7 @@ const ErrorLibPage = () => {
                         <input type="text" className="search-input" placeholder="검색어를 입력하세요"/>
                         <button className="search-button"><FontAwesomeIcon icon={faArrowUp} /></button>
                     </div>
+
                 </div>
             </div>
         </>

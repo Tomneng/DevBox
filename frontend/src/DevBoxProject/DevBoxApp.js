@@ -34,16 +34,13 @@ const DevBoxApp = () => {
 										<Route path='/admin' Component={AdminPage}></Route>
 										<Route path='/errorLib' Component={ErrorLibPage}></Route>
 
-
 										{/* lib */}
-
 
 										{/* Share  */}
 										<Route path="/codeshare" Component={ShareList}></Route>{/*  Share 목록 */}
 										<Route path="/codeshare/write" Component={ShareWrite}></Route>{/* Share 작성 */}
 										<Route path="/codeshare/detail/:sid" Component={ShareDetail}></Route>{/* Share 상세 */}
 										<Route path="/codeshare/update/:sid" Component={ShareUpdate}></Route>{/* Share 수정 */}
-
 
 										{/* profile */}
 									<Route path="/profile/list" Component={List}></Route>{/*  Share 목록 */}
