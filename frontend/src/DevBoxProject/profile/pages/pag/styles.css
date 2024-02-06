@@ -1,0 +1,96 @@
+#app {
+    height: 100%;
+}
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+body {
+    background: #eee;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Sidebar.css */
+.toggle-btn {
+    background: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px; /* 아이콘 크기 조절 */
+}
+
+.toggle-btn:hover {
+    background: #46b8da;
+}
+
+#sidebar {
+    background-color: #333;
+    color: white;
+    padding-top: 20px;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+#sidebar.open {
+    width: 130px;
+}
+
+.toggle-btn {
+    background: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    background: #46b8da;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 10px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+ul li a:hover {
+    color: #46b8da;
+}

@@ -3,7 +3,6 @@ import ShareList from "../pages/share/ShareList";
 import ShareWrite from "../pages/share/ShareWrite";
 import ShareDetail from "../pages/share/ShareDetail";
 import ShareUpdate from "../pages/share/ShareUpdate";
-
 import {Route, Routes} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,6 +16,10 @@ import AboutPage from "./pages/AboutPage";
 import AdminPage from "./pages/AdminPage";
 import ErrorLibPage from "./pages/errorLib/ErrorLibPage";
 import LoginContextProvider from "./contexts/LoginContextProvider";
+import UpdatePage from "./profile/pages/pag/UpdatePage";
+import WritePage from "./profile/pages/pag/WritePage";
+import Detail from "./profile/pages/pag/Detail";
+import List from "./profile/pages/pag/List";
 
 const DevBoxApp = () => {
 		return (
@@ -43,7 +46,10 @@ const DevBoxApp = () => {
 
 
 										{/* profile */}
-
+									<Route path="/profile/list" Component={List}></Route>{/*  Share 목록 */}
+									<Route path="/profile/write" Component={WritePage}></Route>{/* Share 작성 */}
+									<Route path="/profile/detail/:id" Component={Detail}></Route>{/* Share 상세 */}
+									<Route path="/profile/update/:id" Component={UpdatePage}></Route>{/* Share 수정 */}
 
 								</Routes>
 						</LoginContextProvider>
