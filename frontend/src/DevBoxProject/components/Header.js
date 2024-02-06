@@ -46,6 +46,7 @@ const Header = () => {
                             <span className="nav">
                                 <Link to="/mypage">MY</Link>
                             </span>
+                            <button onClick={logout}>logout</button>
                         </div>
                     )}
                 </div>

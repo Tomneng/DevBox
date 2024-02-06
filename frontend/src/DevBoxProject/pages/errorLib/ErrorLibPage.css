@@ -26,20 +26,38 @@
 }
 
 .line{
-    width: 100%;
-    border: 1px solid black;
+    width: 90%;
+    border: 2px solid black;
     height: 50px;
     margin-top: 20px;
     display: flex;
     justify-content: center;
-}
-
-.selectors{
-    height: 100%;
-    width: 10%;
-    border: 2px solid black;
-    box-sizing: border-box;
+    border-radius: 7px;
     padding: 10px;
 }
+
+.search-input {
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    width: 100%;
+    margin: 0px;
+}
+
+.search-button {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    width: 50px;
+    font-size: 20px;
+}
+
+.search-button:hover{
+    background-color: #282c34;
+}
+
+
 
 

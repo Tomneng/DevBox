@@ -50,7 +50,7 @@ button:hover, .signup-button:hover {
 
 .oauth-container {
     display: flex;
-    justify-content: right; /* 변경된 부분 */
+    justify-content: space-between; /* 변경된 부분 */
     align-items: center; /* 변경된 부분 */
     margin-top: 15px;
     color: black; /* 변경된 부분 */
