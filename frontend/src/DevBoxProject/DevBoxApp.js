@@ -4,7 +4,6 @@ import ShareWrite from "../pages/share/ShareWrite";
 import ShareDetail from "../pages/share/ShareDetail";
 import ShareUpdate from "../pages/share/ShareUpdate";
 
-import {Container} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
