@@ -57,44 +57,30 @@
 .search-button:hover{
     background-color: #282c34;
 }
-
 .table-container {
-    width: 91.5%;
-    margin-top: 20px;
+    width: 90%;
+    margin: 20px auto;
+    border: black 1px solid;
 }
 
-.custom-table {
-    width: 100%;
-    margin-top: 20px;
+.table-header, .table-row {
+    display: flex;
 }
 
-.custom-table div {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
-
-.custom-table .header {
-    background-color: #282c34;
+.table-header {
+    background-color: grey; /* Bootstrap 기본 primary 색상 */
     color: white;
 }
 
-.custom-table .number, .custom-table .reference {
-    width: 10%;
-}
-
-.custom-table .title {
-    width: 40%;
-    white-space: nowrap;
+.table-cell {
+    flex: 1;
+    padding: 8px;
     overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.custom-table .language, .custom-table .datetime {
-    width: 20%;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
+    border: lightgray 1px solid;
 }
 
-
+.table-cell:nth-child(3) {
+    flex: 3;
+}
