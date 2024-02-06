@@ -65,7 +65,7 @@ const ShareList = () => {
 										</form>
 										<Row>
 												<Col>
-														<Button variant="outline-dark" href="/write">
+														<Button variant="outline-dark" href="/codeshare/write">
 																작성
 														</Button>
 												</Col>

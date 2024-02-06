@@ -299,7 +299,7 @@ const ShareUpdate = () => {
                     작성완료
                 </Button>
                 <Button variant='outline-dark' className='ms-1' onClick={() => navigate(-1)}>이전으로</Button>
-                <Link className="btn btn-outline-dark ms-2" to="/list">
+                <Link className="btn btn-outline-dark ms-2" to="/codeshare/list">
                     목록
                 </Link>
             </Form>
