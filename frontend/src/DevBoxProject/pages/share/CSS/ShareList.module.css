@@ -1,0 +1,41 @@
+.main_wrapper {
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    min-height: 80vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: center;
+}
+
+.search_write_box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 10px;
+    gap: 20px;
+}
+
+.search_box {
+    display: flex;
+
+}
+
+.write_button {
+    width: 10%;
+    height: 50px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 7px;
+}
+
+
+.content_container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+

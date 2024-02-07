@@ -1,0 +1,19 @@
+.button-box {
+    display: flex;
+}
+
+.codeshare-detail-header {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.main-wrapper {
+    text-align: center;
+}
+
+.view-box {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

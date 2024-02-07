@@ -1,0 +1,26 @@
+.language_box_small > img{
+ width: 2em;
+}
+
+.language_box_middle > img{
+ width: 4em;
+}
+
+.language_box_lage > img{
+ width: 6em;
+}
+
+.share_item_box{
+ padding: 20px;
+ box-sizing: border-box;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ border-radius: 15px;
+ flex:  calc(25% - 20px);
+ width: calc(25% - 20px);
+}
+
+.text_truncate{
+ text-overflow: ellipsis;
+ white-space: nowrap;
+ overflow: hidden;
+}

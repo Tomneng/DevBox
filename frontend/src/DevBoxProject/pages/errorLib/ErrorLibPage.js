@@ -7,7 +7,7 @@ import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
 
 const ErrorLibPage = () => {
     return (
-        <>
+
             <div className="fullPage">
                 <Header/>
                 <div className="errcontainer">
@@ -18,7 +18,7 @@ const ErrorLibPage = () => {
                     </div>
                 </div>
             </div>
-        </>
+
     );
 };
 

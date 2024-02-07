@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import ShareListItem from "../../components/Share/ShareListItem";
-
+import React, {useEffect, useState} from "react";
+import ShareListItem from "./components/ShareListItem";
+import Header from "../../components/Header";
+import ShareListCSS from "./CSS/ShareList.module.css"
+import {Link} from "react-router-dom";
+import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faJava} from "@fortawesome/free-brands-svg-icons"
 
 const ShareList = () => {
 		// 원본 글 리스트
@@ -49,40 +50,41 @@ const ShareList = () => {
 
 		return (
 
-				<Container>
-
+				<>
+						<Header/>
 						{/*content wrapper*/}
-						<div className={"mt-5"}>
-								<div className={"d-flex justify-content-between mb-4 p-4"}>
-										<form className={"d-flex gap-2"} onSubmit={submitSearch}>
+						<div className={`${ShareListCSS.main_wrapper}`}>
+								<div className={ShareListCSS.search_write_box}>
+										<form className={`${ShareListCSS.search_box} line`} onSubmit={submitSearch}>
 												<input
 														type={"text"}
 														placeholder={"검색"}
 														value={search}
 														onChange={(e) => setSearch(e.target.value)}
+														 className={"search-input"}
 												/>
-												<Button type={"submit"}>검색</Button>
+												<button className={"search-button"} type={"submit"}><FontAwesomeIcon icon={faArrowUp} /></button>
 										</form>
-										<Row>
-												<Col>
-														<Button variant="outline-dark" href="/codeshare/write">
-																작성
-														</Button>
-												</Col>
-										</Row>
-								</div>
-								<Row>
-										<div className={"d-flex justify-content-start flex-lg-wrap align-content-start"}>
 
-												{filteredList.map((share) => (
-														share.spublic === "PUBLIC" && (
-																<ShareListItem key={share.sid} share={share}/>)
-												))}
-										</div>
-								</Row>
+										<Link to={"/codeshare/write"} className={ShareListCSS.write_button}>
+												<button >
+														작성
+												</button>
+										</Link>
+
+								</div>
+
+								<div className={ShareListCSS.content_container}>
+
+										{filteredList.map((share) => (
+												share.spublic === "PUBLIC" && (
+														<ShareListItem key={share.sid} share={share}/>)
+										))}
+								</div>
+
 
 						</div>
-				</Container>
+				</>
 		);
 };
 
