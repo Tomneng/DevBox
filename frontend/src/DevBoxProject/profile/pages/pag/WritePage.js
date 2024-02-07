@@ -1,9 +1,8 @@
-// WritePage.js
-
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Radar } from 'react-chartjs-2';
+import './WritePage.css';
 
 const WritePage = () => {
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ const WritePage = () => {
         degree: '',
         csDegree: '',
         skills: '',
-        technicalSkills: '',
+        technicalSkills: {}, // 기술 능력을 객체로 변경
         job: '',
         experience: '',
         projects: '',
@@ -33,7 +32,7 @@ const WritePage = () => {
     const [profilePicPreview, setProfilePicPreview] = useState(null);
 
     const [radarChartData, setRadarChartData] = useState({
-        labels: ['C++', 'Kotlin', 'Python', 'Java', 'C', 'C#', 'HTML/CSS'],
+        labels: [],
         datasets: [
             {
                 label: '기술 스택',
@@ -52,28 +51,15 @@ const WritePage = () => {
         // 레이더 차트 데이터 갱신
         setRadarChartData((prevData) => ({
             ...prevData,
+            labels: profile.skills.split(','),
             datasets: [
                 {
                     ...prevData.datasets[0],
-                    data: getSelectedSkillsData(),
+                    data: Array(profile.skills.split(',').length).fill(1),
                 },
             ],
         }));
     }, [profile.skills]);
-
-    const getSelectedSkillsData = () => {
-        const selectedSkills = profile.skills.split(',');
-        const selectedSkillsData = [0, 0, 0, 0, 0, 0, 0];
-
-        selectedSkills.forEach((skill) => {
-            const skillIndex = radarChartData.labels.indexOf(skill.trim());
-            if (skillIndex !== -1) {
-                selectedSkillsData[skillIndex] = 1;
-            }
-        });
-
-        return selectedSkillsData;
-    };
 
     const toggleExperience = (e) => {
         const value = e.target.value;
@@ -83,11 +69,14 @@ const WritePage = () => {
         }));
     };
 
-    const toggleTechnicalSkills = (e) => {
-        const value = parseInt(e.target.value); // 값이 숫자로 파싱되도록 함
+    // 기술 능력 변경 핸들러
+    const toggleTechnicalSkills = (skill, level) => {
         setProfile((prevProfile) => ({
             ...prevProfile,
-            technicalSkills: value,
+            technicalSkills: {
+                ...prevProfile.technicalSkills,
+                [skill]: level,
+            },
         }));
     };
 
@@ -174,28 +163,27 @@ const WritePage = () => {
     };
 
     return (
-        <Container className="mt-3">
+        <div className="container mt-3">
+
             <div className="row">
                 {/* 왼쪽 - 이력서 테마 선택 */}
-                <div className="col-md-3">
+                <div className="col-md-4 write-page-left">
                     <h4>이력서 테마 선택</h4>
-                    <ul>
-                        {/* 색상 선택 버튼들 */}
+                    <Form.Select
+                        onChange={(e) => setProfileBackgroundColor(e.target.value)}
+                        value={profileBackgroundColor}
+                    >
                         {availableColors.map((color, index) => (
-                            <Button
-                                key={index}
-                                variant="info"
-                                style={{ backgroundColor: color, marginBottom: '5px' }}
-                                onClick={() => changeBackgroundColor(color)}
-                            >
-                                {profileBackgroundColor === color && '✔'} 배경색 {index + 1}
-                            </Button>
+                            <option key={index} value={color}>
+                                배경색 {index + 1}
+                            </option>
                         ))}
-                    </ul>
+                    </Form.Select>
                 </div>
 
-                {/* 가운데 - 이력서 작성 */}
-                <div className="col-md-5" >
+
+                {/* 중간 - 이력서 작성 폼 */}
+                <div className="col-md-4 write-page-middle">
                     <h2 className="display06">이력서 작성</h2>
                     <hr />
                     <Form onSubmit={submitProfile}>
@@ -313,18 +301,38 @@ const WritePage = () => {
                             <Form.Label>
                                 <h5>기술스택<small>(다중선택 가능)</small></h5>
                             </Form.Label>
-                            <div>
-                                {['c++', 'Kotlin', 'Python', 'Java', 'C', 'C#', 'HTML/CSS'].map((skill, index) => (
-                                    <div key={index} className="form-check">
-                                        <Form.Check
-                                            type="checkbox"
-                                            label={skill}
-                                            id={`skills-${index}`}
-                                            name="skills"
-                                            value={skill}
-                                            checked={profile.skills.includes(skill)}
-                                            onChange={changeValue}
-                                        />
+
+                            <div className="row">
+                                {['c++', 'Kotlin', 'Python', 'Java', 'C#', 'HTML/CSS', 'MyBatis', 'Jpa', 'Aws',
+                                    'MongoDB','Jsp','Spring','Bootstrap', 'Ajax', 'PHP', 'MySql', 'React', 'RDBMS', 'API'
+                                ].map((skill, index) => (
+                                    <div key={index} className="col-2">
+                                        <div className="form-check">
+                                            <Form.Check
+                                                type="checkbox"
+                                                label={skill}
+                                                id={`skills-${index}`}
+                                                name="skills"
+                                                value={skill}
+                                                checked={profile.skills.includes(skill)}
+                                                onChange={changeValue}
+                                            />
+                                            {/* 기술 스택에 대한 기술 능력 선택 */}
+                                            {profile.skills.includes(skill) && (
+                                                <div>
+                                                    <Form.Select
+                                                        className="mt-2"
+                                                        value={profile.technicalSkills[skill] || ''}
+                                                        onChange={(e) => toggleTechnicalSkills(skill, e.target.value)}
+                                                    >
+                                                        <option value="">기술능력을 선택하세요</option>
+                                                        {[1, 2, 3, 4, 5].map((level, index) => (
+                                                            <option key={index} value={level}>{level}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -334,74 +342,26 @@ const WritePage = () => {
                             )}
                         </Form.Group>
 
-                        {/* 기술능력 선택 */}
-                        <Form.Group className="mt-3" controlId="formBasicTechnicalSkills">
-                            <Form.Label>
-                                <h5>기술능력 <small>(하나만 선택)</small></h5>
+                        {/* 경력 선택 */}
+                        <Form.Group className="mt-3 d-flex" controlId="formBasicExperience">
+                            <Form.Label className="flex-grow-1">
+                                <h5>경력 <small>(하나만 선택)</small></h5>
                             </Form.Label>
-                            <div className="form-check">
-                                {[1, 2, 3, 4, 5].map((level, index) => (
+                            <div className="d-flex align-items-center">
+                                {['상', '중', '하'].map((level, index) => (
                                     <Form.Check
                                         key={index}
                                         type="radio"
-                                        label={level.toString()}
-                                        id={`technicalSkills-${index}`}
-                                        name="technicalSkills"
+                                        label={level}
+                                        id={`experience-${index}`}
+                                        name="experience"
                                         value={level}
-                                        checked={profile.technicalSkills === level}
-                                        onChange={toggleTechnicalSkills}
+                                        checked={profile.experience === level}
+                                        onChange={toggleExperience}
+                                        className="me-3"
                                     />
                                 ))}
                             </div>
-                            {profile.technicalSkills.length === 0 && (
-                                <div>
-                                </div>
-                            )}
-                        </Form.Group>
-
-
-                        {/* 경력 선택 */}
-                        <Form.Group className="mt-3" controlId="formBasicExperience">
-                            <Form.Label>
-                                <h5>경력 <small>(하나만 선택)</small></h5>
-                            </Form.Label>
-                            <div className="form-check">
-                                <Form.Check
-                                    type="radio"
-                                    label="1년이하"
-                                    id="experience1"
-                                    name="experience"
-                                    value="1년이하"
-                                    checked={profile.experience === '1년이하'}
-                                    onChange={toggleExperience}
-                                />
-                            </div>
-                            <div className="form-check">
-                                <Form.Check
-                                    type="radio"
-                                    label="3년이상"
-                                    id="experience2"
-                                    name="experience"
-                                    value="3년이상"
-                                    checked={profile.experience === '3년이상'}
-                                    onChange={toggleExperience}
-                                />
-                            </div>
-                            <div className="form-check">
-                                <Form.Check
-                                    type="radio"
-                                    label="5년이상"
-                                    id="experience3"
-                                    name="experience"
-                                    value="5년이상"
-                                    checked={profile.experience === '5년이상'}
-                                    onChange={toggleExperience}
-                                />
-                            </div>
-                            {profile.experience.length === 0 && (
-                                <div>
-                                </div>
-                            )}
                         </Form.Group>
 
                         {/* 직업 입력 */}
@@ -487,7 +447,7 @@ const WritePage = () => {
                 </div>
 
                 {/* 오른쪽 - 프로필 내용 및 레이더 차트 */}
-                <div className="col-md-4" style={{ backgroundColor: profileBackgroundColor }}>
+                <div className="col-md-4 write-page-right" style={{ backgroundColor: profileBackgroundColor }}>
                     <div id="renderedContent">
                         <h2>프로필 내용</h2>
                         {profilePicPreview && (
@@ -503,7 +463,15 @@ const WritePage = () => {
                         <p>학력: {profile.degree}</p>
                         <p>전공자 유무: {profile.csDegree}</p>
                         <p>기술 스택: {profile.skills}</p>
-                        <p>기술능력: {profile.technicalSkills}</p>
+
+                        {/* 기술 능력 출력 */}
+                        <p>기술 능력:
+                            {Object.keys(profile.technicalSkills).map((skill, index) => (
+                                <span key={index}>
+                                    {`${skill}: ${profile.technicalSkills[skill]} `}
+                                </span>
+                            ))}
+                        </p>
                         <p>경력: {profile.experience}</p>
                         <p>직업: {profile.job}</p>
                         <p>프로젝트: {profile.projects}</p>
@@ -511,13 +479,38 @@ const WritePage = () => {
                         <p>짧은 자기소개: {profile.shortAppeal}</p>
                         <p>포트폴리오: {profile.portfolio}</p>
                     </div>
-                    {/* 레이더 차트 */}
                     <div className="mt-3">
-                        <Radar data={radarChartData} />
+                        <Radar
+                            data={{
+                                labels: profile.skills.split(','),
+                                datasets: [
+                                    {
+                                        label: '기술 스택',
+                                        backgroundColor: 'rgba(179,181,198,0.2)',
+                                        borderColor: 'rgba(179,181,198,1)',
+                                        pointBackgroundColor: 'rgba(179,181,198,1)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgba(179,181,198,1)',
+                                        data: profile.skills.split(',').map(skill => profile.technicalSkills[skill] || 0),
+                                    },
+                                ],
+                            }}
+                            options={{
+                                scale: {
+                                    ticks: {
+                                        beginAtZero: true,
+                                        min: 1, // 최소값 설정
+                                        max: 5, // 최대값 설정
+                                        stepSize: 1, // 간격 설정
+                                    },
+                                },
+                            }}
+                        />
                     </div>
                 </div>
             </div>
-        </Container>
+        </div>
     );
 };
 
