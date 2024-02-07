@@ -13,7 +13,7 @@
     transform: translate(-50%, -50%);
 }
 
-input {
+.login-container input {
     width: 100%;
     padding: 15px;
     margin-bottom: 15px;
@@ -25,10 +25,10 @@ input {
     outline: none;
 }
 
-input::placeholder {
+.login-container input::placeholder {
     color: black;
 }
-button, .signup-button {
+.login-container button, .signup-button {
     background-color: #ffffff;
     color: black;
     padding: 15px 0;
@@ -40,7 +40,7 @@ button, .signup-button {
     font-size: 1rem;
 }
 
-button:hover, .signup-button:hover {
+.login-container button:hover, .signup-button:hover {
     background-color: #f4f4f4;
 }
 

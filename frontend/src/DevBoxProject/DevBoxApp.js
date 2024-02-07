@@ -12,12 +12,13 @@ import LoginPage from "./pages/Utils/LoginPage";
 import MyPage from "./pages/Utils/MyPage";
 import AboutPage from "./pages/AboutPage";
 import AdminPage from "./pages/AdminPage";
-import ErrorLibPage from "./pages/errorLib/ErrorLibPage";
+import ErrorLibPage from "./pages/errorLib/pages/ErrorLibPage";
 import LoginContextProvider from "./contexts/LoginContextProvider";
 import UpdatePage from "./profile/pages/pag/UpdatePage";
 import WritePage from "./profile/pages/pag/WritePage";
 import Detail from "./profile/pages/pag/Detail";
 import List from "./profile/pages/pag/List";
+import MyDocDetail from "./pages/errorLib/pages/MyDocDetail";
 
 const DevBoxApp = () => {
 		return (
@@ -31,6 +32,7 @@ const DevBoxApp = () => {
 										<Route path='/about' Component={AboutPage}></Route>
 										<Route path='/admin' Component={AdminPage}></Route>
 										<Route path='/errorLib' Component={ErrorLibPage}></Route>
+										<Route path='/myDoc/detail/:did' Component={MyDocDetail}></Route>
 
 										{/* lib */}
 

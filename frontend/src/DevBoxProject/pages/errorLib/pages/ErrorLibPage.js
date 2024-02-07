@@ -1,11 +1,32 @@
-import React from 'react';
-import './ErrorLibPage.css'
+import React, {useEffect, useState} from 'react';
+import '../CSS/ErrorLibPage.css'
 import {Link} from "react-router-dom";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
+import * as auth from '../../../apis/auth'
+import TableCells from "../components/TableCells";
 
 const ErrorLibPage = () => {
+
+    const [myDocs, setMyDocs] = useState([]);
+
+    useEffect(async () => {
+        let response;
+        let data;
+
+        try {
+            response = await auth.getLibList()
+        } catch (error) {
+            console.log(`error : ${error}`);
+            console.log(`status : ${response.status}`);
+            return;
+        }
+        data = response.data
+        setMyDocs(data);
+    }, []);
+
+
     return (
         <>
             <div className="fullPage">
@@ -22,15 +43,9 @@ const ErrorLibPage = () => {
                             <div className="table-cell">언어</div>
                             <div className="table-cell">제목</div>
                             <div className="table-cell">작성일시</div>
-                            <div className="table-cell">참조 중</div>
+                            <div className="table-cell">열람 횟수</div>
                         </div>
-                        <div className="table-row">
-                            <div className="table-cell">1</div>
-                            <div className="table-cell">한국어</div>
-                            <div className="table-cell">긴 제목이 여기에 들어갈 것입니다. 텍스트가 너무 길어지면 ...으로 표시됩니다.</div>
-                            <div className="table-cell">2024-02-06</div>
-                            <div className="table-cell">참조 없음</div>
-                        </div>
+                        {myDocs.map(myDoc => <TableCells key={myDoc.id} myDoc={myDoc}/>)}
                     </div>
                 </div>
             </div>
