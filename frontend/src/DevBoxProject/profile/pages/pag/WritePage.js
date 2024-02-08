@@ -502,7 +502,7 @@ const WritePage = () => {
                                         beginAtZero: true,
                                         min: 1, // 최소값 설정
                                         max: 5, // 최대값 설정
-                                        stepSize: 1, // 간격 설정
+                                         stepSize: 1, // 간격 설정
                                     },
                                 },
                             }}
