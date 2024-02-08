@@ -5,6 +5,7 @@ import ShareListCSS from "./CSS/ShareList.module.css"
 import {Link} from "react-router-dom";
 import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import * as auth from "../../apis/auth";
 
 const ShareList = () => {
 		// 원본 글 리스트
@@ -24,13 +25,19 @@ const ShareList = () => {
 				setFilteredList(filteredList);
 		}, [shareList]);
 
+		const codeShareList = async () => {
+				try {
+						const response = await auth.codeShareList();
+						const data = response.data;
+						setShareList(data);
+				} catch (error) {
+						console.error("Error fetching share list:", error)
+				}
+		}
+
+
 		useEffect(() => {
-				fetch("http://localhost:8080/share/list")
-						.then((response) => response.json())
-						.then((data) => {
-								console.log(data);
-								setShareList(data);
-						});
+				codeShareList()
 		}, []);
 
 		const submitSearch = (e) => {
@@ -61,13 +68,13 @@ const ShareList = () => {
 														placeholder={"검색"}
 														value={search}
 														onChange={(e) => setSearch(e.target.value)}
-														 className={"search-input"}
+														className={"search-input"}
 												/>
-												<button className={"search-button"} type={"submit"}><FontAwesomeIcon icon={faArrowUp} /></button>
+												<button className={"search-button"} type={"submit"}><FontAwesomeIcon icon={faArrowUp}/></button>
 										</form>
 
 										<Link to={"/codeshare/write"} className={ShareListCSS.write_button}>
-												<button >
+												<button>
 														작성
 												</button>
 										</Link>

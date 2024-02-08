@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/share")
+@RequestMapping("/codeshare")
 public class ShareController {
 
     private final ShareService shareService;

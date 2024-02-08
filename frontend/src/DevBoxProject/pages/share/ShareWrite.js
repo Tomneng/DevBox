@@ -14,6 +14,7 @@ import JAVALogo from "../../components/image/java.png"
 import JSLogo from "../../components/image/javascript.png"
 import PYTHONLogo from "../../components/image/python.png"
 import REACTLogo from "../../components/image/react.png"
+import * as auth from "../../apis/auth";
 
 
 const ShareWrite = () => {
@@ -59,36 +60,29 @@ const ShareWrite = () => {
 		};
 
 
-		const submitShare = (e) => {
+		const submitShare = async (e) => {
 				e.preventDefault();
 
 				//  POST request
-				fetch('http://localhost:8080/share/write', {
-						method: 'POST',
-						headers: {
-								'Content-Type': 'application/json;charset=utf-8', //  json 으로  리퀘스트
-						},
-						body: JSON.stringify(share),
-				})
-						.then((response) => {
-								console.log(`response`, response);
-								if (response.status === 201) {
-										// 201 CREATED 인 경우 성공
-										return response.json();
-								} else {
-										console.log(response)
-										return null;
-								}
-						})
-						.then((data) => {
-								if (data !== null) {
-										console.log(`check! 작석완료`, data);
-										navigate(`/detail/${data.sid}`); //  이동
-								} else {
-										console.log(data)
-										alert('실패!!!  뚜두둥 뚜두둥');
-								}
-						});
+				const response = await auth.codeShareWrite(share)
+				const data = response.data
+
+				console.log(`response`, response);
+				if (response.status === 201) {
+						// 201 CREATED 인 경우 성공
+						if (data !== null) {
+								console.log(`check! 작석완료`, data);
+								navigate(`/codeshare/detail/${data.sid}`); //  이동
+						} else {
+								console.log(data)
+								alert('실패!!!  뚜두둥 뚜두둥');
+						}
+				} else {
+						console.log(response)
+						return null;
+				}
+
+
 		}
 		return (
 				<Container>

@@ -19,7 +19,7 @@ const ShareListItem = (props) => {
 
         <div key={sid} className={`${ShareListItemCSS.share_item_box}`}>
 
-            <Link to={`/detail/${sid}`} >
+            <Link to={`/codeshare/detail/${sid}`} >
 
 
                 <div>

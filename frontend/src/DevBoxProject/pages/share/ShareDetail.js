@@ -12,6 +12,8 @@ import JSLogo from "../../components/image/javascript.png";
 import REACTLogo from "../../components/image/react.png";
 import "./CSS/ShareDetail.module.css"
 import "./CSS/ShareListItemCSS.module.css"
+import * as auth from "../../apis/auth";
+import * as Swal from "../../apis/alert";
 
 const ShareDetail = () => {
 
@@ -27,30 +29,40 @@ const ShareDetail = () => {
 				sdescription: '',
 				slanguage: '',
 		});
+
+		const codeShareDetail = async () => {
+				const response = await auth.codeShareDetail(sid)
+				const data = response.data
+
+				setShare(data)
+		}
+
 		useEffect(() => {
-				fetch('http://localhost:8080/share/detail/' + sid)
-						.then(response => response.json())
-						.then(data => setShare(data));
+				// fetch('http://localhost:8080/share/detail/' + sid)
+				// 		.then(response => response.json())
+				// 		.then(data => setShare(data));
+				codeShareDetail()
+
 		}, []);
-		const deletePost = () => {
+		const deletePost = async () => {
 				if (!window.confirm('삭제 할랍니꺼')) return;
-				fetch('http://localhost:8080/share/delete/' + sid, {
-						method: 'DELETE',
-				})
-						.then()
-						.then(response => response.text())
-						.then(data => {
-								console.log("data =" + data)
-								if (data === "ok") {
-										alert('삭제 성공');
-										navigate('/list'); //  삭제 성공후 '목록' 화면으로
-								} else {
-										alert('삭제 실패');
-								}
-						});
+
+				const response = await auth.codeShareDelete(sid)
+				const status = response.status
+
+				console.log(`status : ${status}`)
+
+				if (status === 200) {
+						console.log(`삭제 성공`)
+						Swal.alert("삭제 성공", "성공했습니다. :)", "success")
+				} else {
+						console.log(`삭제 실패`)
+						Swal.alert("삭제 실패", "실패했습니다. :(", "error")
+				}
+
 		};
 		const updatePost = () => {
-				navigate('/update/' + sid);
+				navigate('/codeshare/update/' + sid);
 		};
 
 		return (
