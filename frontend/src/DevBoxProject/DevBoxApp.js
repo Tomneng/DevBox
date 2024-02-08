@@ -19,6 +19,7 @@ import WritePage from "./profile/pages/pag/WritePage";
 import Detail from "./profile/pages/pag/Detail";
 import List from "./profile/pages/pag/List";
 import MyDocDetail from "./pages/errorLib/pages/MyDocDetail";
+import MyDocWrite from "./pages/errorLib/pages/MyDocWrite";
 
 const DevBoxApp = () => {
 		return (
@@ -33,6 +34,7 @@ const DevBoxApp = () => {
 										<Route path='/admin' Component={AdminPage}></Route>
 										<Route path='/errorLib' Component={ErrorLibPage}></Route>
 										<Route path='/myDoc/detail/:did' Component={MyDocDetail}></Route>
+										<Route path='/myDoc/write/' Component={MyDocWrite}></Route>
 
 										{/* lib */}
 

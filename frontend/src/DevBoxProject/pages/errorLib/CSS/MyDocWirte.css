@@ -1,6 +1,26 @@
-.fullPage{
+.fullPage2{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.write-header{
+    background-color: #ffffff;
+    width: 100%;
+    height: 120px;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    border-bottom: 2px solid black;
+}
+
+.write-header hr{
+    margin-top: 40px;
+}
+
+.myDoccontainer hr{
+    margin-top: 40px;
 }
 
 .myDoccontainer {
@@ -12,13 +32,17 @@
     height: 1500px;
     position: relative;
     text-align: start;
+    margin-bottom: 30px;
 }
 
-.myDoccontainer h1 {
-    color: #007bff;
+.myDoccontainer .title {
+    color: black;
     margin-bottom: 15px;
     font-size: 50px;
+    border: none;
+    outline: none;
 }
+
 .myDoccontainer h2 {
     margin: 25px 0;
     font-size: 30px;
@@ -69,4 +93,40 @@
 /* 추가로 IntelliJ IDEA에서 제공하는 모노스페이스 폰트를 사용할 수 있습니다. */
 .myDoccontainer pre, code {
     font-family: 'Courier New', monospace;
+}
+
+.h2-style {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    border: 1px solid white;
+    padding: 10px;
+    /* 추가적인 스타일 지정 가능 */
+}
+
+.p-style {
+    font-size: 1em;
+    color: #555;
+    width: 100%;
+    border: 1px solid white;
+    padding: 10px;
+    outline: none;
+    margin: 10px 0;
+}
+
+.code-style {
+    background-color: #2e2e2e;
+    color: #a9b7c6;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    overflow: auto;
+    font-family: 'Courier New', monospace;
+}
+
+.myDoccontainer textarea {
+    resize: none;
+    width: 778px; /* 필요한 경우에 따라 너비 조절 가능 */
+    height: auto; /* 내용에 따라 높이 자동 조절 */
+    min-height: 100px; /* 최소 높이 설정 (원하는 값으로 변경 가능) */
 }

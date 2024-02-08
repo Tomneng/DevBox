@@ -25,6 +25,8 @@ public class MyDoc {
 
     private String subject;
 
+    private String subtitle;
+
     private String content;
 
     @CreatedDate
