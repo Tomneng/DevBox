@@ -110,7 +110,6 @@
     width: 100%;
     border: 1px solid white;
     padding: 10px;
-    outline: none;
     margin: 10px 0;
 }
 
@@ -129,4 +128,21 @@
     width: 778px; /* 필요한 경우에 따라 너비 조절 가능 */
     height: auto; /* 내용에 따라 높이 자동 조절 */
     min-height: 100px; /* 최소 높이 설정 (원하는 값으로 변경 가능) */
+}
+
+.myDoccontainer .tagContainer {
+    position: relative;
+    display: flex;
+    border-top: 1px solid antiquewhite;
+}
+
+.myDoccontainer .deleteButton {
+    background-color: white; /* 적절한 색상으로 변경 */
+    color: red;
+    border: red 1px solid;
+    padding: 5px;
+    cursor: pointer;
+    top: 0;
+    width: 25px;
+    height: 25px;
 }
