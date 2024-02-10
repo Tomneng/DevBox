@@ -74,7 +74,7 @@ const MyDocWrite = () => {
         data = response.data;
         if (response.status === 201){
             alert("작성완료!")
-            navigate(`/myLib/detail/1`)
+            navigate(`/myDoc/detail/1`)
         }
     }
 

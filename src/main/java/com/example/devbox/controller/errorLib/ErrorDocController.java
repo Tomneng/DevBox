@@ -3,11 +3,14 @@ package com.example.devbox.controller.errorLib;
 import com.example.devbox.domain.myLib.MyDoc;
 import com.example.devbox.service.errorLib.MyDocService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("/myLib")
+@RequestMapping("/myDoc")
 public class ErrorDocController {
 
     @Autowired
@@ -24,8 +27,8 @@ public class ErrorDocController {
     }
 
     @PostMapping("/write")
-    public ResponseEntity<?> createMyDoc(@RequestBody MyDoc myDoc){
-        return myDocService.createMyDoc(myDoc);
+    public ResponseEntity<?> createMyDoc(@RequestBody Map<String, String> myMap){
+        return myDocService.createMyDoc(myMap);
     }
 
     @PutMapping("/update")

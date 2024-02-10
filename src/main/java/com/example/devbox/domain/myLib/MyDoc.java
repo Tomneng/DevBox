@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Entity(name = "myDoc")
 @Data
@@ -23,10 +24,7 @@ public class MyDoc {
 
     private String lang;
 
-    private String subject;
-
-    private String subtitle;
-
+    @Column(length = 3000)
     private String content;
 
     @CreatedDate

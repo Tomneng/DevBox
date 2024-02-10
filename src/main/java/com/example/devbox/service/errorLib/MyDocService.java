@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class MyDocService {
@@ -25,15 +27,21 @@ public class MyDocService {
     }
 
     @Transactional
-    public ResponseEntity<?> createMyDoc(MyDoc myDoc){
-        return new ResponseEntity<>(myDocRepository.saveAndFlush(myDoc), HttpStatus.CREATED); // 201
+    public ResponseEntity<?> createMyDoc(Map<String, String > myMap){
+
+        String content = joinMapToString(myMap, ",");
+        MyDoc myDoc = new MyDoc();
+        myDoc.setContent(content);
+        myDoc.setLang("JAVA");
+        myDocRepository.saveAndFlush(myDoc);
+        System.out.println(myDocRepository.findById(1L));
+        return new ResponseEntity<>(1L, HttpStatus.CREATED); // 201
     }
     @Transactional
     public ResponseEntity<?> updateMyDoc(MyDoc myDoc){
         MyDoc originalMyDoc = myDocRepository.findById(myDoc.getDocId()).orElse(null);
         originalMyDoc.setContent(myDoc.getContent());
         originalMyDoc.setLang(myDoc.getLang());
-        originalMyDoc.setSubject(myDoc.getSubject());
         return new ResponseEntity<>(originalMyDoc, HttpStatus.OK);
     }
     @Transactional
@@ -43,5 +51,16 @@ public class MyDocService {
             return new ResponseEntity<>(0, HttpStatus.OK);
         }
         return new ResponseEntity<>(1, HttpStatus.OK);
+    }
+
+    private static String joinMapToString(Map<String, String> map, String delimiter) {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            result.append(entry.getKey())
+                    .append(delimiter)
+                    .append(entry.getValue())
+                    .append(delimiter);
+        }
+        return result.toString();
     }
 }
