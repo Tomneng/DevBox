@@ -80,6 +80,8 @@ const ShareDetail = () => {
 						</div>
 
 						<hr/>
+						{/* 찜버튼 */}
+
 						{/* 사용 언어*/}
 						<div className={ListItemCSS.language_box_middle}>
 								{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
@@ -103,15 +105,14 @@ const ShareDetail = () => {
 						<span>{share.scontent}</span>
 
 
-						<div className={ShareDetailCSS.button_box}>
+						<div className={DefaultCSS.button_box}>
 								<Button variant='outline-dark ' onClick={updatePost}>수정</Button>
-								<Button variant='outline-danger' className=' ms-2' onClick={deletePost}>삭제</Button>
-								<Link className='btn btn-outline-dark ms-2' to="/codeshare/write">작성</Link>
-								<Link className='btn btn-outline-dark ms-2' to="/codeshare">목록</Link>
+								<Button variant='outline-danger' onClick={deletePost}>삭제</Button>
+								<Link className={DefaultCSS.link_box} to="/codeshare/write">작성</Link>
+								<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
 						</div>
 
-						{/* 추천버튼 */}
-						{/* 채팅보내기 버튼*/}
+
 
 						{/* 댓글 작성란*/}
 

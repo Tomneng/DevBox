@@ -10,3 +10,19 @@
     align-content: center;
     text-align: center;
 }
+
+.link_box{
+    background-color: #ffffff;
+    color: black;
+    padding: 15px 0;
+    border: 2px solid #E0E0E0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 0;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.button_box {
+    display: flex;
+}

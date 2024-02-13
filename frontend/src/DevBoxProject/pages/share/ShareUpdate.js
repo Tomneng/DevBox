@@ -14,8 +14,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDatabase} from "@fortawesome/free-solid-svg-icons";
 import {faSwift} from "@fortawesome/free-brands-svg-icons";
 import * as auth from "../../apis/auth";
-import UpdateCSS from "./CSS/ShareUpdateCSS.module.css"
 import WriteCSS from "./CSS/ShareUpdateCSS.module.css";
+import DefaultCSS from "./CSS/Default.module.css";
 const ShareUpdate = () => {
 
 		let {sid} = useParams();
@@ -300,13 +300,15 @@ const ShareUpdate = () => {
 										/>
 								</Form.Group>
 
+								<div className={DefaultCSS.button_box}>
 								<Button variant="outline-dark" type="submit">
 										작성완료
 								</Button>
 								<Button variant='outline-dark' className='ms-1' onClick={() => navigate(-1)}>이전으로</Button>
-								<Link className="btn btn-outline-dark ms-2" to="/codeshare">
+								<Link className={DefaultCSS.link_box} to="/codeshare">
 										목록
 								</Link>
+								</div>
 						</Form>
 				</Container>
 		);

@@ -1,5 +1,6 @@
 package com.example.devbox.domain.share;
 
+import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -50,8 +51,8 @@ public class Share {
 
 
     // FK
-//    private User user;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User userId;
 
 //    @ManyToMany
 //    @JoinTable(

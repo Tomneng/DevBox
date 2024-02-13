@@ -262,9 +262,9 @@ const ShareWrite = () => {
 
 								{/* 코드 사진 첨부 */}
 
-								<div className={'mt-3'}>
-										<Button type={"submit"}>나눔 하기</Button>
-										<Link className='btn btn-outline-dark ms-2' to="/codeshare">목록</Link>
+								<div className={DefaultCSS.button_box}>
+								<Button type={"submit"}>나눔 하기</Button>
+										<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
 								</div>
 						</Form>
 				</Container>
