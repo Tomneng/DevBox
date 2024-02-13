@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Image} from "react-bootstrap";
 import PYTHONLogo from "../../components/image/python.png";
@@ -10,13 +10,21 @@ import HTMLLogo from "../../components/image/html.png";
 import CSSLogo from "../../components/image/css.png";
 import JSLogo from "../../components/image/javascript.png";
 import REACTLogo from "../../components/image/react.png";
-import ShareDetailCSS from "./CSS/ShareDetail.module.css"
-import ListItemCSS from "./CSS/ShareListItemCSS.module.css"
-import DefaultCSS from "./CSS/Default.module.css"
+
 import * as auth from "../../apis/auth";
 import * as Swal from "../../apis/alert";
 
+// CSS
+import ShareDetailCSS from "./CSS/ShareDetail.module.css"
+import ListItemCSS from "./CSS/ShareListItemCSS.module.css"
+import DefaultCSS from "./CSS/Default.module.css"
+
+// 유저 확인
+import {LoginContext} from "../../contexts/LoginContextProvider";
+
 const ShareDetail = () => {
+		// 유저 확인
+		const {userInfo} = useContext(LoginContext)
 
 		const navigate = useNavigate();
 		let {sid} = useParams();
@@ -29,6 +37,7 @@ const ShareDetail = () => {
 				sviewCnt: '',
 				sdescription: '',
 				slanguage: '',
+				userId: '',
 		});
 
 		const codeShareDetail = async () => {
@@ -42,7 +51,7 @@ const ShareDetail = () => {
 				// fetch('http://localhost:8080/share/detail/' + sid)
 				// 		.then(response => response.json())
 				// 		.then(data => setShare(data));
-				codeShareDetail()
+				codeShareDetail().then()
 
 		}, []);
 		const deletePost = async () => {
@@ -106,21 +115,26 @@ const ShareDetail = () => {
 
 
 						<div className={DefaultCSS.button_box}>
-								<Button variant='outline-dark ' onClick={updatePost}>수정</Button>
-								<Button variant='outline-danger' onClick={deletePost}>삭제</Button>
+								{userInfo.userId === share.userId &&
+										<>
+												<button onClick={updatePost}>수정</button>
+												<button onClick={deletePost}>삭제</button>
+										</>}
 								<Link className={DefaultCSS.link_box} to="/codeshare/write">작성</Link>
 								<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
 						</div>
 
 
+						{/* 댓글 작성란*/
+						}
 
-						{/* 댓글 작성란*/}
-
-						{/* 댓글 목록*/}
+						{/* 댓글 목록*/
+						}
 
 
 				</div>
-		);
+		)
+				;
 };
 
 export default ShareDetail;

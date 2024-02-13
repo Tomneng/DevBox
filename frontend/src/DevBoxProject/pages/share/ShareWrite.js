@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import {Button, Col, Container, Form, Image} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {faSwift} from "@fortawesome/free-brands-svg-icons";
@@ -19,24 +19,38 @@ import * as auth from "../../apis/auth";
 
 import WriteCSS from "./CSS/ShareUpdateCSS.module.css"
 import DefaultCSS from "./CSS/Default.module.css"
+import {info} from "../../apis/auth";
+import Header from "../../components/Header";
+import * as Swal from "../../apis/alert";
+
+import {LoginContext} from "../../contexts/LoginContextProvider";
+
 
 const ShareWrite = () => {
-
 		const navigate = useNavigate();
+		// 로그인 확인
+		const {isLogin, userInfo} = useContext(LoginContext)
+
 		const [share, setShare] = useState({
-				sid: '',
 				stitle: '',
 				scontent: '',
 				slanguage: '',
 				sdescription: '',
+				userId: userInfo.userId,
 		});
+		console.log("userInfo.userId = " + userInfo.userId)
 
 		// 빈 배열을 만든후 이 배열에 체크된 언어만 넣고 이 배열을 가지고 언어 아이콘을 보여줄 계획
 		// const [language, setLanguage] = useState([]);
-
+		if (!isLogin) {
+				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
+						navigate("/login");
+				});
+				return null;
+		}
 		const changeValue = (e) => {
 				const {name, value, type, checked} = e.target;
-
+				console.log("changeValue 에서 userInfo.userId = " + userInfo.userId)
 				setShare((prevShare) => {
 						if (type === 'checkbox') {
 
@@ -80,194 +94,196 @@ const ShareWrite = () => {
 								alert('실패!!!  뚜두둥 뚜두둥');
 						}
 				} else {
-						console.log(response)
+						console.log("response = " +  response)
 						return null;
 				}
-
-
 		}
 		return (
-				<Container className={DefaultCSS.main_wrapper}>
-						<h2>Share</h2>
-						<hr/>
+				<>
+						<Header/>
 
-						<Form onSubmit={submitShare}>
+						<Container className={DefaultCSS.main_wrapper}>
+								<h2>Share</h2>
+								<hr/>
 
-								{/* 사용 언어 태그 */}
+								<Form onSubmit={submitShare}>
 
-								<Form.Group>
-										<Form.Label>사용 언어</Form.Label>
-										<Col className={WriteCSS.check_box}>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"PYTHON"}
-														label={"PYTHON"}
+										{/* 사용 언어 태그 */}
+
+										<Form.Group>
+												<Form.Label>사용 언어</Form.Label>
+												<Col className={WriteCSS.check_box}>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"PYTHON"}
+																label={"PYTHON"}
+																onChange={changeValue}
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"JAVA"}
+																label={"JAVA"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"BASICC"}
+																label={"C"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"C++"}
+																label={"C++"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"C#"}
+																label={"C#"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"HTML"}
+																label={"HTML"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"CSS"}
+																label={"CSS"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"JS"}
+																label={"JS"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"REACT"}
+																label={"REACT"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"GO LANG"}
+																label={"GO LANG"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"TYPE SCRIPT"}
+																label={"TYPE SCRIPT"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"SQL"}
+																label={"SQL"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"KOTLIN"}
+																label={"KOTLIN"}
+																onChange={changeValue}
+
+														/>
+														<Form.Check
+																type={"checkbox"}
+																name={"slanguage"}
+																value={"SWIFT"}
+																label={"SWIFT"}
+																onChange={changeValue}
+
+														/>
+												</Col>
+										</Form.Group>
+
+										{/* 사용 언어 아이콘*/}
+										<div>
+												{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
+												{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
+												{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
+												{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
+												{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
+												{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
+												{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
+												{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
+												{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
+												{share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
+												{share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
+										</div>
+
+										{/*  글 제목 입력 란  */}
+										<Form.Group>
+												<Form.Label>제목 : </Form.Label>
+												<Form.Control
+														type={"text"}
+														placeholder={"제목 입력"}
 														onChange={changeValue}
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"JAVA"}
-														label={"JAVA"}
+														name={"stitle"}
+														required/>
+										</Form.Group>
+
+										{/* 글 간략 설명*/}
+										<Form.Group>
+												<Form.Label>간략 설명 :</Form.Label>
+												<Form.Control
+														type={"text"}
+														placeholder={"간략설명"}
 														onChange={changeValue}
+														name={"sdescription"}
+														required/>
+										</Form.Group>
 
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"BASICC"}
-														label={"C"}
+										{/* 글 내용 입력란 */}
+										<Form.Group>
+												<Form.Label>코드 내용 :</Form.Label>
+												<Form.Control
+														type={"text"}
+														placeholder={"내용 입력"}
 														onChange={changeValue}
+														name={"scontent"}
+														required/>
+										</Form.Group>
 
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"C++"}
-														label={"C++"}
-														onChange={changeValue}
+										{/* 코드 사진 첨부 */}
 
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"C#"}
-														label={"C#"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"HTML"}
-														label={"HTML"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"CSS"}
-														label={"CSS"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"JS"}
-														label={"JS"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"REACT"}
-														label={"REACT"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"GO LANG"}
-														label={"GO LANG"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"TYPE SCRIPT"}
-														label={"TYPE SCRIPT"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"SQL"}
-														label={"SQL"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"KOTLIN"}
-														label={"KOTLIN"}
-														onChange={changeValue}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"SWIFT"}
-														label={"SWIFT"}
-														onChange={changeValue}
-
-												/>
-										</Col>
-								</Form.Group>
-
-								{/* 사용 언어 아이콘*/}
-								<div>
-										{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
-										{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
-										{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
-										{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
-										{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
-										{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
-										{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
-										{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
-										{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
-										{share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
-										{share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
-								</div>
-
-								{/*  글 제목 입력 란  */}
-								<Form.Group>
-										<Form.Label>제목 : </Form.Label>
-										<Form.Control
-												type={"text"}
-												placeholder={"제목 입력"}
-												onChange={changeValue}
-												name={"stitle"}
-												required/>
-								</Form.Group>
-
-								{/* 글 간략 설명*/}
-								<Form.Group>
-										<Form.Label>간략 설명 :</Form.Label>
-										<Form.Control
-												type={"text"}
-												placeholder={"간략설명"}
-												onChange={changeValue}
-												name={"sdescription"}
-												required/>
-								</Form.Group>
-
-								{/* 글 내용 입력란 */}
-								<Form.Group>
-										<Form.Label>코드 내용 :</Form.Label>
-										<Form.Control
-												type={"text"}
-												placeholder={"내용 입력"}
-												onChange={changeValue}
-												name={"scontent"}
-												required/>
-								</Form.Group>
-
-								{/* 코드 사진 첨부 */}
-
-								<div className={DefaultCSS.button_box}>
-								<Button type={"submit"}>나눔 하기</Button>
-										<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
-								</div>
-						</Form>
-				</Container>
+										<div className={DefaultCSS.button_box}>
+												<Button type={"submit"}>나눔 하기</Button>
+												<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
+										</div>
+								</Form>
+						</Container>
+				</>
 		);
 };
 

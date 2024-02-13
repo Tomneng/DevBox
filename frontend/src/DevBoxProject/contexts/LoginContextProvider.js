@@ -162,10 +162,10 @@ const LoginContextProvider = ({children}) => {
 
     // 로그인 세팅
     const loginSetting = (userData, accessToken) => {
-        const {id, username, authorities} = userData;
+        const {userId, username, authorities} = userData;
         const roleList = authorities;
 
-        console.log(`id : ${id}`);
+        console.log(`id : ${userId}`);
         console.log(`username : ${username}`);
         console.log(`authList : ${authorities}`);
         console.log(`roleList : ${roleList}`);
@@ -177,7 +177,7 @@ const LoginContextProvider = ({children}) => {
         setLogin(true);
 
         // 유저 정보 세팅
-        const updatedUserInfo = {id, username, authorities}
+        const updatedUserInfo = {userId, username, authorities}
         setUserInfo(updatedUserInfo);
         // 권한 정보 세팅
         const updatedRoles = {isUser: false, isAdmin: false}

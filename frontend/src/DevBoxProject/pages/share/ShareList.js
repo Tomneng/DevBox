@@ -60,6 +60,7 @@ const ShareList = () => {
 				<>
 						<Header/>
 						{/*content wrapper*/}
+
 						<div className={`${DefaultCSS.main_wrapper}`}>
 								<div className={ShareListCSS.search_write_box}>
 										<form className={`${ShareListCSS.search_box} line`} onSubmit={submitSearch}>

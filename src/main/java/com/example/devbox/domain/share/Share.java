@@ -37,7 +37,6 @@ public class Share {
     @Column(nullable = false)
     private String slanguage;
 
-
     private String sdescription;
 
     @ColumnDefault(value = "0")
