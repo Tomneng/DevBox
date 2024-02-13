@@ -9,6 +9,7 @@ import 'swiper/swiper-bundle.css';
 import Chart from 'chart.js/auto';
 import './styles.css';
 import Sidebar from './Sidebar';
+import axios from "axios";
 
 // 함수형 컴포넌트 정의
 const List = () => {
@@ -17,9 +18,9 @@ const List = () => {
 
     // 컴포넌트가 마운트될 때 서버에서 프로필 데이터를 가져오는 효과 훅
     useEffect(() => {
-        fetch('http://localhost:8080/profile/list')
-            .then((response) => response.json())
-            .then((data) => setProfiles(data));
+        axios.get('http://localhost:8080/profile/list') // fetch 대신 axios 사용
+            .then((response) => setProfiles(response.data))
+            .catch((error) => console.error('Error fetching profiles:', error)); // 에러 핸들링 추가
     }, []);
 
     // 프로필 데이터가 변경될 때 레이더 차트를 업데이트하는 효과 훅

@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import { Radar } from 'react-chartjs-2';
+
 import './WritePage.css';
+import {profileWrite} from "../../../apis/auth";
+import * as Swal from "../../../apis/alert";
+import * as auth from "../../../apis/auth";
+
 
 const WritePage = () => {
     const navigate = useNavigate();
     const [selectedTheme, setSelectedTheme] = useState(null);
+    const [selectedFont, setSelectedFont] = useState('Arial'); // 기본 폰트는 Arial로 설정
     const [profileBackgroundColor, setProfileBackgroundColor] = useState('#ffffff'); // 기본 배경색은 흰색
     const availableColors = ['#ffffff', '#e0f7fa', '#f8bbd0', '#b2ebf2', '#ffcdd2', '#c8e6c9', '#f0f4c3', '#d1c4e9', '#ffcc80', '#bcaaa4'];
 
@@ -17,12 +23,13 @@ const WritePage = () => {
         age: '',
         degree: '',
         csDegree: '',
+        jobType: '',   // 직무별
         skills: '',
         technicalSkills: {}, // 기술 능력을 객체로 변경
         job: '',
         experience: '',
         projects: '',
-        licenses: '',
+        licenses: '', // 자격증 파일 이름 저장
         shortAppeal: '',
         portfolio: '',
         profilePic: null,
@@ -75,9 +82,21 @@ const WritePage = () => {
             ...prevProfile,
             technicalSkills: {
                 ...prevProfile.technicalSkills,
-                [skill]: level,
+                [skill]: level, // 배열이 아닌 단일 값으로 저장
             },
         }));
+    };
+
+    // 선택된 기술 스택의 평균을 계산하는 함수
+    const averageSkillLevel = (skillLevel) => {
+        // skillLevel이 배열이 아닌 경우에는 그대로 반환
+        if (!Array.isArray(skillLevel)) {
+            return skillLevel;
+        }
+
+        // skillLevel이 배열인 경우에만 평균 계산
+        const sum = skillLevel.reduce((acc, level) => acc + level, 0);
+        return sum / skillLevel.length;
     };
 
     const changeValue = (e) => {
@@ -118,28 +137,30 @@ const WritePage = () => {
             timeZone: 'Asia/Seoul',
         });
 
-        fetch('http://localhost:8080/profile/write', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-            body: JSON.stringify(profile),
-        })
-            .then((response) => {
-                if (response.status === 201) {
-                    return response.json();
-                } else {
-                    return null;
-                }
-            })
-            .then((data) => {
-                if (data !== null) {
-                    alert('제출 완료');
-                    navigate(`/detail/${data.id}`);
-                } else {
-                    alert('실패!!! 뚜두둥 뚜두둥');
-                }
-            });
+
+      const profileWrite = async(profileData) => {
+           let response
+           let status
+
+          try {
+              response = await  auth.profileWrite(profileData)
+          } catch (error){
+               console.error(`${error}`)
+               console.error(`에러발생`)
+              return
+          }
+          status = response.status
+          if (status === 201) {
+              console.log(`정보수정 성공`)
+              // alert(`정보수정 성공`)
+              Swal.alert(" 성공", " 다시  해주세요.", "success")
+          } else {
+              console.log(`정보수정 실패`)
+              Swal.alert(" 실패", " 실패 하였습니다.", "error")
+          }
+        }
+
+
     };
 
     const handleProfilePicChange = (e) => {
@@ -162,25 +183,109 @@ const WritePage = () => {
         setProfileBackgroundColor(color);
     };
 
+    // 새로운 레이더 차트 데이터를 가져오는 함수
+    const fetchAverageSkillsData = () => {
+        // 여기서는 간단히 예시를 위해 임의의 URL을 사용합니다.
+        fetch('http://localhost:8080/skills/average')
+            .then(response => response.json())
+            .then(data => {
+                // API에서 받아온 데이터를 기반으로 새로운 레이더 차트 데이터를 설정합니다.
+                setAverageSkillsChartData({
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: '평균 기술 스택',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
+                        data: Object.values(data),
+                    }],
+                });
+            })
+            .catch(error => {
+                console.error('API 호출 중 에러 발생:', error);
+                // 에러 처리
+            });
+    };
+
+    // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.
+    useEffect(() => {
+        fetchAverageSkillsData();
+    }, []);
+
+    // 새로운 레이더 차트 데이터를 저장할 상태 변수
+    const [averageSkillsChartData, setAverageSkillsChartData] = useState({
+        labels: [],
+        datasets: [{
+            label: '평균 기술 스택',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
+            data: [],
+        }],
+    });
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        // 파일 처리 로직 추가
+        setProfile((prevProfile) => ({
+            ...prevProfile,
+            licenses: file ? file.name : '', // 파일 이름 저장
+        }));
+        console.log('업로드된 파일:', file);
+    };
+    // 폰트 선택 핸들러
+    const handleFontChange = (e) => {
+        setSelectedFont(e.target.value);
+    };
+
+    // 선택한 폰트를 적용하기 위한 스타일
+    const fontStyles = {
+        fontFamily: selectedFont,
+    };
     return (
         <div className="container mt-3">
-
             <div className="row">
-                {/* 왼쪽 - 이력서 테마 선택 */}
+                {/* 이력서 테마 선택과 폰트 선택이 한 줄에 보이도록 수정 */}
                 <div className="col-md-4 write-page-left">
-                    <h4>이력서 테마 선택</h4>
-                    <Form.Select
-                        onChange={(e) => setProfileBackgroundColor(e.target.value)}
-                        value={profileBackgroundColor}
-                    >
-                        {availableColors.map((color, index) => (
-                            <option key={index} value={color}>
-                                배경색 {index + 1}
-                            </option>
-                        ))}
-                    </Form.Select>
+                    <div className="d-flex justify-content-between">
+                        <div>
+                            <h4>이력서 테마 선택</h4>
+                            <Form.Select
+                                onChange={(e) => setProfileBackgroundColor(e.target.value)}
+                                value={profileBackgroundColor}
+                            >
+                                {availableColors.map((color, index) => (
+                                    <option key={index} value={color}>
+                                        배경색 {index + 1}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </div>
+                        <div>
+                            <h4>폰트 선택</h4>
+                            <Form.Select
+                                onChange={handleFontChange}
+                                value={selectedFont}
+                            >
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Montserrat">Montserrat</option>
+                                <option value="Avenir Light">Avenir Light</option>
+                                <option value="PT Sans Bold">PT Sans Bold</option>
+                                {/* 원하는 폰트들을 추가할 수 있습니다 */}
+                            </Form.Select>
+                        </div>
+                    </div>
                 </div>
-
 
                 {/* 중간 - 이력서 작성 폼 */}
                 <div className="col-md-4 write-page-middle">
@@ -295,7 +400,28 @@ const WritePage = () => {
                                 </div>
                             )}
                         </Form.Group>
-
+                        {/* 직무별 유무 선택 */}
+                        <Form.Group className="mt-3" controlId="formBasicJobType">
+                            <Form.Label>
+                                <h5>직무별</h5>
+                            </Form.Label>
+                            <Form.Select
+                                className="form-select"
+                                name="jobType"
+                                id="jobType"
+                                value={profile.jobType}
+                                onChange={changeValue}
+                            >
+                                <option value="" disabled>-- 직무를 선택해 주세요 --</option>
+                                <option value="백엔드 개발자">백엔드 개발자</option>
+                                <option value="프론트엔드 개발자">프론트엔드 개발자</option>
+                                <option value="웹 개발자">웹 개발자</option>
+                            </Form.Select>
+                            {profile.jobType === '' && (
+                                <div>
+                                </div>
+                            )}
+                        </Form.Group>
                         {/* 기술스택 선택 */}
                         <Form.Group className="mt-3" controlId="formBasicSkills">
                             <Form.Label>
@@ -391,19 +517,16 @@ const WritePage = () => {
                             />
                         </Form.Group>
 
-                        {/* 자격증 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicLicenses">
-                            <Form.Label>
-                                <h5>자격증</h5>
-                            </Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                placeholder="보유한 자격증에 대한 설명을 입력하세요"
-                                onChange={changeValue}
-                                name="licenses"
-                            />
-                        </Form.Group>
+                        {/* 자격증 */}
+                        <div className="container mt-3 mb-3 border rounded">
+                            <div className="mb-3 mt-3">
+                                <label>자격증:</label>
+                                <div id="files">
+                                    <input type="file" className="form-control col-xs-3" onChange={handleFileChange} />
+                                </div>
+                            </div>
+                        </div>
+                        {/* 자격증 */}
 
                         {/* 짧은 자기소개 입력 */}
                         <Form.Group className="mt-3" controlId="formBasicShortAppeal">
@@ -448,7 +571,7 @@ const WritePage = () => {
 
                 {/* 오른쪽 - 프로필 내용 및 레이더 차트 */}
                 <div className="col-md-4 write-page-right" style={{ backgroundColor: profileBackgroundColor }}>
-                    <div id="renderedContent">
+                    <div id="renderedContent" style={fontStyles}>
                         <h2>프로필 내용</h2>
                         {profilePicPreview && (
                             <img
@@ -462,6 +585,7 @@ const WritePage = () => {
                         <p>나이: {profile.age}</p>
                         <p>학력: {profile.degree}</p>
                         <p>전공자 유무: {profile.csDegree}</p>
+                        <p>직무별 유무: {profile.jobType}</p>
                         <p>기술 스택: {profile.skills}</p>
 
                         {/* 기술 능력 출력 */}
@@ -494,6 +618,16 @@ const WritePage = () => {
                                         pointHoverBorderColor: 'rgba(179,181,198,1)',
                                         data: profile.skills.split(',').map(skill => profile.technicalSkills[skill] || 0),
                                     },
+                                    {
+                                        label: '평균 기술 스택',
+                                        backgroundColor: 'rgba(255,99,132,0.2)',
+                                        borderColor: 'rgba(255,99,132,1)',
+                                        pointBackgroundColor: 'rgba(255,99,132,1)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgba(255,99,132,1)',
+                                        data: profile.skills.split(',').map(skill => averageSkillLevel(profile.technicalSkills[skill] || 0)),
+                                    },
                                 ],
                             }}
                             options={{
@@ -515,3 +649,5 @@ const WritePage = () => {
 };
 
 export default WritePage;
+
+

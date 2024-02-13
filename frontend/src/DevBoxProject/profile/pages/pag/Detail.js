@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Alert, Button, Container, Form } from 'react-bootstrap';
+import axios from 'axios'; // axios import 추가
+
 
 const Detail = () => {
     const navigate = useNavigate();
@@ -12,37 +14,45 @@ const Detail = () => {
         age: '',
         degree: '',
         csDegree: '',
+        jobType: '',   // 직무별
         skills: '',
+        technicalSkills: {}, // 기술 능력을 객체로 변경
         job: '',
         experience: '',
         projects: '',
-        licenses: '',
-        technicalSkills: '',
+        licenses: '', // 자격증 파일 이름 저장
+        shortAppeal: '',
         portfolio: '',
         profilePic: null,
-        createdAt: '', // 추가된 부분
+        createdAt: '',
     });
 
     useEffect(() => {
-        fetch(`http://localhost:8080/profile/detail/${id}`)
-            .then((response) => response.json())
-            .then((data) => setProfile(data));
+        axios.get(`http://localhost:8080/profile/detail/${id}`) // fetch 대신 axios.get 사용
+            .then((response) => {
+                setProfile(response.data); // 받아온 데이터로 프로필 상태 업데이트
+            })
+            .catch((error) => {
+                console.error('Error fetching profile:', error);
+                // 에러 처리
+            });
     }, [id]);
 
     const deleteProfile = () => {
         if (!window.confirm('삭제 할까요?')) return;
-        fetch(`http://localhost:8080/profile/delete/${id}`, {
-            method: 'DELETE',
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data === 1) {
+        axios.delete(`http://localhost:8080/profile/delete/${id}`) // fetch 대신 axios.delete 사용
+            .then((response) => {
+                console.log(response.data);
+                if (response.data === 1) {
                     alert('삭제 완료!');
                     navigate('/');
                 } else {
                     alert('삭제 실패!');
                 }
+            })
+            .catch((error) => {
+                console.error('Error deleting profile:', error);
+                // 에러 처리
             });
     };
 
