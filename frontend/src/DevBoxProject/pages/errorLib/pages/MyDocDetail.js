@@ -15,7 +15,7 @@ const MyDocDetail = () => {
         lang : "",
         content: "",
         createdAt: "",
-        viewCnt: ""
+        viewCnt: "",
     });
     const [contents, setContents] = useState([]);
     const navigate = useNavigate();
@@ -31,6 +31,7 @@ const MyDocDetail = () => {
             setMyDoc(response.data);
             const contentsArray = response.data.content.split("replaceThisDevBox");
             setContents(contentsArray);
+            console.log()
         } catch (error) {
             console.log(error);
         }
@@ -88,9 +89,8 @@ const MyDocDetail = () => {
                             return null;
                         })
                     }
-                    <hr className="bottomLine"/>
-                    <button type="button" className="deleteButton" onClick={() => DeleteMyDoc()}>
-                        <FontAwesomeIcon icon={faTrashCan} />
+                    <button type="button" className="deleteButton button-grayBlack custom-btn" onClick={() => DeleteMyDoc()}>
+                        <span><FontAwesomeIcon icon={faTrashCan}/></span>
                     </button>
                 </div>
             </div>

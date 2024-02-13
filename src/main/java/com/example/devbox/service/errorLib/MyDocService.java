@@ -1,6 +1,8 @@
 package com.example.devbox.service.errorLib;
 
+import com.example.devbox.domain.common.User;
 import com.example.devbox.domain.myLib.MyDoc;
+import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.repository.errorLib.MyDocRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +12,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+import static java.lang.Long.parseLong;
+
 @Service
 @RequiredArgsConstructor
 public class MyDocService {
 
     private final MyDocRepository myDocRepository;
+
+    private final UserRepository userRepository;
 
     @Transactional
     public ResponseEntity<?> getList(){
@@ -27,21 +33,25 @@ public class MyDocService {
     }
 
     @Transactional
-    public ResponseEntity<?> createMyDoc(Map<String, String > myMap){
-
+    public ResponseEntity<?> createMyDoc(Map<String, String> myMap){
+        Long userId = parseLong(myMap.get("userId"));
+        User user = userRepository.findById(userId).orElse(null);
         String title = myMap.get("title");
         String lang = myMap.get("lang");
         if (title != null && lang != null){
             myMap.remove("title");
             myMap.remove("lang");
+            myMap.remove("userId");
         }
         String content = joinMapToString(myMap, "replaceThisDevBox");
         MyDoc myDoc = new MyDoc();
         myDoc.setTitle(title);
         myDoc.setContent(content);
         myDoc.setLang(lang);
+        myDoc.setUser(user);
         return new ResponseEntity<>(myDocRepository.saveAndFlush(myDoc), HttpStatus.CREATED); // 201
     }
+
     @Transactional
     public ResponseEntity<?> updateMyDoc(MyDoc myDoc){
         MyDoc originalMyDoc = myDocRepository.findById(myDoc.getDocId()).orElse(null);

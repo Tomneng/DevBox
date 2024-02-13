@@ -70,5 +70,8 @@
     bottom: 20px;
 }
 
-
+.myDoccontainerdetail .deleteButton{
+    float: right;
+    width: 40px;
+}
 

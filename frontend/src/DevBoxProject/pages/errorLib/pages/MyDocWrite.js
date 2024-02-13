@@ -1,10 +1,11 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import Header from "../../../components/Header";
 import '../CSS/MyDocWirte.css';
 import * as auth from "../../../apis/auth"
 import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
+import {LoginContext} from "../../../contexts/LoginContextProvider";
 
 const MyDocWrite = () => {
     const [inputs, setInputs] = useState([]);
@@ -15,6 +16,8 @@ const MyDocWrite = () => {
 
     const navigate = useNavigate();
 
+    const {userInfo} = useContext(LoginContext);
+
     useEffect(() => {
         // textarea의 내용이 변경될 때마다 높이 조절
         if (textareaRef.current) {
@@ -22,6 +25,11 @@ const MyDocWrite = () => {
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
         adjustMyDocContainerHeight();
+
+        setMyDoc({
+            ...myDoc,
+            userId: userInfo.userId
+        })
     }, [inputs]);
 
     const adjustMyDocContainerHeight = () => {

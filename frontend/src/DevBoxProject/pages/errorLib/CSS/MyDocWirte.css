@@ -157,11 +157,6 @@
     height: 40px;
 }
 
-.frame {
-    width: 90%;
-    margin: 40px auto;
-    text-align: center;
-}
 .custom-btn {
     width: 130px;
     height: 40px;
@@ -184,7 +179,7 @@
 
 
 .button-grayBlack {
-    background: linear-gradient(0deg, rgba(120,120,120,1) 0%, rgba(80,80,80,1) 100%);
+    background: rgb(120,120,120);
     line-height: 42px;
     padding: 0;
     border: none;
@@ -269,3 +264,6 @@
     padding: 5px;
 }
 
+.userInfo{
+    display: none;
+}

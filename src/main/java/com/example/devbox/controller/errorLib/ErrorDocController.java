@@ -1,5 +1,6 @@
 package com.example.devbox.controller.errorLib;
 
+import com.example.devbox.domain.common.User;
 import com.example.devbox.domain.myLib.MyDoc;
 import com.example.devbox.service.errorLib.MyDocService;
 import org.springframework.beans.factory.annotation.Autowired;
