@@ -8,28 +8,27 @@
 .write-header{
     background-color: #ffffff;
     width: 100%;
-    height: 120px;
-    z-index: 100;
+    height: 200px;
+    z-index: 1000;
     position: fixed;
     top: 0;
-    border-bottom: 2px solid black;
 }
 
 .write-header hr{
-    margin-top: 40px;
+    margin-top: 100px;
 }
 
 .myDoccontainer hr{
-    margin-top: 40px;
+    margin: 20px 0;
 }
 
 .myDoccontainer {
     width: 800px;
-    margin-top: 150px;
+    margin-top: 250px;
     padding: 50px;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 1500px;
+    min-height: 1500px;
     position: relative;
     text-align: start;
     margin-bottom: 30px;
@@ -38,7 +37,7 @@
 .myDoccontainer .title {
     color: black;
     margin-bottom: 15px;
-    font-size: 50px;
+    font-size: 30px;
     border: none;
     outline: none;
 }
@@ -104,6 +103,8 @@
     /* 추가적인 스타일 지정 가능 */
 }
 
+
+
 .p-style {
     font-size: 1em;
     color: #555;
@@ -146,3 +147,125 @@
     width: 25px;
     height: 25px;
 }
+
+.myDoccontainer #bottomLine{
+    margin: 20px 0;
+    float: right;
+}
+
+#bottomLine select{
+    height: 40px;
+}
+
+.frame {
+    width: 90%;
+    margin: 40px auto;
+    text-align: center;
+}
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+    margin: 20px;
+}
+
+
+.button-grayBlack {
+    background: linear-gradient(0deg, rgba(120,120,120,1) 0%, rgba(80,80,80,1) 100%);
+    line-height: 42px;
+    padding: 0;
+    border: none;
+    font-size: 20px;
+}
+.button-grayBlack span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.button-grayBlack:before,
+.button-grayBlack:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    bottom: 0;
+    background: rgba(80,80,80,1);
+    box-shadow:
+            -7px -7px 20px 0px rgba(255,255,255,.9),
+            -4px -4px 5px 0px rgba(255,255,255,.9),
+            7px 7px 20px 0px rgba(0,0,0,.2),
+            4px 4px 5px 0px rgba(0,0,0,.3);
+    transition: all 0.3s ease;
+}
+.button-grayBlack:before{
+    height: 0%;
+    width: 2px;
+}
+.button-grayBlack:after {
+    width: 0%;
+    height: 2px;
+}
+.button-grayBlack:hover{
+    color: rgba(80,80,80,1);
+    background: transparent;
+}
+.button-grayBlack:hover:before {
+    height: 100%;
+}
+.button-grayBlack:hover:after {
+    width: 100%;
+}
+.button-grayBlack span:before,
+.button-grayBlack span:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    background: rgba(80,80,80,1);
+    box-shadow:
+            -7px -7px 20px 0px rgba(255,255,255,.9),
+            -4px -4px 5px 0px rgba(255,255,255,.9),
+            7px 7px 20px 0px rgba(0,0,0,.2),
+            4px 4px 5px 0px rgba(0,0,0,.3);
+    transition: all 0.3s ease;
+}
+.button-grayBlack span:before {
+    width: 2px;
+    height: 0%;
+}
+.button-grayBlack span:after {
+    height: 2px;
+    width: 0%;
+}
+.button-grayBlack span:hover:before {
+    height: 100%;
+}
+.button-grayBlack span:hover:after {
+    width: 100%;
+}
+
+#langSelect{
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+#tagDropdown{
+    font-size: 20px;
+    margin: 0px 10px;
+    height: 40px;
+    padding: 5px;
+}
+

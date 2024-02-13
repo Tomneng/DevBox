@@ -1,5 +1,6 @@
 package com.example.devbox.domain.myLib;
 
+import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,15 +23,20 @@ public class MyDoc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long docId;
 
+    private String title;
+
     private String lang;
 
-    @Column(length = 3000)
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     // json 날짜 포멧팅
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    private User user;
 
     @ColumnDefault(value = "0")
     private Long viewCnt;

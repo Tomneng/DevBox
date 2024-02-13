@@ -29,13 +29,18 @@ public class MyDocService {
     @Transactional
     public ResponseEntity<?> createMyDoc(Map<String, String > myMap){
 
-        String content = joinMapToString(myMap, ",");
+        String title = myMap.get("title");
+        String lang = myMap.get("lang");
+        if (title != null && lang != null){
+            myMap.remove("title");
+            myMap.remove("lang");
+        }
+        String content = joinMapToString(myMap, "replaceThisDevBox");
         MyDoc myDoc = new MyDoc();
+        myDoc.setTitle(title);
         myDoc.setContent(content);
-        myDoc.setLang("JAVA");
-        myDocRepository.saveAndFlush(myDoc);
-        System.out.println(myDocRepository.findById(1L));
-        return new ResponseEntity<>(1L, HttpStatus.CREATED); // 201
+        myDoc.setLang(lang);
+        return new ResponseEntity<>(myDocRepository.saveAndFlush(myDoc), HttpStatus.CREATED); // 201
     }
     @Transactional
     public ResponseEntity<?> updateMyDoc(MyDoc myDoc){

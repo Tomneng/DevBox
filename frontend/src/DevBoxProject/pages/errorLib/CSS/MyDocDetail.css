@@ -3,49 +3,44 @@
     justify-content: center;
 }
 
-.myDoccontainer {
+.myDoccontainerdetail {
     width: 800px;
     margin-top: 150px;
     padding: 50px;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 1500px;
+    min-height: auto;
     position: relative;
     text-align: start;
 }
 
-.myDoccontainer h1 {
+.myDoccontainerdetail h1 {
     color: #007bff;
     margin-bottom: 15px;
     font-size: 50px;
 }
-.myDoccontainer h2 {
+
+.myDoccontainerdetail h2 {
     margin: 25px 0;
     font-size: 30px;
 }
 
-.myDoccontainer p {
-    margin-bottom: 15px;
+.myDoccontainerdetail p {
+    margin: 15px 0;
 }
 
-.myDoccontainer a {
+.myDoccontainerdetail a {
     color: #007bff;
     text-decoration: none;
     border-bottom: 1px solid #007bff;
 }
 
-.myDoccontainer a:hover {
+.myDoccontainerdetail a:hover {
     color: #0056b3;
     border-bottom: 1px solid #0056b3;
 }
 
-.myDoccontainer ul, ol {
-    margin-bottom: 15px;
-    margin-left: 20px;
-    list-style: disc;
-}
-
-.myDoccontainer img {
+.myDoccontainerdetail img {
     width: 800px;
     height: 450px;
     border: 1px solid #ddd;
@@ -53,7 +48,7 @@
     padding: 5px;
 }
 
-.myDoccontainer pre {
+.myDoccontainerdetail pre {
     background-color: #2e2e2e;
     color: #a9b7c6;
     padding: 10px;
@@ -62,11 +57,18 @@
     overflow: auto;
 }
 
-.myDoccontainer pre code {
+.myDoccontainerdetail pre code {
     color: #a9b7c6;
 }
 
 /* 추가로 IntelliJ IDEA에서 제공하는 모노스페이스 폰트를 사용할 수 있습니다. */
-.myDoccontainer pre, code {
+.myDoccontainerdetail pre, code {
     font-family: 'Courier New', monospace;
 }
+
+.myDoccontainerdetail .bottomLine{
+    bottom: 20px;
+}
+
+
+
