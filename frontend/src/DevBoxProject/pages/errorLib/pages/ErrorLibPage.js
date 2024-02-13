@@ -24,6 +24,7 @@ const ErrorLibPage = () => {
         }
         data = response.data
         setMyDocs(data);
+        console.log(myDocs)
     }, []);
 
 

@@ -10,9 +10,9 @@ import {alert} from "../../../apis/alert";
 const MyDocDetail = () => {
 
     const [myDoc, setMyDoc] = useState({
-        docId : "",
-        title : "",
-        lang : "",
+        docId: "",
+        title: "",
+        lang: "",
         content: "",
         createdAt: "",
         viewCnt: "",
@@ -44,10 +44,10 @@ const MyDocDetail = () => {
     const DeleteMyDoc = () => {
         window.confirm("삭제 하시겠습니까?")
         let deleteResponse = auth.deleteMyDoc(myDoc.docId)
-        if(deleteResponse.status === 200){
+        if (deleteResponse.status === 200) {
             alert("삭제 성공")
             navigate("/myDoc/list")
-        }else{
+        } else {
             alert("삭제 실패")
         }
     }
@@ -56,7 +56,7 @@ const MyDocDetail = () => {
         <>
             <div className="fullPage">
                 <Header/>
-                <div className="myDoccontainerdetail" >
+                <div className="myDoccontainerdetail">
                     <h1>{myDoc.title}</h1>
                     <hr/>
                     {
@@ -89,9 +89,16 @@ const MyDocDetail = () => {
                             return null;
                         })
                     }
-                    <button type="button" className="deleteButton button-grayBlack custom-btn" onClick={() => DeleteMyDoc()}>
-                        <span><FontAwesomeIcon icon={faTrashCan}/></span>
-                    </button>
+                    <div id="bottomLine">
+                        <button type="button" className="deleteButton button-grayBlack custom-btn"
+                                onClick={() => DeleteMyDoc()}>
+                            <span><FontAwesomeIcon icon={faTrashCan}/></span>
+                        </button>
+                        <button type="button" className="updateButton button-grayBlack custom-btn"
+                                onClick={() => DeleteMyDoc()}>
+                            <span>수정하기</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 

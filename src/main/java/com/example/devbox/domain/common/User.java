@@ -53,5 +53,4 @@ public class User {
         Collections.addAll(this.authorities, authorities);
     }
 
-
 }
