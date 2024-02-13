@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as auth from "../../apis/auth";
-
+import DefaultCSS from "./CSS/Default.module.css"
 const ShareList = () => {
 		// 원본 글 리스트
 		const [shareList, setShareList] = useState([]);
@@ -60,7 +60,7 @@ const ShareList = () => {
 				<>
 						<Header/>
 						{/*content wrapper*/}
-						<div className={`${ShareListCSS.main_wrapper}`}>
+						<div className={`${DefaultCSS.main_wrapper}`}>
 								<div className={ShareListCSS.search_write_box}>
 										<form className={`${ShareListCSS.search_box} line`} onSubmit={submitSearch}>
 												<input
@@ -84,9 +84,8 @@ const ShareList = () => {
 								<div className={ShareListCSS.content_container}>
 
 										{filteredList.map((share) => (
-												share.spublic === "PUBLIC" && (
 														<ShareListItem key={share.sid} share={share}/>)
-										))}
+										)}
 								</div>
 
 

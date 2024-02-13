@@ -10,8 +10,9 @@ import HTMLLogo from "../../components/image/html.png";
 import CSSLogo from "../../components/image/css.png";
 import JSLogo from "../../components/image/javascript.png";
 import REACTLogo from "../../components/image/react.png";
-import "./CSS/ShareDetail.module.css"
-import "./CSS/ShareListItemCSS.module.css"
+import ShareDetailCSS from "./CSS/ShareDetail.module.css"
+import ListItemCSS from "./CSS/ShareListItemCSS.module.css"
+import DefaultCSS from "./CSS/Default.module.css"
 import * as auth from "../../apis/auth";
 import * as Swal from "../../apis/alert";
 
@@ -66,13 +67,13 @@ const ShareDetail = () => {
 		};
 
 		return (
-				<div className={"main-wrapper"}>
-						<div className={"codeshare-detail-header"}>
+				<div className={DefaultCSS.main_wrapper}>
+						<div className={ShareDetailCSS.codeshare_detail_header}>
 								{/* 글제목 */}
 								<h2>조회 : {share.stitle}</h2>
 
 								{/* 조회수 */}
-								<div className={"view-box"}>
+								<div className={ShareDetailCSS.view_box}>
 										<small>조회수 : {share.sviewCnt}</small>
 										<small>찜 : share.steam</small>
 								</div>
@@ -80,7 +81,7 @@ const ShareDetail = () => {
 
 						<hr/>
 						{/* 사용 언어*/}
-						<div className={"language-box-middle"}>
+						<div className={ListItemCSS.language_box_middle}>
 								{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
 								{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
 								{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
@@ -102,7 +103,7 @@ const ShareDetail = () => {
 						<span>{share.scontent}</span>
 
 
-						<div className="button-box">
+						<div className={ShareDetailCSS.button_box}>
 								<Button variant='outline-dark ' onClick={updatePost}>수정</Button>
 								<Button variant='outline-danger' className=' ms-2' onClick={deletePost}>삭제</Button>
 								<Link className='btn btn-outline-dark ms-2' to="/codeshare/write">작성</Link>

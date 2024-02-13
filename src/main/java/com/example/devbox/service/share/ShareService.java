@@ -54,8 +54,7 @@ public class ShareService {
         // 사용언어 변경
         shareUpdate.setSlanguage(share.getSlanguage());
 
-        // 공개여부 변경
-        shareUpdate.setSpublic(share.getSpublic());
+
 
         return shareUpdate;
     }

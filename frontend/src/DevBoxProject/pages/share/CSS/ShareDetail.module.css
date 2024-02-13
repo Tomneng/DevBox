@@ -1,18 +1,15 @@
-.button-box {
+.button_box {
     display: flex;
 }
 
-.codeshare-detail-header {
+.codeshare_detail_header {
     display: flex;
     justify-content: space-between;
     position: relative;
 }
 
-.main-wrapper {
-    text-align: center;
-}
 
-.view-box {
+.view_box {
     position: absolute;
     bottom: 0;
     right: 0;

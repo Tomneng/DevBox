@@ -17,6 +17,9 @@ import REACTLogo from "../../components/image/react.png"
 import * as auth from "../../apis/auth";
 
 
+import WriteCSS from "./CSS/ShareUpdateCSS.module.css"
+import DefaultCSS from "./CSS/Default.module.css"
+
 const ShareWrite = () => {
 
 		const navigate = useNavigate();
@@ -25,7 +28,6 @@ const ShareWrite = () => {
 				stitle: '',
 				scontent: '',
 				slanguage: '',
-				spublic: 'PUBLIC',
 				sdescription: '',
 		});
 
@@ -85,44 +87,17 @@ const ShareWrite = () => {
 
 		}
 		return (
-				<Container>
+				<Container className={DefaultCSS.main_wrapper}>
 						<h2>Share</h2>
 						<hr/>
 
 						<Form onSubmit={submitShare}>
-								{/* 공개 여부 */}
-								<Form.Group className={'d-flex gap-4'}>
-										<Form.Label>공개 여부 : </Form.Label>
-
-										<Form.Check
-												type={"radio"}
-												label={"Public"}
-												id={"public"}
-												name={"spublic"}
-												value={"PUBLIC"}
-												onChange={changeValue}
-												defaultChecked={"PUBLIC"}/>
-										{/*  작성시 기본값 true  */}
-
-										{/*checked 속성은 share.spublic의 값에 따라 설정됩니다.
-만약 share.spublic이 문자열 'true'와 같다면, 라디오 버튼은 초기에 선택된 상태가 되고,
-그렇지 않으면 선택되지 않은 상태가 됩니다.*/}
-
-										<Form.Check
-												type={"radio"}
-												label={"Private"}
-												id={"Private"}
-												name={"spublic"}
-												value={"PRIVATE"}
-												onChange={changeValue}/>
-
-								</Form.Group>
 
 								{/* 사용 언어 태그 */}
 
 								<Form.Group>
 										<Form.Label>사용 언어</Form.Label>
-										<Col className={"d-flex gap-3 flex-wrap justify-content-start"}>
+										<Col className={WriteCSS.check_box}>
 												<Form.Check
 														type={"checkbox"}
 														name={"slanguage"}
@@ -136,6 +111,7 @@ const ShareWrite = () => {
 														value={"JAVA"}
 														label={"JAVA"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -143,6 +119,7 @@ const ShareWrite = () => {
 														value={"BASICC"}
 														label={"C"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -150,6 +127,7 @@ const ShareWrite = () => {
 														value={"C++"}
 														label={"C++"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -157,6 +135,7 @@ const ShareWrite = () => {
 														value={"C#"}
 														label={"C#"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -164,6 +143,7 @@ const ShareWrite = () => {
 														value={"HTML"}
 														label={"HTML"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -171,6 +151,7 @@ const ShareWrite = () => {
 														value={"CSS"}
 														label={"CSS"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -178,6 +159,7 @@ const ShareWrite = () => {
 														value={"JS"}
 														label={"JS"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -185,6 +167,7 @@ const ShareWrite = () => {
 														value={"REACT"}
 														label={"REACT"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -192,6 +175,7 @@ const ShareWrite = () => {
 														value={"GO LANG"}
 														label={"GO LANG"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -199,6 +183,7 @@ const ShareWrite = () => {
 														value={"TYPE SCRIPT"}
 														label={"TYPE SCRIPT"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -206,6 +191,7 @@ const ShareWrite = () => {
 														value={"SQL"}
 														label={"SQL"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -213,6 +199,7 @@ const ShareWrite = () => {
 														value={"KOTLIN"}
 														label={"KOTLIN"}
 														onChange={changeValue}
+
 												/>
 												<Form.Check
 														type={"checkbox"}
@@ -220,6 +207,7 @@ const ShareWrite = () => {
 														value={"SWIFT"}
 														label={"SWIFT"}
 														onChange={changeValue}
+
 												/>
 										</Col>
 								</Form.Group>

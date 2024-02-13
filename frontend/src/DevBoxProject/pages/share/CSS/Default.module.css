@@ -1,0 +1,12 @@
+.main_wrapper {
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    min-height: 80vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: center;
+    text-align: center;
+}
