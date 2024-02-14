@@ -1,6 +1,8 @@
 package com.example.devbox.domain.share;
 
+import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -30,16 +32,21 @@ public class Comment {
     private Long cid;
 
     // FK
+    // 글
+//    @JsonIgnore  // JSON 변환시 제외
     @ManyToOne(optional = false)
     @ToString.Exclude
     private Share sid;
 
 
-//    @ManyToOne(optional = false)
-//    @ToString.Exclude
-//    private User UId;
+    // FK
+    // 작성자
+    @ManyToOne(optional = false)
+    @ToString.Exclude
+    private User uid;
 
 
+    @Column(nullable = false)
     private String cContent;
 
 
