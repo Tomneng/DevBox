@@ -39,6 +39,8 @@ public class ProfileService {
 
 
         Update.setSkills(profile.getSkills());
+        Update.setJobType(profile.getJobType());
+        Update.setJob(profile.getJob());
         Update.setTechnicalSkills(profile.getTechnicalSkills());
         Update.setExperience(profile.getExperience());
         Update.setProjects(profile.getProjects());

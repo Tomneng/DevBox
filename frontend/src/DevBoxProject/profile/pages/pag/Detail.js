@@ -28,7 +28,7 @@ const Detail = () => {
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/profile/detail/${id}`) // fetch 대신 axios.get 사용
+        fetch(`http://localhost:8080/profile/detail/${id}`) // fetch 대신 axios.get 사용
             .then((response) => {
                 setProfile(response.data); // 받아온 데이터로 프로필 상태 업데이트
             })
@@ -40,7 +40,7 @@ const Detail = () => {
 
     const deleteProfile = () => {
         if (!window.confirm('삭제 할까요?')) return;
-        axios.delete(`http://localhost:8080/profile/delete/${id}`) // fetch 대신 axios.delete 사용
+        fetch(`http://localhost:8080/profile/delete/${id}`) // fetch 대신 axios.delete 사용
             .then((response) => {
                 console.log(response.data);
                 if (response.data === 1) {
@@ -60,18 +60,6 @@ const Detail = () => {
         navigate(`/update/${id}`);
     };
 
-    // createdAt 값이 있는 경우에만 시간을 표시
-    const time = profile.createdAt
-        ? new Date(profile.createdAt).toLocaleString('ko-KR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZone: 'Asia/Seoul',
-        })
-        : null;
 
     let profilePicPreview;
 
@@ -83,7 +71,7 @@ const Detail = () => {
                 <div className="col-md-6">
                     <Alert variant="light" className="d-flex justify-content-between">
                         <span>Id : {id}</span>
-                        <span>{time && `${time} 작성`}</span>
+
                     </Alert>
                 </div>
                 <section>
