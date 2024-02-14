@@ -19,7 +19,6 @@ import * as auth from "../../apis/auth";
 
 import WriteCSS from "./CSS/ShareUpdateCSS.module.css"
 import DefaultCSS from "./CSS/Default.module.css"
-import {info} from "../../apis/auth";
 import Header from "../../components/Header";
 import * as Swal from "../../apis/alert";
 
@@ -38,7 +37,6 @@ const ShareWrite = () => {
 				sdescription: '',
 				userId: userInfo.userId,
 		});
-		console.log("userInfo.userId = " + userInfo.userId)
 
 		// 빈 배열을 만든후 이 배열에 체크된 언어만 넣고 이 배열을 가지고 언어 아이콘을 보여줄 계획
 		// const [language, setLanguage] = useState([]);
@@ -78,12 +76,13 @@ const ShareWrite = () => {
 
 		const submitShare = async (e) => {
 				e.preventDefault();
-
+				console.log(share)
 				//  POST request
 				const response = await auth.codeShareWrite(share)
 				const data = response.data
 
 				console.log(`response`, response);
+				console.log(`response.status`, response);
 				if (response.status === 201) {
 						// 201 CREATED 인 경우 성공
 						if (data !== null) {

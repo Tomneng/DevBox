@@ -2,11 +2,16 @@ package com.example.devbox.controller.share;
 
 
 import com.example.devbox.domain.share.Share;
+import com.example.devbox.repository.common.UserRepository;
+import com.example.devbox.repository.share.ShareRepository;
 import com.example.devbox.service.share.ShareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -15,15 +20,21 @@ public class ShareController {
 
     private final ShareService shareService;
 
+    private final UserRepository userRepository;
+    private final ShareRepository shareRepository;
+
     // 글작성
-    @CrossOrigin
+
     @PostMapping("/write")
-    public ResponseEntity<?> write(@RequestBody Share share) {
-        return new ResponseEntity<>(shareService.shareWrite(share), HttpStatus.CREATED);
+//    public ResponseEntity<?> write(@RequestBody Share share) {
+//        return new ResponseEntity<>(shareService.shareWrite(share), HttpStatus.CREATED);
+
+    public ResponseEntity<?> write(@RequestBody Map<String , String> writeMap) {
+        return  shareService.shareWrite(writeMap);
     }
 
     //  글 목록
-    @CrossOrigin
+
     @GetMapping("/list")
     public ResponseEntity<?> list() {
         return new ResponseEntity<>(shareService.shareList(), HttpStatus.OK);
@@ -31,7 +42,6 @@ public class ShareController {
 
 
     // 글 디테일
-    @CrossOrigin
     @GetMapping("/detail/{sid}")
     public ResponseEntity<?> detail(@PathVariable Long sid){
     return new ResponseEntity<>(shareService.shareDetail(sid), HttpStatus.OK);
@@ -39,7 +49,6 @@ public class ShareController {
 
     // 글 수정
 
-    @CrossOrigin
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody Share share){
         return new ResponseEntity<>(shareService.shareUpdate(share), HttpStatus.OK);
@@ -47,7 +56,6 @@ public class ShareController {
 
     // 글 삭제
 
-    @CrossOrigin
     @DeleteMapping("/delete/{sid}")
     public ResponseEntity<?> delete(@PathVariable Long sid){
         return new ResponseEntity<>(shareService.shareDelete(sid), HttpStatus.OK);

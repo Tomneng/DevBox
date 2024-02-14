@@ -50,8 +50,9 @@ public class Share {
 
 
     // FK
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User userId;
+
 
 //    @ManyToMany
 //    @JoinTable(
@@ -60,6 +61,6 @@ public class Share {
 //            inverseJoinColumns = @JoinColumn(name = "cid")
 //    )
 //    private List<Comment> comments = new ArrayList<>();
-//
+
 
 }

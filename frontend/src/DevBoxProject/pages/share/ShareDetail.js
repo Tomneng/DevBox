@@ -21,13 +21,15 @@ import DefaultCSS from "./CSS/Default.module.css"
 
 // 유저 확인
 import {LoginContext} from "../../contexts/LoginContextProvider";
+import Comment from "./components/Comment";
 
 const ShareDetail = () => {
 		// 유저 확인
 		const {userInfo} = useContext(LoginContext)
 
 		const navigate = useNavigate();
-		let {sid} = useParams();
+		let sid = useParams();
+
 
 		const [share, setShare] = useState({
 				sid: '',
@@ -41,17 +43,19 @@ const ShareDetail = () => {
 		});
 
 		const codeShareDetail = async () => {
-				const response = await auth.codeShareDetail(sid)
+				const response = await auth.codeShareDetail(sid.sid)
 				const data = response.data
 
 				setShare(data)
+				console.log("response.data = " + response.data)
+				console.log("data = " + data)
 		}
 
 		useEffect(() => {
 				// fetch('http://localhost:8080/share/detail/' + sid)
 				// 		.then(response => response.json())
 				// 		.then(data => setShare(data));
-				codeShareDetail().then()
+				codeShareDetail()
 
 		}, []);
 		const deletePost = async () => {
@@ -74,6 +78,10 @@ const ShareDetail = () => {
 		const updatePost = () => {
 				navigate('/codeshare/update/' + sid);
 		};
+		console.log("userInfo.userId = " + userInfo.userId);
+		console.log("share.userId = " + share.userId);
+		console.log("JSON.stringify(share.userId) = " + JSON.stringify(share.userId));
+		console.log("share.sid = " + share.sid);
 
 		return (
 				<div className={DefaultCSS.main_wrapper}>
@@ -115,7 +123,7 @@ const ShareDetail = () => {
 
 
 						<div className={DefaultCSS.button_box}>
-								{userInfo.userId === share.userId &&
+								{userInfo.userId === share.userId.userId &&
 										<>
 												<button onClick={updatePost}>수정</button>
 												<button onClick={deletePost}>삭제</button>
@@ -125,12 +133,8 @@ const ShareDetail = () => {
 						</div>
 
 
-						{/* 댓글 작성란*/
-						}
-
-						{/* 댓글 목록*/
-						}
-
+						{/* 댓글작성, 목록*/}
+						<Comment/>
 
 				</div>
 		)

@@ -1,26 +1,50 @@
 package com.example.devbox.service.share;
 
 
+import com.example.devbox.domain.common.User;
 import com.example.devbox.domain.share.Share;
+import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.repository.share.ShareRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+
+import static java.lang.Long.parseLong;
 
 @RequiredArgsConstructor
 @Service
 public class ShareService {
 
     private final ShareRepository shareRepository;
+    private final UserRepository userRepository;
 
 
     // 글쓰기
-    @Transactional
-    public Share shareWrite(Share share) {
-        return shareRepository.save(share);
+
+    public ResponseEntity<?> shareWrite(Map<String , String > writeMap) {
+        //  400 에러가 나서 찾아보니 이쪽이 문제인듯 하다
+        // 근데 이제는 500에러 나옴 왜?
+
+        // Long 타입으로 파싱
+        Long userId = parseLong(writeMap.get("userId"));
+        // 파싱한 userId 가 있는지 확인
+        User user = userRepository.findById(userId).orElseThrow(null);
+
+        // 있다면 저장
+        Share share = new Share();
+        share.setSlanguage(writeMap.get("slanguage"));
+        share.setStitle(writeMap.get("stitle"));
+        share.setScontent(writeMap.get("scontent"));
+        share.setSdescription(writeMap.get("sdescription"));
+        share.setUserId(user);
+
+        return new ResponseEntity<>(shareRepository.saveAndFlush(share), HttpStatus.CREATED) ;
     }
 
     // 글 목록 불러오기
