@@ -23,7 +23,7 @@ const Header = () => {
                     <Link to="/codeShare">Code Share</Link>
                     </span>
                     <span className="nav">
-                    <Link to="/errorLib">Error Library</Link>
+                    <Link to="/myDoc/list">Error Library</Link>
                     </span>
                     <span className="nav">
                     <Link to="/profile">Profile</Link>

@@ -32,7 +32,7 @@ const DevBoxApp = () => {
 										<Route path='/mypage' Component={MyPage}></Route>
 										<Route path='/about' Component={AboutPage}></Route>
 										<Route path='/admin' Component={AdminPage}></Route>
-										<Route path='/errorLib' Component={ErrorLibPage}></Route>
+										<Route path='/myDoc/list' Component={ErrorLibPage}></Route>
 										<Route path='/myDoc/detail/:did' Component={MyDocDetail}></Route>
 										<Route path='/myDoc/write/' Component={MyDocWrite}></Route>
 

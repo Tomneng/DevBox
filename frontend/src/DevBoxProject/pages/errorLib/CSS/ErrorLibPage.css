@@ -42,6 +42,7 @@
     font-size: 20px;
     width: 100%;
     margin: 0px;
+    outline: none;
 }
 
 .search-button {
@@ -73,7 +74,6 @@
 }
 
 .table-cell {
-    flex: 1;
     padding: 8px;
     overflow: hidden;
     white-space: nowrap;
@@ -84,7 +84,32 @@
 }
 
 .table-cell:nth-child(3) {
-    flex: 3;
+    width: 50%;
+}
+
+.table-cell:nth-child(1), .table-cell:nth-child(5)   {
+    width: 8%;
+}
+
+.table-cell:nth-child(2), .table-cell:nth-child(4)   {
+    width: 19%;
+}
+
+#keywordsContainer{
+    width: 90%;
+    border: 2px solid black;
+    padding: 10px;
+    height: 200px;
+    z-index: 10;
+    list-style: none;
 }
 
 
+/* 검색 결과가 있을 때만 표시 */
+#keywordsContainer.active {
+    display: block;
+}
+
+.keywordsItems{
+    border: 2px solid black;
+}

@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Entity(name = "myDoc")
 @Data
@@ -31,14 +29,14 @@ public class MyDoc {
     private String content;
 
     @CreatedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     // json 날짜 포멧팅
     private LocalDateTime createdAt;
 
     @ManyToOne
     private User user;
 
-    @ColumnDefault(value = "0")
-    private Long viewCnt;
+    @ColumnDefault(value = "0") // 이친구는 primitive 타입에만 적용되는듯
+    private long viewCnt;
 
 }

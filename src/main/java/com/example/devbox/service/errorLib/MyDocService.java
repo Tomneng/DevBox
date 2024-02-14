@@ -2,14 +2,22 @@ package com.example.devbox.service.errorLib;
 
 import com.example.devbox.domain.common.User;
 import com.example.devbox.domain.myLib.MyDoc;
+import com.example.devbox.dto.MyDocListDto;
 import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.repository.errorLib.MyDocRepository;
+import com.example.devbox.repository.errorLib.MyDocTitles;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.Long.parseLong;
@@ -23,9 +31,24 @@ public class MyDocService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<?> getList(){
-        return new ResponseEntity<>(myDocRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> getList(int page){
+        Pageable pageable = PageRequest.of(page - 1, 20, Sort.by("createdAt").descending());
+        Page<MyDoc> myDocPage = myDocRepository.findAll(pageable);
+
+        MyDocListDto myDocListDto = MyDocListDto.builder()
+                .cnt(myDocPage.getTotalElements())
+                .myDocList(myDocPage.getContent())
+                .build();
+
+        return new ResponseEntity<>(myDocListDto, HttpStatus.OK);
     }
+
+    @Transactional
+    public ResponseEntity<?> getKeywords(){
+        List<MyDocTitles> titles = myDocRepository.findAllBy();
+        return new ResponseEntity<>(titles, HttpStatus.OK);
+    }
+
 
     @Transactional
     public ResponseEntity<?> getMyDoc(Long id){

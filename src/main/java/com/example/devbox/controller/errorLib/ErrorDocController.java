@@ -17,10 +17,16 @@ public class ErrorDocController {
     @Autowired
     private MyDocService myDocService;
 
-    @GetMapping("/list")
-    public ResponseEntity<?> myDocList(){
-        return myDocService.getList();
+    @GetMapping("/list/{page}")
+    public ResponseEntity<?> getTotalItems(@PathVariable int page){
+        return myDocService.getList(page);
     }
+
+    @GetMapping("/allKeyWords")
+    public ResponseEntity<?> getKeywords(){
+        return myDocService.getKeywords();
+    }
+
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> getMyDoc(@PathVariable Long id){
