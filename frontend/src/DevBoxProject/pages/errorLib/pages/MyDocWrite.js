@@ -52,9 +52,6 @@ const MyDocWrite = () => {
             case 'p':
                 addP('textarea', '문단', 'p-style');
                 break;
-            case 'img':
-                // Implement image adding logic here
-                break;
             case 'code':
                 addCodeBlock();
                 break;
@@ -122,7 +119,6 @@ const MyDocWrite = () => {
                             <option value="">태그를 선택하세요</option>
                             <option value="h2">Heading 1</option>
                             <option value="p">Paragraph</option>
-                            <option value="img">Image</option>
                             <option value="code">Code Block</option>
                         </select>
                         <button onClick={handleAddTag} className="custom-btn button-grayBlack"><span>추가</span></button>

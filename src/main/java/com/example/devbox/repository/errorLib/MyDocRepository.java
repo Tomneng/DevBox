@@ -8,4 +8,6 @@ import java.util.List;
 public interface MyDocRepository extends JpaRepository<MyDoc, Long> {
 
     List<MyDocTitles> findAllBy();
+
+    MyDoc findByTitle(String title);
 }

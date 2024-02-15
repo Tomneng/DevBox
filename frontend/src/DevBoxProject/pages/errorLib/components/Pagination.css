@@ -1,8 +1,8 @@
-ul {
+.wrapper ul {
     list-style: none;
 }
 
-li {
+.wrapper li {
     float: left;
     height: 25px;
     display: flex;

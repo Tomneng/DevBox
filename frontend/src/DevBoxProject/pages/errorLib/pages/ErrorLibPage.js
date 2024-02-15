@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import '../CSS/ErrorLibPage.css'
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import Header from "../../../components/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
@@ -16,6 +16,10 @@ const ErrorLibPage = () => {
     const [keywords, setKeywords] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [suggestedKeywords, setSuggestedKeywords] = useState([]);
+    const [keywordMap, setKeywordMap] = useState({})
+    const navigate = useNavigate();
+
+    let titleId = new Map;
 
     const getDocs = async () =>{
         let data
@@ -32,15 +36,20 @@ const ErrorLibPage = () => {
         data = response.data
         setTotalItems(data.cnt) // 페이지 총 갯수
         setMyDocs(data.myDocList) // 슬라이스 된 페이지
+        console.log(titles.data)
         let titlearray = []
         for (let i = 0; i < titles.data.length; i++){
+            titleId.set(titles.data[i].title, titles.data[i].docId)
             titlearray.push(titles.data[i].title)
+            console.log(titleId.get("wef"))
         }
         setKeywords(titlearray);
-        console.log(titlearray)
+        setKeywordMap(titleId);
+        console.log(titleId)
     }
 
     useEffect( () => {
+        window.scrollTo(0,0);
         getDocs();
     }, [page]);
 
@@ -49,19 +58,27 @@ const ErrorLibPage = () => {
         const timeoutId = setTimeout(() => {
             if (searchText !== null && searchText !== ""){
             const suggestions = keywords.filter((keyword) => keyword.includes(searchText));
+            suggestions.sort((a, b) => a.length - b.length);
             setSuggestedKeywords(suggestions);
             }else {
                 setSuggestedKeywords([]);
             }
-        }, 300);
+        }, 200);
 
         // Cleanup 함수: 이펙트가 재실행될 때 이전 타이머를 제거하여 중복 실행을 방지
         return () => clearTimeout(timeoutId);
     }, [searchText, keywords]);
 
+
     const handleSearchInputChange = (event) => {
         setSearchText(event.target.value);
     };
+
+    const goDetail = (e) =>{
+        let title = e.target.value
+        let id = keywordMap.get(title)
+        navigate(`/myDoc/detail/${id}`)
+    }
 
     return (
         <>
@@ -77,13 +94,12 @@ const ErrorLibPage = () => {
                             value={searchText}
                             onChange={handleSearchInputChange}
                         />
-                        <button className="search-button"><FontAwesomeIcon icon={faArrowUp}/></button>
                     </div>
                     {suggestedKeywords.length > 0 && (
                         <ul id="keywordsContainer">
                             {suggestedKeywords.map((keyword) => (
                                 <li key={keyword} className="keywordsItems">
-                                    <Link to={`/?search=${keyword}`}>{keyword}</Link>
+                                    <button onClick={(e) => goDetail(e)} value={keyword}>{keyword}</button>
                                 </li>
                             ))}
                         </ul>

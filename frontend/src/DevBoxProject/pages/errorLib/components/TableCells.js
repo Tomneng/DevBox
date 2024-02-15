@@ -9,7 +9,7 @@ const TableCells = (props) => {
         <div className="table-row">
             <div className="table-cell">{docId}</div>
             <div className="table-cell">{lang}</div>
-            <div className="table-cell"><Link to={"/myLib/detail/" + docId}>{title}</Link></div>
+            <div className="table-cell"><Link to={"/myDoc/detail/" + docId}>{title}</Link></div>
             <div className="table-cell">{createdAt}</div>
             <div className="table-cell">{viewCnt}</div>
         </div>
