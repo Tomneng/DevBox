@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Alert, Button, Container, Form } from 'react-bootstrap';
-import axios from 'axios'; // axios import 추가
+import * as auth from "../../../apis/auth";
+
 
 
 const Detail = () => {
@@ -16,26 +17,31 @@ const Detail = () => {
         csDegree: '',
         jobType: '',   // 직무별
         skills: '',
-        technicalSkills: {}, // 기술 능력을 객체로 변경
+        technicalSkills: '', // 기술 능력을 객체로 변경
         job: '',
         experience: '',
         projects: '',
         licenses: '', // 자격증 파일 이름 저장
         shortAppeal: '',
         portfolio: '',
-        profilePic: null,
+        profilePic: '',
         createdAt: '',
     });
 
     useEffect(() => {
-        fetch(`http://localhost:8080/profile/detail/${id}`) // fetch 대신 axios.get 사용
-            .then((response) => {
-                setProfile(response.data); // 받아온 데이터로 프로필 상태 업데이트
-            })
-            .catch((error) => {
-                console.error('Error fetching profile:', error);
-                // 에러 처리
-            });
+            const profile = async (e) => {
+                let response; // 응답 변수 선언
+                let status; // 상태 코드 변수 선언
+                console.log('프로필 전송 시도 중...');
+                try {
+                     response = await auth.profileDetail(profile);
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    return;
+                }
+            };
+
     }, [id]);
 
     const deleteProfile = () => {
@@ -45,7 +51,7 @@ const Detail = () => {
                 console.log(response.data);
                 if (response.data === 1) {
                     alert('삭제 완료!');
-                    navigate('/');
+                    navigate('/profile/list');
                 } else {
                     alert('삭제 실패!');
                 }
@@ -55,33 +61,23 @@ const Detail = () => {
                 // 에러 처리
             });
     };
-
     const updateProfile = () => {
-        navigate(`/update/${id}`);
+        navigate(`/profile/update/${id}`);
     };
-
 
     let profilePicPreview;
 
     return (
         <Container className="mt-3">
             <div className="row">
-                <h2 className="display06">이력서 작성</h2>
+                <h2 className="display06">프로필 상세 보기</h2>
                 <hr />
                 <div className="col-md-6">
                     <Alert variant="light" className="d-flex justify-content-between">
-                        <span>Id : {id}</span>
-
+                        <span>ID: {id}</span>
                     </Alert>
                 </div>
                 <section>
-                    {profilePicPreview && (
-                        <img
-                            src={URL.createObjectURL(profile.profilePic)}
-                            style={{ maxWidth: '100%', height: '100px', display: 'block', marginTop: '10px' }}
-                            alt="프로필 미리보기"
-                        />
-                    )}
                     <div className="mt-3">
                         <h5>이름</h5>
                         <Form.Control type="text" readOnly value={profile.name} />
@@ -108,7 +104,7 @@ const Detail = () => {
                     </div>
                     <div className="mt-3">
                         <h5>기술능력</h5>
-                        <Form.Control type="text" readOnly value={profile.technicalSkills} />
+                        <Form.Control type="text" readOnly value={Object.keys(profile.technicalSkills).join(', ')} />
                     </div>
                     <div className="mt-3">
                         <h5>경력</h5>
@@ -139,14 +135,11 @@ const Detail = () => {
                     <Button variant="outline-dark " onClick={updateProfile}>
                         수정
                     </Button>
-                    <Link className="btn btn-outline-dark ms-2" to="/list">
-                        목록
-                    </Link>
-                    <Button variant="outline-danger" className=" ms-2" onClick={deleteProfile}>
+                    <Button variant="outline-danger" className="ms-2" onClick={deleteProfile}>
                         삭제
                     </Button>
-                    <Link className="btn btn-outline-dark ms-2" to="/write">
-                        작성
+                    <Link className="btn btn-outline-dark ms-2" to="/profile/list">
+                        목록
                     </Link>
                 </div>
             </div>

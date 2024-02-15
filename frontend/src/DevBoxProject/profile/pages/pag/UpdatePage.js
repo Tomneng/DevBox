@@ -81,8 +81,9 @@ const UpdatePage = () => {
 
         try {
              response = await auth.profileUpdate(profile); // 프로필 수정을 위한 API 호출
+            console.log("response = "+ response);
         } catch (error) {
-            console.error(`${error}`);
+            console.error('프로필 전송 중 오류 발생:', error);
             console.error(`에러발생`);
             return;
         }
@@ -91,6 +92,7 @@ const UpdatePage = () => {
                 console.log(`프로필 수정 성공`);
                 // 성공 시 알림을 표시합니다.
                 Swal.alert(" 성공", " 프로필이 수정되었습니다.", "success");
+                navigate(`/profile/detail/${profile.id}`); // 상세 페이지로 이동
             } else {
                 console.log(`프로필 수정 실패`);
                 // 실패 시 알림을 표시합니다.
