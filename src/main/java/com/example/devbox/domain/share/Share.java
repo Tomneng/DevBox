@@ -53,6 +53,11 @@ public class Share {
     @ManyToOne
     private User userId;
 
+/*
+이걸 인식하는 문제가 있었음
+한줄주석 만으로 주석처리를 해놓았으나 에러가 계속나서 완전히 지운후 해결되는걸 확인
+
+    여러줄 주석 으로 해결
 
 //    @ManyToMany
 //    @JoinTable(
@@ -61,6 +66,6 @@ public class Share {
 //            inverseJoinColumns = @JoinColumn(name = "cid")
 //    )
 //    private List<Comment> comments = new ArrayList<>();
-
+*/
 
 }

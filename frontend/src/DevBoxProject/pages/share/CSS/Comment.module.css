@@ -1,0 +1,16 @@
+.input_box{
+    display: flex;
+    margin: 50px;
+}
+
+.input_box > button {
+    width: 15%;
+    height: auto;
+}
+
+.input_box > input {
+    margin: 0 3%;
+}
+
+
+

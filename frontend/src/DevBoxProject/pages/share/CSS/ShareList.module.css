@@ -24,8 +24,11 @@
 
 
 .content_container {
+    /* grid 가 더 나을거 같음 */
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+
+    padding: 1%;
 }
 

@@ -18,3 +18,7 @@ export const codeShareWrite = (data) => api.post(`/codeshare/write`, data);
 export const codeShareDetail = (sid) => api.get(`/codeshare/detail/${sid}`);
 export const codeShareUpdate = (data) => api.put(`/codeshare/update`, data);
 export const codeShareDelete = (sid) => api.delete(`/codeshare/delete/${sid}`);
+
+export const codeShareCommentList = () => api.get(`/codeshare/comment/list`);
+export const codeShareCommentWrite = (data) => api.post(`codeshare/comment/write`, data);
+export const codeShareCommentDelete = (cid) => api.delete(`/codeshare/comment/delete/${cid}`);

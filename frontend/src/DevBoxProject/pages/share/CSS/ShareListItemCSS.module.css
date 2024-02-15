@@ -12,10 +12,11 @@
 
 .share_item_box{
  padding: 20px;
+ margin: 2%;
  box-sizing: border-box;
  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
  border-radius: 15px;
- flex:  calc(25% - 20px);
+ flex: 0 0 calc(20%);
  width: calc(25% - 20px);
 }
 

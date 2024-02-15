@@ -34,17 +34,16 @@ public class Comment {
     // FK
     // 글
 //    @JsonIgnore  // JSON 변환시 제외
-    @ManyToOne(optional = false)
+    @ManyToOne
     @ToString.Exclude
     private Share sid;
 
 
     // FK
     // 작성자
-    @ManyToOne(optional = false)
+    @ManyToOne
     @ToString.Exclude
-    private User uid;
-
+    private User userId; // 필드명을 User 엔티티의 기본 키 필드명과 일치시킴
 
     @Column(nullable = false)
     private String cContent;

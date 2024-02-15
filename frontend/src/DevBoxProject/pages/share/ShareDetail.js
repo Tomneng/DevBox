@@ -22,6 +22,7 @@ import DefaultCSS from "./CSS/Default.module.css"
 // 유저 확인
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import Comment from "./components/Comment";
+import Header from "../../components/Header";
 
 const ShareDetail = () => {
 		// 유저 확인
@@ -84,6 +85,8 @@ const ShareDetail = () => {
 		console.log("share.sid = " + share.sid);
 
 		return (
+				<>
+						<Header/>
 				<div className={DefaultCSS.main_wrapper}>
 						<div className={ShareDetailCSS.codeshare_detail_header}>
 								{/* 글제목 */}
@@ -137,6 +140,7 @@ const ShareDetail = () => {
 						<Comment/>
 
 				</div>
+				</>
 		)
 				;
 };
