@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/codeshare/comment")
+@RequestMapping("/comment")
 public class CommentController {
     private final CommentService commentService;
 

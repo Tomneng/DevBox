@@ -21,7 +21,8 @@ import DefaultCSS from "./CSS/Default.module.css"
 
 // 유저 확인
 import {LoginContext} from "../../contexts/LoginContextProvider";
-import Comment from "./components/Comment";
+import CommentInput from "./components/CommentInput";
+import CommentList from "./components/CommentList";
 import Header from "../../components/Header";
 
 const ShareDetail = () => {
@@ -87,59 +88,62 @@ const ShareDetail = () => {
 		return (
 				<>
 						<Header/>
-				<div className={DefaultCSS.main_wrapper}>
-						<div className={ShareDetailCSS.codeshare_detail_header}>
-								{/* 글제목 */}
-								<h2>조회 : {share.stitle}</h2>
+						<div className={DefaultCSS.main_wrapper}>
+								<div className={ShareDetailCSS.codeshare_detail_header}>
+										{/* 글제목 */}
+										<h2>조회 : {share.stitle}</h2>
 
-								{/* 조회수 */}
-								<div className={ShareDetailCSS.view_box}>
-										<small>조회수 : {share.sviewCnt}</small>
-										<small>찜 : share.steam</small>
+										{/* 조회수 */}
+										<div className={ShareDetailCSS.view_box}>
+												<small>조회수 : {share.sviewCnt}</small>
+												<small>찜 : share.steam</small>
+										</div>
 								</div>
+
+								<hr/>
+								{/* 찜버튼 */}
+
+								{/* 사용 언어*/}
+								<div className={ListItemCSS.language_box_middle}>
+										{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
+										{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
+										{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
+										{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
+										{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
+										{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
+										{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
+										{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
+										{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
+								</div>
+
+
+								{/* 간략 설명 */}
+								<h4>간략 설명</h4>
+								<span>{share.sdescription}</span>
+
+								{/* 글 내용 */}
+								<h4>내용</h4>
+								<span>{share.scontent}</span>
+
+
+								<div className={DefaultCSS.button_box}>
+										{userInfo.userId === share.userId.userId &&
+												<>
+														<button onClick={updatePost}>수정</button>
+														<button onClick={deletePost}>삭제</button>
+												</>}
+										<Link className={DefaultCSS.link_box} to="/codeshare/write">작성</Link>
+										<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
+								</div>
+
+
+
+
+								{/* 댓글작성, 목록*/}
+								<CommentInput key={share.sid} share={share}/>
+								<hr/>
+								<CommentList key={share.sid} share={share}/>
 						</div>
-
-						<hr/>
-						{/* 찜버튼 */}
-
-						{/* 사용 언어*/}
-						<div className={ListItemCSS.language_box_middle}>
-								{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
-								{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
-								{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
-								{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
-								{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
-								{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
-								{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
-								{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
-								{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
-						</div>
-
-
-						{/* 간략 설명 */}
-						<h4>간략 설명</h4>
-						<span>{share.sdescription}</span>
-
-						{/* 글 내용 */}
-						<h4>내용</h4>
-						<span>{share.scontent}</span>
-
-
-						<div className={DefaultCSS.button_box}>
-								{userInfo.userId === share.userId.userId &&
-										<>
-												<button onClick={updatePost}>수정</button>
-												<button onClick={deletePost}>삭제</button>
-										</>}
-								<Link className={DefaultCSS.link_box} to="/codeshare/write">작성</Link>
-								<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
-						</div>
-
-
-						{/* 댓글작성, 목록*/}
-						<Comment/>
-
-				</div>
 				</>
 		)
 				;

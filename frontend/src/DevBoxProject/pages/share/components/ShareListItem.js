@@ -13,7 +13,7 @@ import REACTLogo from "../../../components/image/react.png";
 import ShareListItemCSS from "../CSS/ShareListItemCSS.module.css"
 
 const ShareListItem = (props) => {
-    const {sid, stitle, sdescription, sviewCnt, sregDate, spublic, slanguage} = props.share;
+    const {sid, stitle, sdescription, sviewCnt, sregDate, slanguage} = props.share;
     return (
 
 
