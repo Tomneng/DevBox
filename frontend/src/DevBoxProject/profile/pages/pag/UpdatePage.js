@@ -157,6 +157,17 @@ const UpdatePage = () => {
             },
         }));
     };
+
+    // 선택된 기술 스택의 평균 레벨을 계산하는 함수
+    const averageSkillLevel = (skillLevel) => {
+        // 만약 skillLevel이 배열이 아니면 그대로 반환합니다.
+        if (!Array.isArray(skillLevel)) {
+            return skillLevel;
+        }
+        // skillLevel이 배열인 경우에만 각 레벨의 합을 계산하고 배열의 평균을 반환합니다.
+        const sum = skillLevel.reduce((acc, level) => acc + level, 0);
+        return sum / skillLevel.length;
+    };
     return (
         <div className="container mt-3">
             <div className="row">
@@ -476,7 +487,80 @@ const UpdatePage = () => {
                         </Link>
                     </Form>
                 </div>
+                {/* 오른쪽 - 프로필 내용 및 레이더 차트 */}
+                <div className="col-md-4 write-page-right" style={{ backgroundColor: profileBackgroundColor }}>
+                    <div id="renderedContent" style={fontStyles}>
+                        <h2>프로필 내용</h2>
+                        {profilePicPreview && (
+                            <img
+                                src={profilePicPreview}
+                                style={{ maxWidth: '100%', height: '100px', marginTop: '10px' }}
+                                alt="프로필 미리보기"
+                            />
+                        )}
+                        <p>이름: {profile.name}</p>
+                        <p>전화번호: {profile.number}</p>
+                        <p>나이: {profile.age}</p>
+                        <p>학력: {profile.degree}</p>
+                        <p>전공자 유무: {profile.csDegree}</p>
+                        <p>직무별 유무: {profile.jobType}</p>
+                        <p>기술 스택: {profile.skills}</p>
 
+                        {/* 기술 능력 출력 */}
+                        <p>기술 능력:
+                            {Object.keys(profile.technicalSkills).map((skill, index) => (
+                                <span key={index}>
+                                    {`${skill}: ${profile.technicalSkills[skill]} `}
+                                </span>
+                            ))}
+                        </p>
+                        <p>경력: {profile.experience}</p>
+                        <p>직업: {profile.job}</p>
+                        <p>프로젝트: {profile.projects}</p>
+                        <p>자격증: {profile.licenses}</p>
+                        <p>짧은 자기소개: {profile.shortAppeal}</p>
+                        <p>포트폴리오: {profile.portfolio}</p>
+                    </div>
+                    <div className="mt-3">
+                        <Radar
+                            data={{
+                                labels: profile.skills.split(','),
+                                datasets: [
+                                    {
+                                        label: '기술 스택',
+                                        backgroundColor: 'rgba(179,181,198,0.2)',
+                                        borderColor: 'rgba(179,181,198,1)',
+                                        pointBackgroundColor: 'rgba(179,181,198,1)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgba(179,181,198,1)',
+                                        data: profile.skills.split(',').map(skill => profile.technicalSkills[skill] || 0),
+                                    },
+                                    {
+                                        label: '평균 기술 스택',
+                                        backgroundColor: 'rgba(255,99,132,0.2)',
+                                        borderColor: 'rgba(255,99,132,1)',
+                                        pointBackgroundColor: 'rgba(255,99,132,1)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgba(255,99,132,1)',
+                                        data: profile.skills.split(',').map(skill => averageSkillLevel(profile.technicalSkills[skill] || 0)),
+                                    },
+                                ],
+                            }}
+                            options={{
+                                scale: {
+                                    ticks: {
+                                        beginAtZero: true,
+                                        min: 1, // 최소값 설정
+                                        max: 5, // 최대값 설정
+                                        stepSize: 1, // 간격 설정
+                                    },
+                                },
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

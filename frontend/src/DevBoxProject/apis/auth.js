@@ -18,5 +18,6 @@ export const profileUpdate = (userId, data) => api.put(`/profile/update/${userId
 
 export const profileDetail = (userId) => api.get(`/profile/detail/${userId}`);
 
-export const profileList = (data) => api.get(`/profile/list`);
+export const profileList = (data) => api.get(`/profile/list`, data);
 
+export const profileDelete = (userId) => api.delete(`/profile/delete/${userId}`);

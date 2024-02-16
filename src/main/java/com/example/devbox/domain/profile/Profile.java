@@ -36,9 +36,9 @@ public class Profile {
 
     private String jobType; // 직무별
 
-    private String skills; // 기술 스택
-
     private String job; // 직업
+
+    private String skills; // 기술 스택
 
     private String technicalSkills; // 기술능력
 

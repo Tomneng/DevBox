@@ -158,8 +158,10 @@ const WritePage = () => {
             // 상태 코드에 따라 적절한 동작을 수행합니다.
             if (status === 201) {
                 console.log(`정보수정 성공`);
+            let data = response.data
+
                 // 프로필 제출이 성공했을 때 페이지 이동
-                navigate(`/profile/detail/${profile.id}`); // 상세 페이지로 이동
+                navigate(`/profile/detail/${data.id}`); // 상세 페이지로 이동
                 // 성공 시 알림을 표시합니다.
                 Swal.alert(" 성공", " 다시  해주세요.", "success");
             } else {
