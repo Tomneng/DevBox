@@ -24,7 +24,7 @@
 .top-nav {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
 }
 
@@ -35,11 +35,10 @@
     font-size: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 0 12px;
     position: relative;
     transition: background-color 0.3s ease-in-out;
-    padding: 0 10%;
 }
 
 .nav {
