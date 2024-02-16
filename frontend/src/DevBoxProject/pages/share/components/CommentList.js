@@ -12,7 +12,7 @@ const CommentList = (props) => {
 		const {sid, userId} = props.share
 		const navigate = useNavigate();
 
-		const [comment, setComment] = useState({
+		const [commentList, setCommentList] = useState({
 				cContent: '',
 				userId: '',
 				sid: '',
@@ -21,12 +21,13 @@ const CommentList = (props) => {
 		});
 
 
+
 		return (
 				<>
 						<div>마 이기 리스트다</div>
-						<span>{comment.cid}</span>
-						<span>{comment.cContent}</span>
-						<span>{comment.cRegDate}</span>
+						<span>{commentList.cid}</span>
+						<span>{commentList.cContent}</span>
+						<span>{commentList.cRegDate}</span>
 
 				</>
 		);

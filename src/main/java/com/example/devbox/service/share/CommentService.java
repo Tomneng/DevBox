@@ -22,9 +22,9 @@ import static java.lang.Long.parseLong;
 @Service
 public class CommentService {
 
-    private CommentRepository commentRepository;
-    private UserRepository userRepository;
-    private ShareRepository shareRepository;
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final ShareRepository shareRepository;
 
     //댓글 목록
     @Transactional(readOnly = true)
@@ -45,7 +45,7 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setUserId(user);
         comment.setSid(share);
-
+        comment.setCContent(commentMap.get("cContent"));
         return new ResponseEntity<>(commentRepository.saveAndFlush(comment), HttpStatus.CREATED);
     }
 

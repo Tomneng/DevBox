@@ -15,18 +15,22 @@ const CommentInput = (props) => {
 		const {isLogin, userInfo} = useContext(LoginContext)
 		const [comment, setComment] = useState({
 				cContent: '',
-				userId: userInfo.userId,
+				userId: '',
 				sid: sid,
 		});
-		if (!isLogin) {
-				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
-						navigate("/login");
-				});
-				return null;
-		}
 		const commentSubmit = async (e) => {
 				e.preventDefault();
-				console.log(comment)
+				if (!isLogin) {
+						Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
+								navigate("/login");
+						});
+						return null;
+				}
+				console.log("comment = "+comment)
+				console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
+				console.log("userId = " + userId )
+				console.log("JSON.stringify(userId) = " + JSON.stringify(userId) )
+				console.log("userInfo.userId = " + userInfo.userId )
 				const response = await auth.codeShareCommentWrite(comment)
 				const data = response.data
 				if (response.status === 201) {
@@ -45,6 +49,7 @@ const CommentInput = (props) => {
 				setComment({
 						...comment,
 						[e.target.name]: e.target.value,
+						userId: userInfo.userId,
 				});
 		};
 

@@ -22,8 +22,8 @@ import DefaultCSS from "./CSS/Default.module.css"
 // 유저 확인
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import CommentInput from "./components/CommentInput";
-import CommentList from "./components/CommentList";
 import Header from "../../components/Header";
+import CommentList from "./components/CommentList";
 
 const ShareDetail = () => {
 		// 유저 확인
@@ -80,10 +80,6 @@ const ShareDetail = () => {
 		const updatePost = () => {
 				navigate('/codeshare/update/' + sid);
 		};
-		console.log("userInfo.userId = " + userInfo.userId);
-		console.log("share.userId = " + share.userId);
-		console.log("JSON.stringify(share.userId) = " + JSON.stringify(share.userId));
-		console.log("share.sid = " + share.sid);
 
 		return (
 				<>
@@ -140,9 +136,9 @@ const ShareDetail = () => {
 
 
 								{/* 댓글작성, 목록*/}
-								<CommentInput key={share.sid} share={share}/>
+								<CommentInput key={share.sid + "_input"} share={share}/>
 								<hr/>
-								<CommentList key={share.sid} share={share}/>
+								<CommentList key={share.sid + "_list"} share={share}/>
 						</div>
 				</>
 		)
