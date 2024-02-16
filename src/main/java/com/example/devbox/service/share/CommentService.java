@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +28,14 @@ public class CommentService {
     private final ShareRepository shareRepository;
 
     //댓글 목록
-    @Transactional(readOnly = true)
-    public List<Comment> commentList() {
-        return commentRepository.findAll(Sort.by(Sort.Order.desc("cid")));
+    @Transactional
+    public List<Comment> commentList(Long sid) {
+        Iterable<Long> sid2 = Collections.singleton(sid);
 
 
+
+
+        return commentRepository.findAllById(sid2);
     }
 
     @Transactional

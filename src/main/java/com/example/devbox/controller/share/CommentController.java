@@ -20,9 +20,9 @@ public class CommentController {
         return commentService.commentWrite(commentMap);
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<?> list(){
-        return new ResponseEntity<>(commentService.commentList(), HttpStatus.OK);
+    @GetMapping("/list/{sid}")
+    public ResponseEntity<?> list(@PathVariable Long sid){
+        return new ResponseEntity<>(commentService.commentList(sid), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{cid}")

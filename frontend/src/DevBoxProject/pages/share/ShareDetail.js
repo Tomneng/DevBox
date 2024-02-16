@@ -49,8 +49,10 @@ const ShareDetail = () => {
 				const data = response.data
 
 				setShare(data)
+				console.log(share)
 				console.log("response.data = " + response.data)
 				console.log("data = " + data)
+				console.log("JSON.stringify(data) = " + JSON.stringify(data))
 		}
 
 		useEffect(() => {
@@ -58,7 +60,7 @@ const ShareDetail = () => {
 				// 		.then(response => response.json())
 				// 		.then(data => setShare(data));
 				codeShareDetail()
-
+				console.log(share)
 		}, []);
 		const deletePost = async () => {
 				if (!window.confirm('삭제 할랍니꺼')) return;
@@ -69,6 +71,7 @@ const ShareDetail = () => {
 				console.log(`status : ${status}`)
 
 				if (status === 200) {
+
 						console.log(`삭제 성공`)
 						Swal.alert("삭제 성공", "성공했습니다. :)", "success")
 				} else {

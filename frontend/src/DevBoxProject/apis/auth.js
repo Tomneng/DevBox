@@ -13,12 +13,12 @@ export const remove = (userId) => api.delete(`/user/delete/${userId}`);
 
 
 // code Share
-export const codeShareList = () => api.get(`/codeshare/list`);
+export const codeShareList = (sid) => api.get(`/codeshare/list`, sid);
 export const codeShareWrite = (data) => api.post(`/codeshare/write`, data);
 export const codeShareDetail = (sid) => api.get(`/codeshare/detail/${sid}`);
 export const codeShareUpdate = (data) => api.put(`/codeshare/update`, data);
 export const codeShareDelete = (sid) => api.delete(`/codeshare/delete/${sid}`);
 
-export const codeShareCommentList = (sid) => api.get(`/comment/list`, sid);
+export const codeShareCommentList = (sid) => api.get(`/comment/list/${sid}`);
 export const codeShareCommentWrite = (data) => api.post(`/comment/write`, data);
 export const codeShareCommentDelete = (cid) => api.delete(`/comment/delete/${cid}`);

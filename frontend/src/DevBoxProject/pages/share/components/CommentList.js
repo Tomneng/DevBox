@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 // auth
 import * as auth from "../../../apis/auth";
@@ -12,22 +12,27 @@ const CommentList = (props) => {
 		const {sid, userId} = props.share
 		const navigate = useNavigate();
 
-		const [commentList, setCommentList] = useState({
-				cContent: '',
-				userId: '',
-				sid: '',
-				cid: '',
-				cRegDate: '',
-		});
+		const [commentList, setCommentList] = useState([]);
 
-
+		const commentListData = async (sid) => {
+				const response = await auth.codeShareCommentList(sid);
+				const data = response.data;
+				setCommentList(data)
+		}
+useEffect(() => {
+		commentListData(sid);
+},[]);
 
 		return (
 				<>
-						<div>마 이기 리스트다</div>
-						<span>{commentList.cid}</span>
-						<span>{commentList.cContent}</span>
-						<span>{commentList.cRegDate}</span>
+						<div>댓글 목록</div>
+						{commentList.map(comment => (
+								<div key={comment.cid}>
+										<span>{comment.cid}</span>
+										<span>{comment.ccontent}</span>
+										<span>{comment.cRegDate}</span>
+								</div>
+						))}
 
 				</>
 		);
