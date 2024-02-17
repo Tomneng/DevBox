@@ -23,7 +23,7 @@ const Header = () => {
                     <Link to="/codeShare">Code Share</Link>
                     </div>
                     <div className="nav">
-                    <Link to="/myDoc/list">Error Library</Link>
+                    <Link to="/myDoc/list">Dev Library</Link>
                     </div>
                     <div className="nav">
                     <Link to="/profile">Profile</Link>
@@ -32,9 +32,6 @@ const Header = () => {
                         <>
                             <div className="nav">
                                 <Link to="/login">Login</Link>
-                            </div>
-                            <div className="nav">
-                                <Link to="/register">Register</Link>
                             </div>
                         </>
                     ) : (

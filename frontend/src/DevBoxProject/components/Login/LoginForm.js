@@ -2,11 +2,12 @@ import React, {useContext} from 'react';
 import {Button} from "react-bootstrap";
 import './LoginForm.css'
 import {LoginContext} from "../../contexts/LoginContextProvider";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
 
     const {login} = useContext(LoginContext);
+    const navigate = useNavigate();
 
     const onLogin = (e) => {
         e.preventDefault();
@@ -19,13 +20,18 @@ const LoginForm = () => {
         login(username, password);
     }
 
+    const goRegister = () => {
+        navigate('/register')
+    }
+
+
     return (
         <div className="login-container">
             <form id="loginForm" onSubmit={(e) => onLogin(e)}>
                 <input type="text" id="username" placeholder="아이디" name="username" autoComplete="username" required/>
                     <input type="password" id="password" placeholder="비밀번호" name="password" autoComplete="password" required/>
                         <button type="submit">로그인</button>
-                        <button className="signup-button" type="button">회원가입</button>
+                        <button className="signup-button" type="button" onClick={goRegister}>회원가입</button>
                         <div className="oauth-container">
                             <Link className="btn btn-oauth" to="/oauth2/authorization/kakao">
                                 <img src="img/ico_s_kakao_talk.png" alt="Kakao" />
