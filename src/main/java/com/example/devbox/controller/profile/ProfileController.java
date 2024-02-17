@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequiredArgsConstructor   // 의존성 주입 생성자 주입을 임의의 코드 없이 자동으로 설정
 @RestController // 데이터 송수신용 컨트롤러
 //@Controller // 뷰를 리턴하는 컨트롤러
@@ -35,8 +37,8 @@ public class ProfileController {
     // 설문 작성 API
     @CrossOrigin
     @PostMapping("/write")
-    private ResponseEntity<?> write(@RequestBody Profile profile) {
-        return new ResponseEntity<>(profileService.write(profile), HttpStatus.CREATED);  // HTTP 상태 코드 201: Created
+    private ResponseEntity<?> write(@RequestBody Map<String, String> profileMap) {
+        return new ResponseEntity<>(profileService.write(profileMap), HttpStatus.CREATED);  // HTTP 상태 코드 201: Created
     }
 
     // 설문 상세 조회 API
@@ -49,9 +51,10 @@ public class ProfileController {
     // 설문 수정 API
     @CrossOrigin
     @PutMapping("/update")
-    private ResponseEntity<?> update(@RequestBody Profile profile) {
-        return new ResponseEntity<>(profileService.update(profile), HttpStatus.OK);
+    private ResponseEntity<?> update(@RequestBody Map<String ,String > profileMap) {
+        return new ResponseEntity<>(profileService.update(profileMap), HttpStatus.OK);
     }
+
 
     // 설문 삭제 API
     @CrossOrigin

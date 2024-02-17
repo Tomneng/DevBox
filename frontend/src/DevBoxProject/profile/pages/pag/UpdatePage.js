@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Button, Container, Form } from 'react-bootstrap';
-import {profileUpdate} from "../../../apis/auth";
 import * as auth from "../../../apis/auth";
 import {Radar} from "react-chartjs-2";
 import Swal from "sweetalert2";
@@ -32,7 +31,7 @@ const UpdatePage = () => {
         licenses: '', // 자격증 파일 이름 저장
         shortAppeal: '',
         portfolio: '',
-        profilePic: null,
+        profilePic: '',
         createdAt: '',
         // 이모든건 key와 value의 값이다. = 즉 자바에서는 map 이다!
     });
@@ -70,14 +69,17 @@ const UpdatePage = () => {
                 };
             }
         });
+        console.log(profile)
     };
 
     // 수정 완료 버튼을 클릭할 때 실행되는 함수
     const submitProfile = async (e) => {
-        e.preventDefault(); // 기본 submit 동작차단
-
+        e.preventDefault();
         let response; // 응답 변수 선언
         let status; // 상태 코드 변수 선언
+
+        console.log('프로필 전송 시도 중...');
+        // 프로필 정보를 서버에 저장하는 비동기 함수
 
         try {
              response = await auth.profileUpdate(profile); // 프로필 수정을 위한 API 호출
@@ -87,16 +89,19 @@ const UpdatePage = () => {
             console.error(`에러발생`);
             return;
         }
+
         status = response.status;
+        console.log('응답 상태 코드:', status);
             if (status === 200) {
                 console.log(`프로필 수정 성공`);
+                let data = response.data
                 // 성공 시 알림을 표시합니다.
-                Swal.alert(" 성공", " 프로필이 수정되었습니다.", "success");
-                navigate(`/profile/detail/${profile.id}`); // 상세 페이지로 이동
+                navigate(`/profile/detail/${data.id}`); // 상세 페이지로 이동
+                alert(" 프로필이 수정되었습니다.");
             } else {
                 console.log(`프로필 수정 실패`);
                 // 실패 시 알림을 표시합니다.
-                Swal.alert(" 실패", " 프로필 수정에 실패하였습니다.", "error");
+                alert(" 실패");
             }
 
     };
@@ -476,9 +481,9 @@ const UpdatePage = () => {
 
                         <div className="mb-3"></div>
 
-                        {/* 작성완료 버튼 */}
+                        {/* 수정완료 버튼 */}
                         <Button variant="outline-dark" type="submit">
-                            작성완료
+                            수정완료
                         </Button>
 
                         {/* 목록으로 돌아가기 버튼 */}

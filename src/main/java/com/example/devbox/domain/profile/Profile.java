@@ -2,6 +2,7 @@ package com.example.devbox.domain.profile;
 
 import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +56,7 @@ public class Profile {
     private String profilePic;  // 사진
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     private String  number;

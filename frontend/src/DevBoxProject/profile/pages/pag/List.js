@@ -192,7 +192,7 @@ const List = () => {
 
                     {/* 작성 링크 */}
                     <div className="d-flex my-3">
-                        <Link className="btn btn-outline-dark" to="/write">
+                        <Link className="btn btn-outline-dark" to="/profile/write">
                             작성
                         </Link>
                     </div>

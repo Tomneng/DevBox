@@ -26,7 +26,7 @@ const Header = () => {
                     <Link to="/errorLib">Error Library</Link>
                     </span>
                     <span className="nav">
-                    <Link to="/profile">Profile</Link>
+                    <Link to="/profile/list">Profile</Link>
                     </span>
                 </div>
 

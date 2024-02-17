@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import { Radar } from 'react-chartjs-2';
@@ -6,10 +6,14 @@ import { Radar } from 'react-chartjs-2';
 import './WritePage.css';
 import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
+import {LoginContext} from "../../../contexts/LoginContextProvider";
 
 
 
 const WritePage = () => {
+
+    const {userInfo} = useContext(LoginContext)
+
     const navigate = useNavigate();
     const [selectedTheme, setSelectedTheme] = useState(null);
     const [selectedFont, setSelectedFont] = useState('Arial'); // 기본 폰트는 Arial로 설정
@@ -34,6 +38,7 @@ const WritePage = () => {
         portfolio: '',
         profilePic: '',
         createdAt: '',
+        userId : '',
         // 이모든건 key와 value의 값이다. = 즉 자바에서는 map 이다!
     });
 
@@ -108,6 +113,12 @@ const WritePage = () => {
 
 // 값 변경 핸들러
     const changeValue = (e) => {
+
+        setProfile((prevProfile) => ({
+            ...prevProfile,
+            userId: userInfo.userId,
+        }));
+
         const { name, value, type, checked } = e.target;
 
         // 이전 프로필 상태를 가져와서 업데이트합니다.
@@ -133,11 +144,14 @@ const WritePage = () => {
                 };
             }
         });
+        console.log(profile)
     };
     const submitProfile = async (e) => {
+
         e.preventDefault(); // 폼 제출 동작 막음
             let response; // 응답 변수 선언
             let status; // 상태 코드 변수 선언
+
 
         console.log('프로필 전송 시도 중...');
         // 프로필 정보를 서버에 저장하는 비동기 함수
