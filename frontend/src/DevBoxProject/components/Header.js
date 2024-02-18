@@ -39,7 +39,7 @@ const Header = () => {
                             <div className="nav">
                                 <Link to="/mypage">MY</Link>
                             </div>
-                            <button onClick={logout}>logout</button>
+                            <button className="custom-btn button-grayBlack" onClick={logout}>logout</button>
                         </>
                     )}
                 </div>
