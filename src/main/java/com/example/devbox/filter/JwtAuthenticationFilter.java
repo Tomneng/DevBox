@@ -33,7 +33,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
     }
 
-
     /**
      *          ("/login")
      * client -> filter -> server
@@ -74,7 +73,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      *  - JWT를 생성 및 응답헤더에 설정
      * @param request
      * @param response
-     * @param chain
+     * @param
      * @param authResult the object returned from the <tt>attemptAuthentication</tt>
      * method.
      * @throws IOException
@@ -99,4 +98,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + jwt);
         response.setStatus(200);
     }
+
 }

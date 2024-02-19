@@ -5,6 +5,30 @@ spring:
   output:
     ansi:
       enabled: always
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 424755875603-u5jmp7n11s4shmiqoed9sgm72pb69ira.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+          kakao:
+            client-id: e13a36b6eb2c65e1e3208b3c84ac6709
+            redirect-uri: http://localhost:8080/oauth2/kakao/callback
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,4 +53,8 @@ spring:
 
 jwt:
   secret: 8LCWN2sF99tcdvOuW2shyJ2LYXwQlRHaFtvU9RcoA5LItunmtgOiu1x7dtLpTjyN
+
+app:
+  oauth2:
+    password: 1234
 

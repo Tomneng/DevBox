@@ -3,7 +3,10 @@ package com.example.devbox.config;
 import com.example.devbox.filter.JwtAuthenticationFilter;
 import com.example.devbox.filter.JwtRequestFilter;
 import com.example.devbox.provider.JwtTokenProvider;
+import com.example.devbox.repository.common.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,12 +29,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
 
-    private final CustomUserDetailService customUserDetailService;
-
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private PasswordEncoder passwordEncoder;
+
+    @Value("${app.oauth2.password}")
+    private String oauth2Password;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        UserOAuth2Service userOAuth2Service = new UserOAuth2Service();
+        userOAuth2Service.setUserRepository(userRepository);
+        userOAuth2Service.setPasswordEncoder(passwordEncoder);
+        userOAuth2Service.setOauth2Password(oauth2Password);
         // 폼 기반 로그인 비활성화
         http.formLogin(AbstractHttpConfigurer::disable);
         // http 기본 인증 비활성화
@@ -56,7 +69,8 @@ public class SecurityConfig {
                         .anyRequest().permitAll());
 
         // 인증 방식 설정
-        http.userDetailsService(customUserDetailService);
+        http.oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer.loginPage("/login")
+                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(userOAuth2Service)));
 
         return http.build();
     }

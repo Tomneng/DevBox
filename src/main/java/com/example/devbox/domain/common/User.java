@@ -44,6 +44,10 @@ public class User {
     @ColumnDefault(value = "1")
     private Integer enabled;
 
+    private String provider;
+
+    private String providerId;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
     @Builder.Default
