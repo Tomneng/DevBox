@@ -31,10 +31,6 @@ public class CommentService {
     @Transactional
     public List<Comment> commentList(Long sid) {
         Iterable<Long> sid2 = Collections.singleton(sid);
-
-
-
-
         return commentRepository.findAllById(sid2);
     }
 
@@ -44,12 +40,23 @@ public class CommentService {
         Long userId = parseLong(commentMap.get("userId"));
         Long sid = parseLong(commentMap.get("sid"));
         User user = userRepository.findById(userId).orElseThrow(null);
-        Share share = shareRepository.findById(sid).orElseThrow(null);
+        Share shareComment = shareRepository.findById(sid).orElseThrow(null);
 
         Comment comment = new Comment();
         comment.setUserId(user);
-        comment.setSid(share);
-        comment.setCContent(commentMap.get("cContent"));
+        comment.setSid(shareComment);
+        comment.setCcontent(commentMap.get("ccontent"));
+
+
+
+    //  새로운 댓글을 댓글 목록에 추가
+        shareComment.getCommentList().add(commentRepository.saveAndFlush(comment));
+
+
+        // 변경된 Share 엔티티를 다시 저장하여 영속성 컨텍스트에 반영
+        shareRepository.saveAndFlush(shareComment);
+
+
         return new ResponseEntity<>(commentRepository.saveAndFlush(comment), HttpStatus.CREATED);
     }
 

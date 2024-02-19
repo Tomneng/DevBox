@@ -31,32 +31,32 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cid;
 
-    // FK
-    // 글
-//    @JsonIgnore  // JSON 변환시 제외
-    @ManyToOne
-    @ToString.Exclude
-    private Share sid;
-
 
     // FK
     // 작성자
     @ManyToOne
-    @ToString.Exclude
+    @JoinColumn(name = "userId")
     private User userId; // 필드명을 User 엔티티의 기본 키 필드명과 일치시킴
 
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "sid")
+    private Share sid;
+
+
     @Column(nullable = false)
-    private String cContent;
+//    private String cContent;  //  이렇게 하면 setCContent 로 불러온다. js 는 대소문자 구분한다. js 에서 ccontent로 인식 한다.
+    private String ccontent;
 
 
 
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    @JsonProperty("cRegDate")
     private LocalDateTime localDateTime;
 
-//
-//    @ManyToMany(mappedBy = "comments")
-//    private List<Share> shares = new ArrayList<>();
 
 }
+
+
+

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Container, Image} from "react-bootstrap";
+import {Image} from "react-bootstrap";
 import PYTHONLogo from "../../components/image/python.png";
 import JAVALogo from "../../components/image/java.png";
 import CLogo from "../../components/image/c.png";
@@ -21,20 +21,19 @@ import DefaultCSS from "./CSS/Default.module.css"
 
 // 유저 확인
 import {LoginContext} from "../../contexts/LoginContextProvider";
-import CommentInput from "./components/CommentInput";
 import Header from "../../components/Header";
 import CommentList from "./components/CommentList";
+import commentCSS from "./CSS/Comment.module.css";
 
 const ShareDetail = () => {
 		// 유저 확인
 		const {userInfo} = useContext(LoginContext)
 
 		const navigate = useNavigate();
-		let sid = useParams();
-
+		let {sid} = useParams();
 
 		const [share, setShare] = useState({
-				sid: '',
+				sid: sid,
 				stitle: '',
 				scontent: '',
 				spublic: '',
@@ -42,25 +41,24 @@ const ShareDetail = () => {
 				sdescription: '',
 				slanguage: '',
 				userId: '',
-		});
+				commentList: [],
 
+		});
+		console.log(share)
 		const codeShareDetail = async () => {
-				const response = await auth.codeShareDetail(sid.sid)
+				const response = await auth.codeShareDetail(sid)
 				const data = response.data
 
 				setShare(data)
-				console.log(share)
-				console.log("response.data = " + response.data)
-				console.log("data = " + data)
-				console.log("JSON.stringify(data) = " + JSON.stringify(data))
+
+				console.log("sid.sid = " + sid)
+
 		}
 
 		useEffect(() => {
-				// fetch('http://localhost:8080/share/detail/' + sid)
-				// 		.then(response => response.json())
-				// 		.then(data => setShare(data));
-				codeShareDetail()
-				console.log(share)
+
+				codeShareDetail(sid)
+
 		}, []);
 		const deletePost = async () => {
 				if (!window.confirm('삭제 할랍니꺼')) return;
@@ -83,6 +81,55 @@ const ShareDetail = () => {
 		const updatePost = () => {
 				navigate('/codeshare/update/' + sid);
 		};
+
+		//  댓글 작성
+
+
+		const {isLogin} = useContext(LoginContext)
+		const [comment, setComment] = useState({
+				ccontent: '',
+				userId: userInfo.userId,
+				sid: sid,
+		});
+
+		const changeValueComment = (e) => {
+				setComment({
+						...comment,
+						[e.target.name]: e.target.value,
+						userId: userInfo.userId,
+				});
+		};
+		const commentSubmit = async (e) => {
+				e.preventDefault();
+				if (!isLogin) {
+						Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
+								navigate("/login");
+						});
+						return null;
+				}
+				const response = await auth.codeShareCommentWrite(comment)
+				// const data = response.data
+				// if (response.status === 201) {
+				// 		// 201 CREATED 인 경우 성공
+				// 		if (data !== null) {
+				// 				console.log(`check! 작석완료`, data);
+				// 		} else {
+				// 				alert('입력값 없음. 실패');
+				// 		}
+				// } else {
+				// 		return alert('작성 실패');
+				// }
+				if (response.status === 201) {
+						const newComment = response.data; // 새로운 댓글
+						setShare(prevShare => ({
+								...prevShare,
+								commentList: [...prevShare.commentList, newComment], // 기존 댓글 목록에 새로운 댓글 추가
+						}));
+						console.log(`check! 작성완료`, newComment);
+				} else {
+						alert('작성 실패');
+				}
+		}
 
 		return (
 				<>
@@ -136,12 +183,20 @@ const ShareDetail = () => {
 								</div>
 
 
-
-
 								{/* 댓글작성, 목록*/}
-								<CommentInput key={share.sid + "_input"} share={share}/>
+
+								<form className={commentCSS.input_box} onSubmit={commentSubmit}>
+										<input
+												type={"text"}
+												placeholder={"댓글을 입력해주세요"}
+												name={"ccontent"}
+												onChange={changeValueComment}
+										/>
+										<button type={"submit"}>댓글 작성</button>
+								</form>
+
 								<hr/>
-								<CommentList key={share.sid + "_list"} share={share}/>
+								<CommentList key={share.sid} share={share}/>
 						</div>
 				</>
 		)

@@ -4,16 +4,15 @@ import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -52,6 +51,17 @@ public class Share {
     // FK
     @ManyToOne
     private User userId;
+
+    @OneToMany(mappedBy = "sid" ,cascade = CascadeType.ALL)
+    private List<Comment> commentList = new ArrayList<>();
+
+/**
+ * 'One To Many' attribute type should be a container 이슈
+ *  OneToMany 어노테이션이 붙은 필드(또는 속성 또는 프로퍼티)는 container여야 한다는 의미다.
+ *  여기서 말하는 container는 ArrayList 등의 컬렉션 타입을 의미한다.
+ *  즉, 여러 객체를 담을 수 있는 데이터 타입으로 선언해달라는 의미다.
+ *  컬렉션은 필드에서 바로 초기화하는것이 가장 안전하다. from null or others
+ */
 
 
 /*

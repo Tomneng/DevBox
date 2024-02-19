@@ -2,6 +2,7 @@ package com.example.devbox.service.share;
 
 
 import com.example.devbox.domain.common.User;
+import com.example.devbox.domain.share.Comment;
 import com.example.devbox.domain.share.Share;
 import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.repository.share.ShareRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class ShareService {
 
     public ResponseEntity<?> shareWrite(Map<String , String > writeMap) {
         //  400 에러가 나서 찾아보니 이쪽이 문제인듯 하다
-        // 근데 이제는 500에러 나옴 왜?
+        // 근데 이제는 500에러 나옴 왜? (Cannot parse null string)
 
         // Long 타입으로 파싱
         Long userId = parseLong(writeMap.get("userId"));
@@ -42,6 +44,13 @@ public class ShareService {
         share.setStitle(writeMap.get("stitle"));
         share.setScontent(writeMap.get("scontent"));
         share.setSdescription(writeMap.get("sdescription"));
+
+        // 댓글 목록을 가져와서 리스트로 변환
+
+
+        // 댓글 목록을 share 객체에 설정
+
+
         share.setUserId(user);
 
         return new ResponseEntity<>(shareRepository.saveAndFlush(share), HttpStatus.CREATED) ;

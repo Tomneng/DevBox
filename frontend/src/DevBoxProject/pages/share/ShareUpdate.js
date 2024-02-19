@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Image, Row} from "react-bootstrap";
 import PYTHONLogo from "../../components/image/python.png";
@@ -17,12 +17,15 @@ import * as auth from "../../apis/auth";
 import WriteCSS from "./CSS/ShareUpdateCSS.module.css";
 import DefaultCSS from "./CSS/Default.module.css";
 import Header from "../../components/Header";
+import * as Swal from "../../apis/alert";
+import loginContextProvider, {LoginContext} from "../../contexts/LoginContextProvider";
+import Cookies from "js-cookie";
 
 const ShareUpdate = () => {
 
 		let {sid} = useParams();
 		const navigate = useNavigate();
-
+		const {userInfo, isLogin} = useContext(LoginContext);
 		const [share, setShare] = useState({
 				sid: '',
 				stitle: '',
@@ -42,6 +45,9 @@ const ShareUpdate = () => {
 
 
 		useEffect(() => {
+				console.log("useEffect userInfo "+isLogin)
+				console.log("useEffect JSON.stringify(userInfo) "+ JSON.stringify(isLogin))
+
 				getCodeShareDetail(sid)
 		}, []);
 
@@ -94,8 +100,14 @@ const ShareUpdate = () => {
 
 
 		};
+		if (Cookies.get("accessToken") === null) {
+				console.log("if userInfo "+isLogin)
+				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
+						navigate("/login");
 
-		console.log(share.spublic)
+				});
+
+		}
 		return (
 				<>
 						<Header/>
