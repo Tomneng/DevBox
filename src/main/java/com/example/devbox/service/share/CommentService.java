@@ -7,7 +7,6 @@ import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.repository.share.CommentRepository;
 import com.example.devbox.repository.share.ShareRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,8 +29,8 @@ public class CommentService {
     //댓글 목록
     @Transactional
     public List<Comment> commentList(Long sid) {
-        Iterable<Long> sid2 = Collections.singleton(sid);
-        return commentRepository.findAllById(sid2);
+        Share shareCommentList = shareRepository.findById(sid).orElseThrow(null);
+        return shareCommentList.getCommentList();
     }
 
     @Transactional
@@ -46,7 +45,6 @@ public class CommentService {
         comment.setUserId(user);
         comment.setSid(shareComment);
         comment.setCcontent(commentMap.get("ccontent"));
-
 
 
     //  새로운 댓글을 댓글 목록에 추가

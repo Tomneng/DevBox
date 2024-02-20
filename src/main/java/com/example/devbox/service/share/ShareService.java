@@ -5,6 +5,7 @@ import com.example.devbox.domain.common.User;
 import com.example.devbox.domain.share.Comment;
 import com.example.devbox.domain.share.Share;
 import com.example.devbox.repository.common.UserRepository;
+import com.example.devbox.repository.share.CommentRepository;
 import com.example.devbox.repository.share.ShareRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -25,6 +26,7 @@ public class ShareService {
 
     private final ShareRepository shareRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
 
     // 글쓰기
@@ -55,6 +57,7 @@ public class ShareService {
 
         return new ResponseEntity<>(shareRepository.saveAndFlush(share), HttpStatus.CREATED) ;
     }
+
 
     // 글 목록 불러오기
     @Transactional(readOnly = true)
@@ -100,6 +103,8 @@ public class ShareService {
         shareRepository.deleteById(sid);
         return "ok";
     }
+
+
 }
 
 

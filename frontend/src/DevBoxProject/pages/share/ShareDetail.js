@@ -24,6 +24,7 @@ import {LoginContext} from "../../contexts/LoginContextProvider";
 import Header from "../../components/Header";
 import CommentList from "./components/CommentList";
 import commentCSS from "./CSS/Comment.module.css";
+import commentList from "./components/CommentList";
 
 const ShareDetail = () => {
 		// 유저 확인
@@ -108,17 +109,7 @@ const ShareDetail = () => {
 						return null;
 				}
 				const response = await auth.codeShareCommentWrite(comment)
-				// const data = response.data
-				// if (response.status === 201) {
-				// 		// 201 CREATED 인 경우 성공
-				// 		if (data !== null) {
-				// 				console.log(`check! 작석완료`, data);
-				// 		} else {
-				// 				alert('입력값 없음. 실패');
-				// 		}
-				// } else {
-				// 		return alert('작성 실패');
-				// }
+
 				if (response.status === 201) {
 						const newComment = response.data; // 새로운 댓글
 						setShare(prevShare => ({
@@ -126,11 +117,16 @@ const ShareDetail = () => {
 								commentList: [...prevShare.commentList, newComment], // 기존 댓글 목록에 새로운 댓글 추가
 						}));
 						console.log(`check! 작성완료`, newComment);
+						console.log("share.commentList"+share.commentList)
+						console.log("JSON.stringify(share.commentList)" + JSON.stringify(share.commentList))
+						console.log("comment.cid = " + comment.cid)
+						console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
 				} else {
 						alert('작성 실패');
 				}
 		}
-
+		console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
+		console.log("JSON.stringify(share) = " + JSON.stringify(share))
 		return (
 				<>
 						<Header/>
