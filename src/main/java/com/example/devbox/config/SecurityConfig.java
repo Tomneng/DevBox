@@ -69,8 +69,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll());
 
         // 인증 방식 설정
-        http.oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer.loginPage("/login")
-                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(userOAuth2Service)));
+
 
         return http.build();
     }

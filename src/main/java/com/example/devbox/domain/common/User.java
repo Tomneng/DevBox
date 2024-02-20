@@ -44,7 +44,8 @@ public class User {
     @ColumnDefault(value = "1")
     private Integer enabled;
 
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
 
     private String providerId;
 

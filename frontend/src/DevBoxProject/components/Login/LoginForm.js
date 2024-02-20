@@ -33,10 +33,10 @@ const LoginForm = () => {
                         <button type="submit">로그인</button>
                         <button className="signup-button" type="button" onClick={goRegister}>회원가입</button>
                         <div className="oauth-container">
-                            <Link className="btn btn-oauth" to="/oauth2/authorization/kakao">
+                            <Link className="btn btn-oauth" to="http://localhost:8080/oauth2/authorization/kakao">
                                 <img src="img/ico_s_kakao_talk.png" alt="Kakao" />
                             </Link>
-                            <Link className="btn btn-oauth" to="/oauth2/authorization/google">
+                            <Link className="btn btn-oauth" to="http://localhost:8080/oauth2/authorization/google">
                                 <img src="/img/Googleimage.png" alt="Google" />
                             </Link>
                             <Link className="btn btn-oauth" to="/oauth2/authorization/google">

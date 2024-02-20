@@ -1,7 +1,6 @@
 package com.example.devbox.dto;
 
 
-import com.example.devbox.config.CustomUserDetailService;
 import com.example.devbox.domain.common.Authority;
 import com.example.devbox.domain.common.User;
 import lombok.Data;
