@@ -1,61 +1,50 @@
 package com.example.devbox.domain.common;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-@ToString(callSuper = true)
-@Entity(name = "user")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @Builder
-@EntityListeners(value = AuditingEntityListener.class)
+@Table(name = "USERS")
+@AllArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "user_id")
+    private Long id;
 
-    private String username;
-
-    private String password;
-
-    @ToString.Exclude
-    @JsonIgnore
-    private String rePassword;
-
-    private String name;
-
-    private String email;
-
-    @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime regDate;
-
-    @ColumnDefault(value = "1")
-    private Integer enabled;
+    private String email; // 이메일
+    private String password; // 비밀번호
+    private String nickname; // 닉네임
+    private String imageUrl; // 프로필 이미지
+    private int age;
+    private String city; // 사는 도시
 
     @Enumerated(EnumType.STRING)
-    private SocialType socialType;
+    private Role role;
 
-    private String providerId;
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType; // KAKAO, NAVER, GOOGLE
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @ToString.Exclude
-    @Builder.Default
-    private List<Authority> authorities = new ArrayList<>();
+    private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
 
-    public void addAuthoriy(Authority... authorities){
-        Collections.addAll(this.authorities, authorities);
+    private String refreshToken; // 리프레시 토큰
+
+    // 유저 권한 설정 메소드
+    public void authorizeUser() {
+        this.role = Role.USER;
     }
 
+    // 비밀번호 암호화 메소드
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
 }

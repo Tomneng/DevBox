@@ -1,3 +1,3 @@
-select * from user
+select * from users
 
 
