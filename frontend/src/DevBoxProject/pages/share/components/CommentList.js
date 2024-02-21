@@ -8,10 +8,8 @@ import CommentListCSS from "../CSS/CommentList.module.css"
 
 const CommentList = (props) => {
 		const { sid } = props.share;
-		const navigate = useNavigate();
 		const [commentList, setCommentList] = useState([]);
-		const [loading, setLoading] = useState(true);
-
+		const navigate = useNavigate();
 		useEffect(() => {
 				const fetchCommentList = async () => {
 						try {
@@ -21,20 +19,18 @@ const CommentList = (props) => {
 						} catch (error) {
 								console.error("Error fetching comment list:", error);
 								// 에러 처리: 사용자에게 메시지 표시 또는 콘솔에 에러 기록
-						} finally {
-								setLoading(false);
 						}
 				};
 
 				fetchCommentList();
-		}, [sid]);
+		}, []);
+
+
 
 		return (
 				<>
 						<div>댓글 목록</div>
-						{loading ? (
-								<div>Loading...</div>
-						) : (
+						{
 
 								commentList.map(comment => (
 										<div key={comment.cid} className={CommentListCSS.comment_box}>
@@ -42,7 +38,7 @@ const CommentList = (props) => {
 												<div>{comment.ccontent}</div>
 												<div>{comment.localDateTime}</div>
 										</div>
-								))
+								)
 						)}
 				</>
 		);

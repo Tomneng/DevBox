@@ -18,7 +18,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity(name = "share")
 @EntityListeners(value = AuditingEntityListener.class)
 public class Share {
@@ -55,6 +54,8 @@ public class Share {
     @OneToMany(mappedBy = "sid" ,cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "shareId", cascade= CascadeType.REMOVE)
+    private List<Steam> steamList = new ArrayList<>();
 /**
  * 'One To Many' attribute type should be a container 이슈
  *  OneToMany 어노테이션이 붙은 필드(또는 속성 또는 프로퍼티)는 container여야 한다는 의미다.

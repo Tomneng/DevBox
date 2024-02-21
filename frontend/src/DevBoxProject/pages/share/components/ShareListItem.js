@@ -13,7 +13,9 @@ import REACTLogo from "../../../components/image/react.png";
 import ShareListItemCSS from "../CSS/ShareListItemCSS.module.css"
 
 const ShareListItem = (props) => {
-    const {sid, stitle, sdescription, sviewCnt, sregDate, slanguage} = props.share;
+    const {sid, stitle, sdescription, sviewCnt, sregDate, slanguage, steamList} = props.share;
+
+
     return (
 
 
@@ -55,7 +57,7 @@ const ShareListItem = (props) => {
                             <small className="text-muted">작성일: {sregDate}</small>
                             <div>
                                 <small className="text-muted pr-3">조회: {sviewCnt}</small>
-                                <small className="text-muted pr-3">찜: 0 </small>
+                                <small className="text-muted pr-3">찜: {steamList.length} </small>
                             </div>
                         </div>
                     </div>

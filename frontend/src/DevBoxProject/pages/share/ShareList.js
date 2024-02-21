@@ -11,6 +11,8 @@ const ShareList = () => {
 		// 원본 글 리스트
 		const [shareList, setShareList] = useState([]);
 
+		const [steam, setSteam] = useState([])
+
 		// 원본에서 필터링 할 검색어
 		const [search, setSearch] = useState("");
 

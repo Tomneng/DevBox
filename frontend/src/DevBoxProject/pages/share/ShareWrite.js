@@ -31,24 +31,27 @@ const ShareWrite = () => {
 		// 로그인 확인
 		const {isLogin, userInfo} = useContext(LoginContext)
 
+		if (Cookies.get("accessToken") === null) {
+				console.log("if userInfo "+isLogin)
+				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
+						navigate("/login");
+				});
+		}else if (!isLogin){
+				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
+						navigate("/login");
+				});
+		}
 		const [share, setShare] = useState({
 				stitle: '',
 				scontent: '',
 				slanguage: '',
 				sdescription: '',
-				userId: userInfo.userId,
+				userId: userInfo ? userInfo.userId : '',
 		});
 
 		// 빈 배열을 만든후 이 배열에 체크된 언어만 넣고 이 배열을 가지고 언어 아이콘을 보여줄 계획
 		// const [language, setLanguage] = useState([]);
-		if (Cookies.get("accessToken") === null) {
-				console.log("if userInfo "+isLogin)
-				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
-						navigate("/login");
 
-				});
-
-		}
 
 		const changeValue = (e) => {
 				const {name, value, type, checked} = e.target;

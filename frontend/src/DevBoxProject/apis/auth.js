@@ -19,6 +19,11 @@ export const codeShareDetail = (sid) => api.get(`/codeshare/detail/${sid}`);
 export const codeShareUpdate = (data) => api.put(`/codeshare/update`, data);
 export const codeShareDelete = (sid) => api.delete(`/codeshare/delete/${sid}`);
 
+//  댓글
 export const codeShareCommentList = (sid) => api.get(`/comment/list/${sid}`);
 export const codeShareCommentWrite = (data) => api.post(`/comment/write`, data);
 export const codeShareCommentDelete = (cid) => api.delete(`/comment/delete/${cid}`);
+
+// 찜
+export const plusSteam = (data) => api.post(`/steam/plus`, data);
+export const deleteSteam = (steamId) => api.delete(`steam/delete/${steamId}`);

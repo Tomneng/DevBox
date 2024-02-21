@@ -25,6 +25,9 @@ import Header from "../../components/Header";
 import CommentList from "./components/CommentList";
 import commentCSS from "./CSS/Comment.module.css";
 import commentList from "./components/CommentList";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faThumbsUp} from "@fortawesome/free-solid-svg-icons"
+import {faThumbsUp as faThumbsUpRegular} from "@fortawesome/free-regular-svg-icons";
 
 const ShareDetail = () => {
 		// 유저 확인
@@ -43,15 +46,19 @@ const ShareDetail = () => {
 				slanguage: '',
 				userId: '',
 				commentList: [],
-
+				steamList: [],
 		});
+
+		const [steam, setsteam] = useState({
+				shareId: share.sid,
+				userId: userInfo.userId,
+		})
 		console.log(share)
 		const codeShareDetail = async () => {
 				const response = await auth.codeShareDetail(sid)
 				const data = response.data
 
 				setShare(data)
-
 				console.log("sid.sid = " + sid)
 
 		}
@@ -117,7 +124,7 @@ const ShareDetail = () => {
 								commentList: [...prevShare.commentList, newComment], // 기존 댓글 목록에 새로운 댓글 추가
 						}));
 						console.log(`check! 작성완료`, newComment);
-						console.log("share.commentList"+share.commentList)
+						console.log("share.commentList" + share.commentList)
 						console.log("JSON.stringify(share.commentList)" + JSON.stringify(share.commentList))
 						console.log("comment.cid = " + comment.cid)
 						console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
@@ -127,6 +134,19 @@ const ShareDetail = () => {
 		}
 		console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
 		console.log("JSON.stringify(share) = " + JSON.stringify(share))
+
+
+		const deleteSteamValue = () => {
+				auth.deleteSteam(steam.steamId)
+		}
+
+		const plusSteamValue = () => {
+				auth.plusSteam(steam)
+		}
+		console.log("steam" + JSON.stringify(steam))
+		console.log("steam.userId" + JSON.stringify(steam.userId))
+		console.log("steam.shareId" + JSON.stringify(steam.shareId))
+		console.log(userInfo)
 		return (
 				<>
 						<Header/>
@@ -138,7 +158,10 @@ const ShareDetail = () => {
 										{/* 조회수 */}
 										<div className={ShareDetailCSS.view_box}>
 												<small>조회수 : {share.sviewCnt}</small>
-												<small>찜 : share.steam</small>
+												<small>찜 : {share.steamList.length}</small>
+												{userInfo.userId === share.steamList.userId ?
+														<FontAwesomeIcon icon={faThumbsUp} style={{color: "#FFD43B",}} onClick={deleteSteamValue}/>
+														: <FontAwesomeIcon icon={faThumbsUpRegular} onClick={plusSteamValue}/>}
 										</div>
 								</div>
 
