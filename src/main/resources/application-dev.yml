@@ -24,7 +24,7 @@ spring:
             client-name: Naver
           kakao:
             client-id: e13a36b6eb2c65e1e3208b3c84ac6709
-            redirect-uri: http://localhost:8080/oauth2/kakao/callback
+            redirect-uri: http://localhost:8080/login/oauth2/kakao/callback
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             client-name: Kakao
