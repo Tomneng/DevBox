@@ -27,7 +27,7 @@ const DevBoxApp = () => {
 						<LoginContextProvider>
 								<Routes>
 										<Route path='/' Component={HomePage}></Route>
-										<Route path='/register' Component={RegisterPage}></Route>
+										<Route path='/signUp' Component={RegisterPage}></Route>
 										<Route path='/login' Component={LoginPage}></Route>
 										<Route path='/mypage' Component={MyPage}></Route>
 										<Route path='/about' Component={AboutPage}></Route>
