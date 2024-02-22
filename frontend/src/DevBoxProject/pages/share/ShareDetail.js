@@ -170,7 +170,7 @@ const ShareDetail = () => {
 										<div className={ShareDetailCSS.view_box}>
 												<small>조회수 : {share.sviewCnt}</small>
 												<small>찜 : {share.steamList.length}</small>
-												{share.steamList.some(steam => steam.userId === userInfo.userId)
+												{share.steamList.some(steam => steam.userId.userId === userInfo.userId)
 												 ?
 														<FontAwesomeIcon icon={faThumbsUp} style={{color: "#FFD43B",}} onClick={deleteSteamValue}/>
 														: <FontAwesomeIcon icon={faThumbsUpRegular} onClick={plusSteamValue}/>}
