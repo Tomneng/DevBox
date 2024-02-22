@@ -1,6 +1,7 @@
 package com.example.devbox.domain.share;
 
 import com.example.devbox.domain.common.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class Steam {
     private Long steamId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "shareId")
     private Share shareId;
 

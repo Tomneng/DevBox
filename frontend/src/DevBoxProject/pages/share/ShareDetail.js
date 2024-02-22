@@ -136,17 +136,28 @@ const ShareDetail = () => {
 		console.log("JSON.stringify(share) = " + JSON.stringify(share))
 
 
-		const deleteSteamValue = () => {
-				auth.deleteSteam(steam.steamId)
+		const deleteSteamValue = async () => {
+				const response = await auth.deleteSteam(steam.steamId);
+
+				if (response.status === 201){
+
+				}else {
+						return null;
+				}
 		}
 
 		const plusSteamValue = () => {
 				auth.plusSteam(steam)
 		}
+
 		console.log("steam" + JSON.stringify(steam))
+		console.log("steam.steamId" + JSON.stringify(steam.steamId))
 		console.log("steam.userId" + JSON.stringify(steam.userId))
 		console.log("steam.shareId" + JSON.stringify(steam.shareId))
-		console.log(userInfo)
+		console.log(share)
+
+		console.log(userInfo.userId)
+		console.log(share.steamList)
 		return (
 				<>
 						<Header/>
@@ -159,7 +170,8 @@ const ShareDetail = () => {
 										<div className={ShareDetailCSS.view_box}>
 												<small>조회수 : {share.sviewCnt}</small>
 												<small>찜 : {share.steamList.length}</small>
-												{userInfo.userId === share.steamList.userId ?
+												{share.steamList.some(steam => steam.userId === userInfo.userId)
+												 ?
 														<FontAwesomeIcon icon={faThumbsUp} style={{color: "#FFD43B",}} onClick={deleteSteamValue}/>
 														: <FontAwesomeIcon icon={faThumbsUpRegular} onClick={plusSteamValue}/>}
 										</div>

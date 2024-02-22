@@ -97,8 +97,6 @@ const ShareUpdate = () => {
 				} else {
 						return null;
 				}
-
-
 		};
 		if (Cookies.get("accessToken") === null) {
 				console.log("if userInfo "+isLogin)
