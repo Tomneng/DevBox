@@ -7,15 +7,11 @@ import './WritePage.css';
 import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
-
-
-
 const WritePage = () => {
 
-    const {userInfo} = useContext(LoginContext)
-
-    const navigate = useNavigate();
-    const [selectedTheme, setSelectedTheme] = useState(null);
+    const {userInfo} = useContext(LoginContext) // 현재 로그인된 사용자의 정보=userInfo
+    const navigate = useNavigate();// 페이지이동을 위함
+    const [selectedTheme, setSelectedTheme] = useState(null); //테마선택을 위한 useState null로 설정
     const [selectedFont, setSelectedFont] = useState('Arial'); // 기본 폰트는 Arial로 설정
     const [profileBackgroundColor, setProfileBackgroundColor] = useState('#ffffff'); // 기본 배경색은 흰색
     const availableColors = ['#ffffff', '#e0f7fa', '#f8bbd0', '#b2ebf2', '#ffcdd2', '#c8e6c9', '#f0f4c3', '#d1c4e9', '#ffcc80', '#bcaaa4'];
@@ -42,7 +38,7 @@ const WritePage = () => {
         // 이모든건 key와 value의 값이다. = 즉 자바에서는 map 이다!
     });
 
-    const [profilePicPreview, setProfilePicPreview] = useState(null);
+    const [profilePicPreview, setProfilePicPreview] = useState(null);// useState을 사용해서 profilePicPreview상태변수 설정후, 초기값은 null
 
     const [radarChartData, setRadarChartData] = useState({
         labels: [],
@@ -61,21 +57,29 @@ const WritePage = () => {
     });
 
     useEffect(() => {
+        console.log("Profile information:", profile); // 프로필정보가 잘찍히는지 / 400에러 처리를 위함
+        console.log("Radar chart data:", radarChartData); // 레이더 차트 데이터 확인
+        const skillsArray = profile.skills.split(',');
+        console.log("Skills array:", skillsArray); // 기술 배열 확인 / 400에러 처리를 위함
+
         // 이 효과는 profile.skills이 변경될 때마다 실행됩니다.
         // profile.skills에서 기존 데이터를 가져와서 새 데이터로 업데이트합니다.
+
         setRadarChartData((prevData) => ({
             ...prevData,
             // 기존 라벨을 새로운 기술 목록으로 업데이트합니다.
-            labels: profile.skills.split(','),
+            labels: skillsArray,// 쉼표로 구분해서 문자열에서 배열로 만듬
             datasets: [
                 {
-                    ...prevData.datasets[0],
+                    ...prevData.datasets[0],// 이전데이터 동일유지하면서 덮어씌움
+                    data: Array(skillsArray.length).fill(1),
                     // 새 데이터 세트를 업데이트합니다. 모든 기술 레벨은 1로 초기화됩니다.
-                    data: Array(profile.skills.split(',').length).fill(1),
                 },
             ],
         }));
-    }, [profile.skills]);
+    }, [profile.skills, profile.technicalSkills, ]);// [profile.skills]이 변경될때마다 실행함
+    console.log("Radar component:", Radar); // Radar 컴포넌트 위치 확인
+
 
 // 경험 토글 핸들러
     const toggleExperience = (e) => {
@@ -91,11 +95,11 @@ const WritePage = () => {
     const toggleTechnicalSkills = (skill, level) => {
         // 이전 프로필 상태를 가져와서 기술 스킬(technicalSkills) 값을 업데이트합니다.
         setProfile((prevProfile) => ({
-            ...prevProfile,
+            ...prevProfile,// 이전프로필 상태의 모든속성과 값을 가져오는것
             technicalSkills: {
                 ...prevProfile.technicalSkills,
                 // 선택된 기술(skill)의 레벨을 새로운 값(level)으로 업데이트합니다.
-                [skill]: level,
+                [skill]: String(level), // level값을 문자열로 변환
             },
         }));
     };
@@ -113,15 +117,14 @@ const WritePage = () => {
 
 // 값 변경 핸들러
     const changeValue = (e) => {
+        const { name, value, type, checked } = e.target;
 
         setProfile((prevProfile) => ({
             ...prevProfile,
-            userId: userInfo.userId,
+            userId: userInfo.userId
         }));
-
-        const { name, value, type, checked } = e.target;
-
-        // 이전 프로필 상태를 가져와서 업데이트합니다.
+        
+        // 이전 프로필 상태를 가져와서 업데이트
         setProfile((prevProfile) => {
             if (type === 'checkbox') {
                 // 체크박스의 경우 여러 값을 처리합니다.
@@ -137,7 +140,7 @@ const WritePage = () => {
                             .join(','),
                 };
             } else {
-                // 체크박스가 아닌 경우 단일 값으로 업데이트합니다.
+                // 체크박스가 아닌 경우 단일 값으로 업데이트
                 return {
                     ...prevProfile,
                     [name]: value,
@@ -146,43 +149,42 @@ const WritePage = () => {
         });
         console.log(profile)
     };
+    // 데이터 들어간다잉 입벌려
     const submitProfile = async (e) => {
-
         e.preventDefault(); // 폼 제출 동작 막음
-            let response; // 응답 변수 선언
-            let status; // 상태 코드 변수 선언
-
+        let response; // 응답 변수 선언
+        let status; // 상태 코드 변수 선언
 
         console.log('프로필 전송 시도 중...');
         // 프로필 정보를 서버에 저장하는 비동기 함수
-
-            try {
-                // auth.profileWrite 함수를 호출하고 응답을 기다립니다.
-                response = await auth.profileWrite(profile); // axios 내부적으로 사용될 수 있음
-                console.log("response = "+ response);
-            } catch (error) {
-                // 오류가 발생하면 콘솔에 오류 메시지를 출력하고 함수를 종료합니다.
-                console.error('프로필 전송 중 오류 발생:', error);
-                console.error('에러발생', error.message); // 오류 메시지 출력
-                return;
-            }
-            // 응답에서 상태 코드를 가져옵니다.
-            status = response.status;
-            console.log('응답 상태 코드:', status);
-            // 상태 코드에 따라 적절한 동작을 수행합니다.
-            if (status === 201) {
-                console.log(`정보수정 성공`);
+        console.log(profile)
+        try {
+            // auth.profileWrite 함수를 호출하고 응답을 기다립니다.
+            response = await auth.profileWrite(profile); // axios 내부적으로 사용될 수 있음
+            console.log("response = "+ response);
+        } catch (error) {
+            // 오류가 발생하면 콘솔에 오류 메시지를 출력하고 함수를 종료합니다.
+            console.error('프로필 전송 중 오류 발생:', error);
+            console.error('에러발생', error.message); // 오류 메시지 출력
+            return;
+        }
+        // 응답에서 상태 코드를 가져옵니다.
+        status = response.status;
+        console.log('응답 상태 코드:', status);
+        // 상태 코드에 따라 적절한 동작을 수행합니다.
+        if (status === 201) {
+            console.log(`정보수정 성공`);
             let data = response.data
 
-                // 프로필 제출이 성공했을 때 페이지 이동
-                navigate(`/profile/detail/${data.id}`); // 상세 페이지로 이동
-                // 성공 시 알림을 표시합니다.
-                Swal.alert(" 성공", " 다시  해주세요.", "success");
-            } else {
-                console.log(`정보수정 실패`);
-                // 실패 시 알림을 표시합니다.
-                Swal.alert(" 실패", " 실패 하였습니다.", "error");
-            }
+            // 프로필 제출이 성공했을 때 페이지 이동
+            navigate(`/profile/detail/${data.id}`); // 상세 페이지로 이동
+            // 성공 시 알림을 표시합니다.
+            Swal.alert(" 성공", " 다시  해주세요.", "success");
+        } else {
+            console.log(`정보수정 실패`);
+            // 실패 시 알림을 표시합니다.
+            Swal.alert(" 실패", " 실패 하였습니다.", "error");
+        }
     };
     // 프로필 사진 변경 핸들러
     const handleProfilePicChange = (e) => {
@@ -205,13 +207,15 @@ const WritePage = () => {
     const changeBackgroundColor = (color) => {
         setProfileBackgroundColor(color);
     };
-    // 새로운 레이더 차트 데이터 가져오는 함수
+
+    // 새로운 레이더 차트 데이터 받아오는 함수
     const fetchAverageSkillsData = () => {
         // 임의의 URL을 사용하여 레이더 차트 데이터를 가져옵니다.
         fetch('http://localhost:8080/skills/average', {
             method: 'POST',
 
         })
+            .then(data => console.log(data))
             .then(response => response.json()) // 응답을 JSON 형식으로 변환합니다.
             .then(data => {
                 // API에서 받아온 데이터를 기반으로 레이더 차트 데이터 업데이트
@@ -225,7 +229,7 @@ const WritePage = () => {
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
                         pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
-                        data: Object.values(data), // 데이터 업데이트
+                        data: Object.values(data), // value값 데이터 업데이트
                     }],
                 });
             })
@@ -233,8 +237,8 @@ const WritePage = () => {
                 console.error('API 호출 중 에러 발생:', error); // 에러 처리
             });
     };
-    // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.
     useEffect(() => {
+    // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.
         fetchAverageSkillsData();
     }, [] );
     // dependency : 의존성 , effect : 영향 / useEffect는 즉 영향을 받아서 이안의 작업을 처리한다.
@@ -566,10 +570,9 @@ const WritePage = () => {
                             />
                         </Form.Group>
                         <div className="mb-3"></div>
-                        {/* 작성완료 버튼 */}
-                        <Button variant="outline-dark" type="submit">
-                            작성완료
-                        </Button>
+                        {/* 제출 버튼 */}
+                        <button onClick={submitProfile}>프로필 제출</button>
+
                         {/* 목록으로 돌아가기 버튼 */}
                         <Link className="btn btn-outline-dark ms-2" to="/list">
                             목록

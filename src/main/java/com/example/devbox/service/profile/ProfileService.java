@@ -31,16 +31,10 @@ public class ProfileService {
         Profile profile = new Profile(); // 새로운 프로필 객체를 생성합니다.
 
         // 기술 추가
-        String newSkillsName = profileMap.get("skills"); // 입력 맵에서 기술을 가져옵니다.
-        Skill newSkill = new Skill(); // 새로운 스킬 객체를 생성합니다.
-        newSkill.setName(newSkillsName); // 스킬의 이름을 설정합니다.
-        profile.getSkills().add(newSkill); // 프로필의 스킬 목록에 스킬을 추가합니다.
+        profile.setSkills(profileMap.get("skills")); // 입력 맵에서 기술을 가져옵니다.
 
         // 기술능력 추가
-        String newTechnicalSkillsName = profileMap.get("technicalSkills"); // 입력 맵에서 기술능력을 가져옵니다.
-        Skill newTechnicalSkill = new Skill(); // 새로운 기술능력 객체를 생성합니다.
-        newTechnicalSkill.setName(newTechnicalSkillsName); // 기술능력의 이름을 설정합니다.
-        profile.getTechnicalSkills().add(newTechnicalSkill); // 프로필의 기술능력 목록에 기술능력을 추가합니다.
+        profile.setTechnicalSkills(profileMap.get("technicalSkills")); // 입력 맵에서 기술능력을 가져옵니다.
 
         // 프로필의 다른 속성들을 입력 맵에서 가져와 설정합니다.
         profile.setName(profileMap.get("name"));
@@ -86,15 +80,9 @@ public class ProfileService {
         profile.setJobType(profileMap.get("jobType"));
 
         // 기술과 기술능력은 Skill 객체로 변경되었으므로 해당 필드에 대한 설정도 변경해야 합니다.
-        Skill skill = new Skill();
-        skill.setName(profileMap.get("skills"));
-        profile.getSkills().clear(); // 기존 스킬 리스트를 비워줍니다.
-        profile.getSkills().add(skill); // 새로운 스킬을 추가합니다.
 
-        Skill technicalSkill = new Skill();
-        technicalSkill.setName(profileMap.get("technicalSkills"));
-        profile.getTechnicalSkills().clear(); // 기존 기술능력 리스트를 비워줍니다.
-        profile.getTechnicalSkills().add(technicalSkill); // 새로운 기술능력을 추가합니다.
+        profile.setSkills(profileMap.get("skills"));
+        profile.setTechnicalSkills(profileMap.get("technicalSkills"));
 
         // 프로필의 다른 속성들을 입력 맵에서 가져와 설정합니다.
         profile.setJob(profileMap.get("job"));
