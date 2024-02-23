@@ -18,12 +18,10 @@ public class Steam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long steamId;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "shareId")
-    private Share shareId;
+
+
 
     @ManyToOne
-    private User userId;
+    private User user;
 
 }

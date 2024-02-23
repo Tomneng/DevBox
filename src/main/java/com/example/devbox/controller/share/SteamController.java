@@ -4,6 +4,7 @@ package com.example.devbox.controller.share;
 import com.example.devbox.repository.share.SteamRepository;
 import com.example.devbox.service.share.SteamService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/steam")
+@Slf4j
 public class SteamController {
 
     private final SteamService steamService;
@@ -21,9 +23,10 @@ public class SteamController {
         return steamService.plusSteam(steamMap);
     }
 
-    @DeleteMapping("/delete/{steamId}")
-    public ResponseEntity<?> deleteSteam(@PathVariable Long steamId){
-        return new ResponseEntity<>(steamService.deleteSteam(steamId), HttpStatus.OK);
+    @DeleteMapping("/delete/{shareId}/{userId}")
+    public ResponseEntity<?> deleteSteam(@PathVariable Long shareId, @PathVariable Long userId){
+        log.info(userId.toString());
+        return new ResponseEntity<>(steamService.deleteSteam(shareId, userId), HttpStatus.OK);
     }
 
 }

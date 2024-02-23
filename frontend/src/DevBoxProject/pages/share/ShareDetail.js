@@ -59,9 +59,8 @@ const ShareDetail = () => {
 				const data = response.data
 
 				setShare(data)
-				console.log("sid.sid = " + sid)
-
 		}
+ const [check, setCheck] = useState(false)
 
 		useEffect(() => {
 
@@ -123,41 +122,25 @@ const ShareDetail = () => {
 								...prevShare,
 								commentList: [...prevShare.commentList, newComment], // 기존 댓글 목록에 새로운 댓글 추가
 						}));
-						console.log(`check! 작성완료`, newComment);
-						console.log("share.commentList" + share.commentList)
-						console.log("JSON.stringify(share.commentList)" + JSON.stringify(share.commentList))
-						console.log("comment.cid = " + comment.cid)
-						console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
 				} else {
 						alert('작성 실패');
 				}
 		}
-		console.log("JSON.stringify(comment) = " + JSON.stringify(comment))
-		console.log("JSON.stringify(share) = " + JSON.stringify(share))
 
 
 		const deleteSteamValue = async () => {
-				const response = await auth.deleteSteam(steam.steamId);
+				await auth.deleteSteam(sid, userInfo.userId);
+				codeShareDetail();
+				console.log(share)
 
-				if (response.status === 201){
-
-				}else {
-						return null;
-				}
 		}
 
 		const plusSteamValue = () => {
-				auth.plusSteam(steam)
+				auth.plusSteam(steam);
+				codeShareDetail();
+
 		}
 
-		console.log("steam" + JSON.stringify(steam))
-		console.log("steam.steamId" + JSON.stringify(steam.steamId))
-		console.log("steam.userId" + JSON.stringify(steam.userId))
-		console.log("steam.shareId" + JSON.stringify(steam.shareId))
-		console.log(share)
-
-		console.log(userInfo.userId)
-		console.log(share.steamList)
 		return (
 				<>
 						<Header/>
@@ -170,8 +153,8 @@ const ShareDetail = () => {
 										<div className={ShareDetailCSS.view_box}>
 												<small>조회수 : {share.sviewCnt}</small>
 												<small>찜 : {share.steamList.length}</small>
-												{share.steamList.some(steam => steam.userId.userId === userInfo.userId)
-												 ?
+												{share.steamList.some(steamList => steamList.user.userId === userInfo.userId)
+														?
 														<FontAwesomeIcon icon={faThumbsUp} style={{color: "#FFD43B",}} onClick={deleteSteamValue}/>
 														: <FontAwesomeIcon icon={faThumbsUpRegular} onClick={plusSteamValue}/>}
 										</div>
@@ -222,6 +205,7 @@ const ShareDetail = () => {
 												placeholder={"댓글을 입력해주세요"}
 												name={"ccontent"}
 												onChange={changeValueComment}
+												required
 										/>
 										<button type={"submit"}>댓글 작성</button>
 								</form>

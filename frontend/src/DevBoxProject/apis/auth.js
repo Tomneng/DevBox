@@ -26,4 +26,4 @@ export const codeShareCommentDelete = (cid) => api.delete(`/comment/delete/${cid
 
 // 찜
 export const plusSteam = (data) => api.post(`/steam/plus`, data);
-export const deleteSteam = (steamId) => api.delete(`steam/delete/${steamId}`);
+export const deleteSteam = (shareId, userId) => api.delete(`/steam/delete/${shareId}/${userId}`);
