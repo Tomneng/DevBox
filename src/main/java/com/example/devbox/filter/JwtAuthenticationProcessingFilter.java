@@ -156,5 +156,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                         authoritiesMapper.mapAuthorities(userDetailsUser.getAuthorities()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication); // 이 시점에서 로그인 실행
+
+        log.info("이게 지금 context에 있는거임" +SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 }

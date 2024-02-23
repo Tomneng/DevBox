@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Button} from "react-bootstrap";
 import './LoginForm.css'
 import {LoginContext} from "../../contexts/LoginContextProvider";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 const LoginForm = () => {
 
-    const {login} = useContext(LoginContext);
+    const {login, handleOAuthRedirect} = useContext(LoginContext);
     const navigate = useNavigate();
 
     const onLogin = (e) => {
