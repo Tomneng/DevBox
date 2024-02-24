@@ -38,6 +38,7 @@ public class ProfileController {
     @CrossOrigin
     @PostMapping("/write")
     private ResponseEntity<?> write(@RequestBody Map<String, String> profileMap) {
+        System.out.println(profileMap+"ㅇ"); // 클라이언트에서 서버로 보내주
         return new ResponseEntity<>(profileService.write(profileMap), HttpStatus.CREATED);  // HTTP 상태 코드 201: Created
     }
 

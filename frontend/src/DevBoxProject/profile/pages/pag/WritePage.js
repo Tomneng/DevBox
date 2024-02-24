@@ -92,17 +92,19 @@ const WritePage = () => {
     };
 
 // 기술 스킬 변경 핸들러
+    // 기술 스킬 변경 핸들러
     const toggleTechnicalSkills = (skill, level) => {
         // 이전 프로필 상태를 가져와서 기술 스킬(technicalSkills) 값을 업데이트합니다.
         setProfile((prevProfile) => ({
-            ...prevProfile,// 이전프로필 상태의 모든속성과 값을 가져오는것
-            technicalSkills: {
-                ...prevProfile.technicalSkills,
-                // 선택된 기술(skill)의 레벨을 새로운 값(level)으로 업데이트합니다.
-                [skill]: String(level), // level값을 문자열로 변환
-            },
+            ...prevProfile,
+            // 기존의 기술 스킬을 문자열로 변환하여 업데이트합니다.
+            technicalSkills: Object.keys(prevProfile.technicalSkills).length === 0 ?
+                `${skill}:${level}` :
+                `${prevProfile.technicalSkills},${skill}:${level}`,
         }));
+        console.log(String(level));
     };
+
 
 // 선택된 기술 스택의 평균 레벨을 계산하는 함수
     const averageSkillLevel = (skillLevel) => {
