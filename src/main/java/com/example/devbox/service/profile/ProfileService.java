@@ -5,11 +5,13 @@ import com.example.devbox.domain.profile.Profile;
 import com.example.devbox.domain.profile.Skill; // Skill 클래스를 추가로 임포트합니다.
 import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.repository.profile.ProfileRepository;
+import com.example.devbox.repository.profile.SkillRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository; // ProfileRepository 의존성을 주입받습니다.
     private final UserRepository userRepository; // UserRepository 의존성을 주입받습니다.
+
+    private final SkillRepository skillRepository;
 
     @Transactional(readOnly = true) // 읽기 전용 트랜잭션을 설정합니다.
     public List<Profile> list(){
@@ -33,7 +37,28 @@ public class ProfileService {
         // 기술 추가
         profile.setSkills(profileMap.get("skills")); // 입력 맵에서 기술을 가져옵니다.
 
-        // 기술능력 추가
+        String calculateAvg = profileMap.get("technicalSkills");
+
+        String[] calArray =  calculateAvg.split("TTTTT");
+
+        for (int i = 0; i< calArray.length; i+=2){
+            if (skillRepository.findByName(calArray[i]) == null){
+                Skill skill = Skill.builder()
+                        .name(calArray[i])
+                        .average(Double.parseDouble(calArray[i+1]))
+                        .contributers(1)
+                        .build();
+                skillRepository.saveAndFlush(skill);
+            }else {
+                DecimalFormat df = new DecimalFormat("#.##");
+                Skill skill = skillRepository.findByName(calArray[i]);
+                Double newAvg = ((skill.getAverage() * skill.getContributers()) + Double.parseDouble(calArray[i+1]))/(skill.getContributers() + 1);
+                skill.setAverage(Double.parseDouble(df.format(newAvg)));
+                skill.setContributers(skill.getContributers()+1);
+            }
+        }
+
+                // 기술능력 추가
         profile.setTechnicalSkills(profileMap.get("technicalSkills")); // 입력 맵에서 기술능력을 가져옵니다.
 
         // 프로필의 다른 속성들을 입력 맵에서 가져와 설정합니다.

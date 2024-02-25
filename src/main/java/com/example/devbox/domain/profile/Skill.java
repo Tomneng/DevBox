@@ -4,8 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "Skill")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,12 +21,7 @@ public class Skill {
 
     private String name;
 
-    // skill에 name필드 생성자와 setname메소드 추가 함으로써 skill생성시에 메소드 사용 가능
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Double average; // 소수점 한자리 수까지
 
-    public String getName() {
-        return name;
-    }
+    private Integer contributers;
 }

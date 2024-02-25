@@ -1,6 +1,7 @@
 package com.example.devbox.controller.profile;
 
 import com.example.devbox.domain.profile.Profile;
+import com.example.devbox.repository.profile.SkillRepository;
 import com.example.devbox.service.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class ProfileController {
 
     // SurveyService를 의존성 주입 받습니다.
     private final ProfileService profileService;
+
+    private final SkillRepository skillRepository;
 
     // CrossOrigin 어노테이션은 CORS(Cross-Origin Resource Sharing)를 허용합니다.
     // 다른 도메인에서도 이 컨트롤러의 API를 사용할 수 있도록 허용합니다.
@@ -41,6 +44,14 @@ public class ProfileController {
         System.out.println(profileMap+"ㅇ"); // 클라이언트에서 서버로 보내주
         return new ResponseEntity<>(profileService.write(profileMap), HttpStatus.CREATED);  // HTTP 상태 코드 201: Created
     }
+
+    @CrossOrigin
+    @GetMapping("/writeAvg")
+    private ResponseEntity<?> getAvg(){
+        System.out.println("평균값 보내기");
+        return new ResponseEntity<>(skillRepository.findAll(), HttpStatus.OK);
+    }
+
 
     // 설문 상세 조회 API
     @CrossOrigin

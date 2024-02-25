@@ -1,2 +1,4 @@
-SELECT * FROM profile
+SELECT * FROM profile;
+
+SELECT * FROM skill
 

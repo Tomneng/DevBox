@@ -21,3 +21,5 @@ export const profileDetail = (userId) => api.get(`/profile/detail/${userId}`);
 export const profileList = (data) => api.get(`/profile/list`, data);
 
 export const profileDelete = (userId) => api.delete(`/profile/delete/${userId}`);
+
+export const skillAvg = () => api.get("/profile/writeAvg");

@@ -15,6 +15,7 @@ const WritePage = () => {
     const [selectedFont, setSelectedFont] = useState('Arial'); // 기본 폰트는 Arial로 설정
     const [profileBackgroundColor, setProfileBackgroundColor] = useState('#ffffff'); // 기본 배경색은 흰색
     const availableColors = ['#ffffff', '#e0f7fa', '#f8bbd0', '#b2ebf2', '#ffcdd2', '#c8e6c9', '#f0f4c3', '#d1c4e9', '#ffcc80', '#bcaaa4'];
+    const [technicalSkills, setTechnicalSkills] = useState({});
 
     const [profile, setProfile] = useState({
         id: '',
@@ -77,7 +78,13 @@ const WritePage = () => {
                 },
             ],
         }));
-    }, [profile.skills, profile.technicalSkills, ]);// [profile.skills]이 변경될때마다 실행함
+
+        let skillString = profile.skills.split(',').map((skill) => ''+ skill +"TTTTT"+ technicalSkills[skill])
+        setProfile((prevProfile) => ({
+            ...prevProfile,
+            technicalSkills : skillString.join("TTTTT")
+        }))
+    }, [profile.skills, profile.technicalSkills, technicalSkills]);// [profile.skills]이 변경될때마다 실행함
     console.log("Radar component:", Radar); // Radar 컴포넌트 위치 확인
 
 
@@ -91,18 +98,17 @@ const WritePage = () => {
         }));
     };
 
-// 기술 스킬 변경 핸들러
     // 기술 스킬 변경 핸들러
     const toggleTechnicalSkills = (skill, level) => {
         // 이전 프로필 상태를 가져와서 기술 스킬(technicalSkills) 값을 업데이트합니다.
-        setProfile((prevProfile) => ({
-            ...prevProfile,
+        setTechnicalSkills((prevState) => ({
+            ...prevState,
             // 기존의 기술 스킬을 문자열로 변환하여 업데이트합니다.
-            technicalSkills: Object.keys(prevProfile.technicalSkills).length === 0 ?
-                `${skill}:${level}` :
-                `${prevProfile.technicalSkills},${skill}:${level}`,
+                [skill] : level
         }));
         console.log(String(level));
+        console.log(technicalSkills)
+
     };
 
 
@@ -211,33 +217,10 @@ const WritePage = () => {
     };
 
     // 새로운 레이더 차트 데이터 받아오는 함수
-    const fetchAverageSkillsData = () => {
-        // 임의의 URL을 사용하여 레이더 차트 데이터를 가져옵니다.
-        fetch('http://localhost:8080/skills/average', {
-            method: 'POST',
-
-        })
-            .then(data => console.log(data))
-            .then(response => response.json()) // 응답을 JSON 형식으로 변환합니다.
-            .then(data => {
-                // API에서 받아온 데이터를 기반으로 레이더 차트 데이터 업데이트
-                setAverageSkillsChartData({
-                    labels: Object.keys(data), // 레이블 업데이트
-                    datasets: [{
-                        label: '평균 기술 스택',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
-                        data: Object.values(data), // value값 데이터 업데이트
-                    }],
-                });
-            })
-            .catch(error => {
-                console.error('API 호출 중 에러 발생:', error); // 에러 처리
-            });
+    const fetchAverageSkillsData =async () => {
+        let response = await auth.skillAvg();
+        let data = response.data;
+        console.log(data)
     };
     useEffect(() => {
     // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.
@@ -603,13 +586,6 @@ const WritePage = () => {
                         <p>기술 스택: {profile.skills}</p>
 
                         {/* 기술 능력 출력 */}
-                        <p>기술 능력:
-                            {Object.keys(profile.technicalSkills).map((skill, index) => (
-                                <span key={index}>
-                                    {`${skill}: ${profile.technicalSkills[skill]} `}
-                                </span>
-                            ))}
-                        </p>
                         <p>경력: {profile.experience}</p>
                         <p>직업: {profile.job}</p>
                         <p>프로젝트: {profile.projects}</p>
@@ -630,7 +606,7 @@ const WritePage = () => {
                                         pointBorderColor: '#fff',
                                         pointHoverBackgroundColor: '#fff',
                                         pointHoverBorderColor: 'rgba(179,181,198,1)',
-                                        data: profile.skills.split(',').map(skill => profile.technicalSkills[skill] || 0),
+                                        data: profile.skills.split(',').map(skill => technicalSkills[skill] || 0),
                                     },
                                     {
                                         label: '평균 기술 스택',
