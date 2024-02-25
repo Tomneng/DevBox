@@ -28,7 +28,7 @@ const MyDocWrite = () => {
 
         setMyDoc({
             ...myDoc,
-            userId: userInfo.userId
+            userId: userInfo.id
         })
     }, [inputs]);
 

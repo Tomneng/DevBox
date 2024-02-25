@@ -15,6 +15,12 @@ spring:
             scope:
               - email
               - profile
+          facebook:
+            client-id: 1138506860487201 #앱 ID
+            client-secret: b234b7a50dafaa8166feeec1d1cef76e #앱 시크릿 코드
+            scope:
+              - email
+              - public_profile
           naver:
             client-id: 6X34BCqJfr2ERWnP7OR4
             client-secret: Bd6fxUzoY1

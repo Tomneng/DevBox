@@ -26,7 +26,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final UserRepository userRepository;
 
     private static final String NAVER = "naver";
-    private static final String KAKAO = "kakao";
+    private static final String FACEBOOK = "facebook";
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -71,8 +71,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if(NAVER.equals(registrationId)) {
             return SocialType.NAVER;
         }
-        if(KAKAO.equals(registrationId)) {
-            return SocialType.KAKAO;
+        if(FACEBOOK.equals(registrationId)) {
+            return SocialType.FACEBOOK;
         }
         return SocialType.GOOGLE;
     }

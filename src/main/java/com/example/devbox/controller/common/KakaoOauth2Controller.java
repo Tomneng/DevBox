@@ -19,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/login/oauth2/kakao")
@@ -60,8 +57,11 @@ public class KakaoOauth2Controller {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtService jwtService;
+
     @GetMapping("/callback")
-    public void kakaoOauthRedirect(@RequestParam String code, HttpServletResponse response) {
+    public void kakaoOauthRedirect(@RequestParam String code, HttpServletResponse response) throws IOException {
         System.out.println("여긴오나?");
         System.out.println(code);
         KakaoOAuthToken token = kakaoAccessToken(code);
@@ -69,7 +69,7 @@ public class KakaoOauth2Controller {
         KakaoProfile profile = kakaoUserInfo(token.getAccess_token());
         System.out.println(profile);
         User kakaoUser = registerKakaoUser(profile);
-        loginKakaoUser(kakaoUser);
+        loginKakaoUser(kakaoUser, response);
     }
 
     public KakaoOAuthToken kakaoAccessToken(String code){
@@ -206,16 +206,30 @@ public class KakaoOauth2Controller {
         return user;
     }  // end registerKakaoUser()
 
-    private void loginKakaoUser(User kakaoUser) {
-        System.out.println("이거 안찍히지?"); // 찍히긴 하는데 아마 context 등록 시점에서 다른데로 옮겨가는 듯
+    private void loginKakaoUser(User kakaoUser, HttpServletResponse response) throws IOException {
+        String accessToken = jwtService.createAccessToken(kakaoUser.getEmail());
+        System.out.println(accessToken);
+        String refreshToken = jwtService.createRefreshToken();
+        response.addCookie(creatCookie("Authorization", accessToken));
+        response.addCookie(creatCookie("AuthorizationSecond", refreshToken));
+        response.sendRedirect("http://localhost:3000/");
+        System.out.println("이거 찍히고 redirect가 되야되긴함");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 kakaoUser.getEmail(),
-                kakaoUser.getPassword()
+                oauth2Password // 이건 원래 비밀번호여야됨(encoding안되있는)
         );
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContext sc = SecurityContextHolder.getContext();
         sc.setAuthentication(authentication);
 
-        System.out.println("kakao 인증 로그인 처리 완료"); // 이건 안찍히는걸 보면 redirect가 안넘어가지는데 스캠인듯
+        System.out.println("kakao 인증 로그인 처리 완료");
+    }
+
+    public Cookie creatCookie(String key, String value){
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(60 *60 *60);
+        cookie.setPath("/");
+        cookie.setHttpOnly(false);
+        return cookie;
     }
 }

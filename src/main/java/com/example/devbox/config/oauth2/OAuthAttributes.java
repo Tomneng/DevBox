@@ -1,7 +1,7 @@
 package com.example.devbox.config.oauth2;
 
+import com.example.devbox.config.oauth2.userinfo.FaceBookOAuth2UserInfo;
 import com.example.devbox.config.oauth2.userinfo.GoogleOAuth2UserInfo;
-import com.example.devbox.config.oauth2.userinfo.KakaoOAuth2UserInfo;
 import com.example.devbox.config.oauth2.userinfo.NaverOAuth2UserInfo;
 import com.example.devbox.config.oauth2.userinfo.OAuth2UserInfo;
 import com.example.devbox.domain.common.Role;
@@ -41,16 +41,16 @@ public class OAuthAttributes {
         if (socialType == SocialType.NAVER) {
             return ofNaver(userNameAttributeName, attributes);
         }
-        if (socialType == SocialType.KAKAO) {
-            return ofKakao(userNameAttributeName, attributes);
+        if (socialType == SocialType.FACEBOOK) {
+            return ofFaceBook(userNameAttributeName, attributes);
         }
         return ofGoogle(userNameAttributeName, attributes);
     }
 
-    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+    private static OAuthAttributes ofFaceBook(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .nameAttributeKey(userNameAttributeName)
-                .oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
+                .oauth2UserInfo(new FaceBookOAuth2UserInfo(attributes))
                 .build();
     }
 

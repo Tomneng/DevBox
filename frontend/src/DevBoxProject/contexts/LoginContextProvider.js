@@ -198,10 +198,9 @@ const LoginContextProvider = ({children}) => {
         setUserInfo(updatedUserInfo);
         // 권한 정보 세팅
         const updatedRoles = {isUser: false, isAdmin: false}
-        roleList.forEach((role) => {
-            if (role === 'ROLE_USER') updatedRoles.isUser = true;
-            if (role === 'ROLE_ADMIN') updatedRoles.isAdmin = true;
-        })
+        if (roleList === "GUEST") {
+            updatedRoles.isUser = true;
+        }
         setRoles(updatedRoles);
     }
 

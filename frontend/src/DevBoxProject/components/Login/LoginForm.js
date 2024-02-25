@@ -42,7 +42,7 @@ const LoginForm = () => {
                             <Link className="btn btn-oauth" to="http://localhost:8080/oauth2/authorization/naver">
                                 <img src="/img/btnG_naver.png" alt="Naver" />
                             </Link>
-                            <Link className="btn btn-oauth" to="/oauth2/authorization/google">
+                            <Link className="btn btn-oauth" to="http://localhost:8080/oauth2/authorization/facebook">
                                 <img src="/img/Facebook_f_logo_(2019).svg" alt="Facebook" />
                             </Link>
                         </div>
