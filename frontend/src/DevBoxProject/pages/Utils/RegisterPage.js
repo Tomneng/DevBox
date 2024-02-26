@@ -1,16 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './LoginPage.css'
 import Header from "../../components/Header";
 import {Container} from "react-bootstrap";
 import LoginContextCounsumer from "../../contexts/LoginContextCounsumer";
 import RegisterForm from "../../components/register/RegisterForm";
 import * as auth from '../../apis/auth'
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import * as Swal from '../../apis/alert'
+import header from "../../components/Header";
 
 const RegisterPage = () => {
 
     const navigate = useNavigate();
+
+    const params = useParams();
+
+    useEffect(() => {
+        localStorage.clear();
+        localStorage.setItem("token", params.token);
+        // window.location.replace("/");
+        console.log(params.token)
+    }, []);
 
     // 회원가입 요청
     const join = async (form) => {

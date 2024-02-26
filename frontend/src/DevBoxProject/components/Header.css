@@ -23,7 +23,7 @@
 .top-nav {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
 }
 
@@ -34,11 +34,10 @@
     font-size: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 0 12px;
     position: relative;
     transition: background-color 0.3s ease-in-out;
-    padding: 0 10%;
 }
 
 .nav {
@@ -77,44 +76,6 @@
 .nav:hover::before {
     width: 50%; /* 선의 길이를 조절하여 가운데에서 양쪽으로 펼쳐지는 효과 */
 }
-
-.util {
-    display: flex;
-    align-items: center;
-}
-
-.utilTags {
-    margin: 5px;
-    position: relative;
-}
-
-.utilTags::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    width: 0;
-    height: 4px;
-    background-color: black;
-    transition: width 0.3s ease-in-out;
-}
-
-.utilTags::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    right: 50%;
-    width: 0;
-    height: 4px;
-    background-color: black;
-    transition: width 0.3s ease-in-out;
-}
-
-.utilTags:hover::after,
-.utilTags:hover::before{
-    width: 50%;
-}
-
 
 a{
     text-decoration: none; color: black;

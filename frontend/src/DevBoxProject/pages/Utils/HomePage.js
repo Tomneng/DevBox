@@ -1,18 +1,39 @@
 import React from 'react';
 import Header from "../../components/Header";
-import {Container} from "react-bootstrap";
 import LoginContextCounsumer from "../../contexts/LoginContextCounsumer";
+import "./HomePage.css"
 
 const HomePage = () => {
     return (
         <>
-        <Header />
-                <div className="container">
-                    <h1>Home</h1>
-                    <hr />
-                    <h2>메인페이지</h2>
-                    <LoginContextCounsumer />
+            <div className="fullPage">
+                <Header/>
+                <div className="maincontainer">
+                    <section className="category-card" id="codeShare">
+                        <div className="homegif"></div>
+                    </section>
+                    <div className="explanation">
+                        <h2>Code Share</h2>
+                        <p></p>
+                    </div>
+                    <section className="category-card" id="devLibrary">
+                    </section>
+                    <div className="explanation">
+                        <h2>Code Share</h2>
+                        <p>
+
+                        </p>
+                    </div>
+                    <section className="category-card" id="profile">
+                    </section>
+                    <div className="explanation">
+                        <h2>Code Share</h2>
+                        <p>
+
+                        </p>
+                    </div>
                 </div>
+            </div>
 
         </>
     );

@@ -14,12 +14,15 @@ import LoginPage from "./pages/Utils/LoginPage";
 import MyPage from "./pages/Utils/MyPage";
 import AboutPage from "./pages/AboutPage";
 import AdminPage from "./pages/AdminPage";
-import ErrorLibPage from "./pages/errorLib/ErrorLibPage";
+import ErrorLibPage from "./pages/errorLib/pages/ErrorLibPage";
 import LoginContextProvider from "./contexts/LoginContextProvider";
 import UpdatePage from "./profile/pages/pag/UpdatePage";
 import WritePage from "./profile/pages/pag/WritePage";
 import Detail from "./profile/pages/pag/Detail";
 import List from "./profile/pages/pag/List";
+import MyDocDetail from "./pages/errorLib/pages/MyDocDetail";
+import MyDocWrite from "./pages/errorLib/pages/MyDocWrite";
+import MyDocUpdate from "./pages/errorLib/pages/MyDocUpdate";
 
 const DevBoxApp = () => {
 		return (
@@ -27,23 +30,23 @@ const DevBoxApp = () => {
 						<LoginContextProvider>
 								<Routes>
 										<Route path='/' Component={HomePage}></Route>
-										<Route path='/register' Component={RegisterPage}></Route>
+										<Route path='/signUp' Component={RegisterPage}></Route>
 										<Route path='/login' Component={LoginPage}></Route>
 										<Route path='/mypage' Component={MyPage}></Route>
 										<Route path='/about' Component={AboutPage}></Route>
 										<Route path='/admin' Component={AdminPage}></Route>
-										<Route path='/errorLib' Component={ErrorLibPage}></Route>
-
+										<Route path='/myDoc/list' Component={ErrorLibPage}></Route>
+										<Route path='/myDoc/detail/:did' Component={MyDocDetail}></Route>
+										<Route path='/myDoc/write/' Component={MyDocWrite}></Route>
+										<Route path='/myDoc/update/' Component={MyDocUpdate}></Route>
 
 										{/* lib */}
-
 
 										{/* Share  */}
 										<Route path="/codeshare" Component={ShareList}></Route>{/*  Share 목록 */}
 										<Route path="/codeshare/write" Component={ShareWrite}></Route>{/* Share 작성 */}
 										<Route path="/codeshare/detail/:sid" Component={ShareDetail}></Route>{/* Share 상세 */}
 										<Route path="/codeshare/update/:sid" Component={ShareUpdate}></Route>{/* Share 수정 */}
-
 
 										{/* profile */}
 									<Route path="/profile/list" Component={List}></Route>{/*  Share 목록 */}

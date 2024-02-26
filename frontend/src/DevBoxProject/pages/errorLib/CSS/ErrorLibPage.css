@@ -1,0 +1,156 @@
+.fullPage{
+    display: flex;
+    justify-content: center;
+}
+
+/* 기본 스타일 */
+.errcontainer {
+    width: 75%;
+    padding: 50px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 1500px;
+    position: relative;
+    margin-top: 120px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: start;
+}
+
+.title{
+    font-size: 50px;
+    width: 100%;
+    height: auto;
+}
+
+.line{
+    width: 90%;
+    border: 2px solid black;
+    height: 50px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.search-input {
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    width: 100%;
+    margin: 0px;
+    outline: none;
+}
+
+.search-button {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    width: 50px;
+    font-size: 20px;
+}
+
+.search-button:hover{
+    background-color: #282c34;
+}
+.table-container {
+    width: 90%;
+    margin: 20px auto;
+}
+
+.table-header, .table-row {
+    display: flex;
+}
+
+.table-header {
+    background-color: grey; /* Bootstrap 기본 primary 색상 */
+    color: white;
+}
+
+.table-cell {
+    padding: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border: lightgray 1px solid;
+    height: 25px;
+    font-size: 20px;
+}
+
+.table-cell:nth-child(3) {
+    width: 50%;
+}
+
+.table-cell:nth-child(1), .table-cell:nth-child(5)   {
+    width: 8%;
+}
+
+.table-cell:nth-child(2), .table-cell:nth-child(4)   {
+    width: 19%;
+}
+
+#keywordsContainer{
+    width: 90%;
+    border: 2px solid black;
+    padding: 10px;
+    height: 200px;
+    z-index: 10;
+    list-style: none;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    align-items: start;
+    border-radius: 7px;
+}
+
+
+/* 검색 결과가 있을 때만 표시 */
+#keywordsContainer.active {
+    display: block;
+}
+
+.keywordsItems{
+    border-bottom: 2px solid black;
+    width: 100%;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+    justify-content: left;
+    padding: 0;
+}
+
+.keywordsItems button{
+    display: inline-block;
+    text-decoration: none;
+    padding: 0px 16px; /* 원하는 패딩 값으로 조절하세요 */
+    font-size: 30px; /* 원하는 글꼴 크기로 조절하세요 */
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #fff; /* 원하는 배경색으로 조절하세요 */
+    color: black; /* 원하는 텍스트 색상으로 조절하세요 */
+}
+
+.keywordsItems button:hover{
+    color: #0056b3;
+}
+
+.MyDocButtons{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: right;
+}
+
+.writeButton{
+    font-size: 20px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+

@@ -28,12 +28,31 @@ const LoginContextProvider = ({children}) => {
     // 권한 정보
     const [roles, setRoles] = useState({isUser: false, isAdmin: false})
 
-    // 아이디 저장
-    const [rememberUserId, setRemberUserId] = useState();
-
     /*--------------------------------------------------------------------*/
 
     const navigate = useNavigate();
+
+    const handleOAuthRedirect = async (provider) => {
+        try {
+            const response = await fetch(`http://localhost:8080/oauth2/authorization/${provider}`);
+            if (response.ok) {
+                // HTTP 응답이 성공인 경우 Authorization 헤더에서 토큰 추출
+                const authorizationHeader = response.headers.get('Authorization');
+                if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+                    const accessToken = authorizationHeader.split(' ')[1];
+                    // 추출한 accessToken을 사용하여 로그인 된 사용자를 관리하거나 저장
+                    console.log('Access Token:', accessToken);
+                } else {
+                    console.error('No Bearer token found in the Authorization header.');
+                }
+            } else {
+                console.error('Failed to fetch OAuth2 authorization URL:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching OAuth2 authorization URL:', error);
+        }
+    };
+
 
 
     /**
@@ -46,7 +65,7 @@ const LoginContextProvider = ({children}) => {
     const loginCheck = async () => {
 
         // 쿠키에서 jwt 토큰 가져오기
-        const accessToken = Cookies.get("accessToken")
+        const accessToken = Cookies.get("Authorization")
         console.log(`accessToken : ${accessToken}`);
 
 
@@ -67,7 +86,6 @@ const LoginContextProvider = ({children}) => {
         let data
         try {
             response = await auth.info()
-
         } catch (error) {
             console.log(`error : ${error}`);
             console.log(`status : ${response.status}`);
@@ -129,7 +147,6 @@ const LoginContextProvider = ({children}) => {
             // 로그인 실패
             Swal.alert(`로그인 실패`, `아이디 또는 비밀번호가 일치하지 않습니다.`, "error")
         }
-
     }
 
     // 로그아웃
@@ -162,12 +179,12 @@ const LoginContextProvider = ({children}) => {
 
     // 로그인 세팅
     const loginSetting = (userData, accessToken) => {
-        const {userId, username, authorities} = userData;
-        const roleList = authorities;
+        const {id, email, role} = userData;
+        const roleList = role;
 
-        console.log(`id : ${userId}`);
-        console.log(`username : ${username}`);
-        console.log(`authList : ${authorities}`);
+        console.log(`id : ${id}`);
+        console.log(`username : ${email}`);
+        console.log(`authList : ${role}`);
         console.log(`roleList : ${roleList}`);
 
         // axios 객체의 header(Authorization : Bearer ${accessToken})
@@ -177,14 +194,13 @@ const LoginContextProvider = ({children}) => {
         setLogin(true);
 
         // 유저 정보 세팅
-        const updatedUserInfo = {userId, username, authorities}
+        const updatedUserInfo = {id, email, role}
         setUserInfo(updatedUserInfo);
         // 권한 정보 세팅
         const updatedRoles = {isUser: false, isAdmin: false}
-        roleList.forEach((role) => {
-            if (role === 'ROLE_USER') updatedRoles.isUser = true;
-            if (role === 'ROLE_ADMIN') updatedRoles.isAdmin = true;
-        })
+        if (roleList === "GUEST") {
+            updatedRoles.isUser = true;
+        }
         setRoles(updatedRoles);
     }
 
@@ -193,7 +209,7 @@ const LoginContextProvider = ({children}) => {
         // axios 헤더 초기화
         api.defaults.headers.common.Authorization = undefined;
         // 쿠키 초기화
-        Cookies.remove("accessToken")
+        Cookies.remove("Authorization")
         // 로그인 여부 : false
         setLogin(false);
         // 유저 정보 초기화
@@ -210,7 +226,7 @@ const LoginContextProvider = ({children}) => {
     }, []);
 
     return (
-        <LoginContext.Provider value={{isLogin, userInfo, roles, login, loginCheck, logout}}>
+        <LoginContext.Provider value={{isLogin, userInfo, roles, login, loginCheck, logout, handleOAuthRedirect}}>
             {children}
         </LoginContext.Provider>
     );

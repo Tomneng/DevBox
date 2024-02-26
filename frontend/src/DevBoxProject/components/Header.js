@@ -19,34 +19,28 @@ const Header = () => {
                     </Link>
                 </div>
                 <div className="navs">
-                    <span className="nav">
+                    <div className="nav">
                     <Link to="/codeShare">Code Share</Link>
-                    </span>
-                    <span className="nav">
-                    <Link to="/errorLib">Error Library</Link>
-                    </span>
-                    <span className="nav">
+                    </div>
+                    <div className="nav">
+                    <Link to="/myDoc/list">Dev Library</Link>
+                    </div>
+                    <div className="nav">
                     <Link to="/profile">Profile</Link>
-                    </span>
-                </div>
-
-                <div className="util">
+                    </div>
                     {!isLogin ? (
-                        <div className="navs">
-                            <span className="nav">
+                        <>
+                            <div className="nav">
                                 <Link to="/login">Login</Link>
-                            </span>
-                            <span className="nav">
-                                <Link to="/register">Register</Link>
-                            </span>
-                        </div>
+                            </div>
+                        </>
                     ) : (
-                        <div className="navs">
-                            <span className="nav">
+                        <>
+                            <div className="nav">
                                 <Link to="/mypage">MY</Link>
-                            </span>
-                            <button onClick={logout}>logout</button>
-                        </div>
+                            </div>
+                            <button className="custom-btn button-grayBlack" onClick={logout}>logout</button>
+                        </>
                     )}
                 </div>
             </div>

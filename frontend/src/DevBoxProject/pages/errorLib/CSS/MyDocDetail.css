@@ -1,0 +1,83 @@
+.fullPage{
+    display: flex;
+    justify-content: center;
+}
+
+.myDoccontainerdetail {
+    width: 800px;
+    margin-top: 150px;
+    padding: 50px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: auto;
+    position: relative;
+    text-align: start;
+}
+
+.myDoccontainerdetail h1 {
+    color: #007bff;
+    margin-bottom: 15px;
+    font-size: 50px;
+}
+
+.myDoccontainerdetail h2 {
+    margin: 25px 0;
+    font-size: 30px;
+}
+
+.myDoccontainerdetail p {
+    margin: 15px 0;
+}
+
+.myDoccontainerdetail a {
+    color: #007bff;
+    text-decoration: none;
+    border-bottom: 1px solid #007bff;
+}
+
+.myDoccontainerdetail a:hover {
+    color: #0056b3;
+    border-bottom: 1px solid #0056b3;
+}
+
+.myDoccontainerdetail img {
+    width: 800px;
+    height: 450px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.myDoccontainerdetail pre {
+    background-color: #2e2e2e;
+    color: #a9b7c6;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    overflow-y: auto;
+}
+
+.myDoccontainerdetail pre code {
+    overflow-y: auto;
+    color: #a9b7c6;
+}
+
+/* 추가로 IntelliJ IDEA에서 제공하는 모노스페이스 폰트를 사용할 수 있습니다. */
+.myDoccontainerdetail pre, code {
+    font-family: 'Courier New', monospace;
+}
+
+.myDoccontainerdetail .bottomLine{
+    bottom: 20px;
+}
+
+.myDoccontainerdetail .deleteButton{
+    float: right;
+    width: 40px;
+}
+
+.myDoccontainerdetail .updateButton{
+    float: right;
+    width: 120px;
+}
+

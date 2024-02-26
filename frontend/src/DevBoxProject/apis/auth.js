@@ -10,6 +10,9 @@ export const update = (data) => api.put(`/user/update`, data);
 
 export const remove = (userId) => api.delete(`/user/delete/${userId}`);
 
+export const getDocs = (page) => api.get(`/myDoc/list/${page}`);
+
+export const getKeyWords = () => api.get(`/myDoc/allKeyWords`)
 
 
 // code Share
@@ -27,3 +30,9 @@ export const codeShareCommentDelete = (cid) => api.delete(`/comment/delete/${cid
 // 찜
 export const plusSteam = (data) => api.post(`/steam/plus`, data);
 export const deleteSteam = (shareId, userId) => api.delete(`/steam/delete/${shareId}/${userId}`);
+
+export const getmyDoc = (docId) => api.get(`/myDoc/detail/${docId}`);
+
+export const writeMyDoc = (myDoc) => api.post(`/myDoc/write`, myDoc)
+
+export const deleteMyDoc = (docId) => api.delete(`/myDoc/delete/${docId}`)
