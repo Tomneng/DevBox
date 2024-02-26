@@ -19,8 +19,6 @@ public class Steam {
     private Long steamId;
 
 
-
-
     @ManyToOne
     private User user;
 

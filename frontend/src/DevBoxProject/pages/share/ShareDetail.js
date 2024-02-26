@@ -24,10 +24,8 @@ import {LoginContext} from "../../contexts/LoginContextProvider";
 import Header from "../../components/Header";
 import CommentList from "./components/CommentList";
 import commentCSS from "./CSS/Comment.module.css";
-import commentList from "./components/CommentList";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faThumbsUp} from "@fortawesome/free-solid-svg-icons"
-import {faThumbsUp as faThumbsUpRegular} from "@fortawesome/free-regular-svg-icons";
+
+import Ddabong from "./components/Ddabong";
 
 const ShareDetail = () => {
 		// 유저 확인
@@ -49,18 +47,19 @@ const ShareDetail = () => {
 				steamList: [],
 		});
 
-		const [steam, setsteam] = useState({
-				shareId: share.sid,
-				userId: userInfo.userId,
-		})
+
 		console.log(share)
 		const codeShareDetail = async () => {
-				const response = await auth.codeShareDetail(sid)
-				const data = response.data
-
-				setShare(data)
+				try {
+						const response = await auth.codeShareDetail(sid);
+						const data = response.data;
+						setShare(data);
+				} catch (error) {
+						console.error("Error fetching code share detail:", error);
+						// 에러 처리를 추가하거나 적절한 방식으로 처리합니다.
+				}
 		}
- const [check, setCheck] = useState(false)
+
 
 		useEffect(() => {
 
@@ -127,19 +126,12 @@ const ShareDetail = () => {
 				}
 		}
 
+		const [updated, setUpdated] = useState(false);
 
-		const deleteSteamValue = async () => {
-				await auth.deleteSteam(sid, userInfo.userId);
-				codeShareDetail();
-				console.log(share)
+		const DdabongUpdate = () => {
+				setUpdated(!updated); // 상태 토글
+		};
 
-		}
-
-		const plusSteamValue = () => {
-				auth.plusSteam(steam);
-				codeShareDetail();
-
-		}
 
 		return (
 				<>
@@ -152,11 +144,7 @@ const ShareDetail = () => {
 										{/* 조회수 */}
 										<div className={ShareDetailCSS.view_box}>
 												<small>조회수 : {share.sviewCnt}</small>
-												<small>찜 : {share.steamList.length}</small>
-												{share.steamList.some(steamList => steamList.user.userId === userInfo.userId)
-														?
-														<FontAwesomeIcon icon={faThumbsUp} style={{color: "#FFD43B",}} onClick={deleteSteamValue}/>
-														: <FontAwesomeIcon icon={faThumbsUpRegular} onClick={plusSteamValue}/>}
+												<Ddabong key={share.sid} share={share} user={userInfo} onUpdated={DdabongUpdate}/>
 										</div>
 								</div>
 
