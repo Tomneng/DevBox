@@ -210,6 +210,7 @@ const LoginContextProvider = ({children}) => {
         api.defaults.headers.common.Authorization = undefined;
         // 쿠키 초기화
         Cookies.remove("Authorization")
+        Cookies.remove("AuthorizationSecond")
         // 로그인 여부 : false
         setLogin(false);
         // 유저 정보 초기화

@@ -39,8 +39,8 @@ public class ErrorDocController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateMyDoc(@RequestBody MyDoc myDoc){
-        return myDocService.updateMyDoc(myDoc);
+    public ResponseEntity<?> updateMyDoc(@RequestBody Map<String, String> myMap){
+        return myDocService.updateMyDoc(myMap);
     }
 
     @DeleteMapping("/delete/{id}")

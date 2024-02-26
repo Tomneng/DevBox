@@ -43,6 +43,8 @@ export const getmyDoc = (docId) => api.get(`/myDoc/detail/${docId}`);
 
 export const writeMyDoc = (myDoc) => api.post(`/myDoc/write`, myDoc)
 
+export const updateMyDoc = (myDoc) => api.put('/myDoc/update', myDoc)
+
 export const deleteMyDoc = (docId) => api.delete(`/myDoc/delete/${docId}`)
 export const profileDelete = (userId) => api.delete(`/profile/delete/${userId}`);
 

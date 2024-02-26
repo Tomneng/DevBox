@@ -79,6 +79,7 @@ const MyDocWrite = () => {
             [e.target.name]: e.target.value
         });
         console.log(myDoc)
+        console.log(inputs);
     };
 
     const handleChange = (e) => {
@@ -89,6 +90,7 @@ const MyDocWrite = () => {
     }
 
     const writeMyDoc = async (e) => {
+        console.log(myDoc)
         e.preventDefault();
         let response
         let data;

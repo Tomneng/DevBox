@@ -76,11 +76,22 @@ public class MyDocService {
     }
 
     @Transactional
-    public ResponseEntity<?> updateMyDoc(MyDoc myDoc){
-        MyDoc originalMyDoc = myDocRepository.findById(myDoc.getDocId()).orElse(null);
-        originalMyDoc.setContent(myDoc.getContent());
-        originalMyDoc.setLang(myDoc.getLang());
-        return new ResponseEntity<>(originalMyDoc, HttpStatus.OK);
+    public ResponseEntity<?> updateMyDoc(Map<String, String> myMap){
+        String title = myMap.get("title");
+        String lang = myMap.get("lang");
+        if (title != null && lang != null){
+            myMap.remove("title");
+            myMap.remove("lang");
+            myMap.remove("userId");
+            myMap.remove("content");
+        }
+        String content = joinMapToString(myMap, "replaceThisDevBox");
+        Long docId = parseLong(myMap.get("docId"));
+        MyDoc myDoc = myDocRepository.findById(docId).orElse(null);
+        myDoc.setTitle(title);
+        myDoc.setContent(content);
+        myDoc.setLang(lang);
+        return new ResponseEntity<>(myDocRepository.saveAndFlush(myDoc), HttpStatus.OK); // 201
     }
     @Transactional
     public ResponseEntity<?> deleteMyDoc(Long myDocId){
