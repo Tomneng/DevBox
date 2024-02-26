@@ -1,9 +1,9 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import {Button, Col, Container, Form, Image} from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import {faSwift} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDatabase} from "@fortawesome/free-solid-svg-icons";
+import {faDatabase, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 
 import CLogo from "../../components/image/c.png"
 import CPPLogo from "../../components/image/cpp.png"
@@ -25,6 +25,7 @@ import * as Swal from "../../apis/alert";
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
 
+import ReactQuill from "react-quill";
 
 const ShareWrite = () => {
 		const navigate = useNavigate();
@@ -104,11 +105,27 @@ const ShareWrite = () => {
 						return null;
 				}
 		}
+// React - Quill
+		const modules = {
+				toolbar: {
+						container: [
+								["image"],
+								[{ header: [1, 2, 3, 4, 5, false] }],
+								["bold", "italic", "underline", "strike", "blockquote"],
+						],
+				},
+		};
+
+
+
+
+
+
 		return (
 				<>
 						<Header/>
 
-						<Container className={DefaultCSS.main_wrapper}>
+						<Container className={`${DefaultCSS.main_wrapper} myDoccontainer`}>
 								<h2>Share</h2>
 								<hr/>
 
@@ -280,7 +297,10 @@ const ShareWrite = () => {
 														name={"scontent"}
 														required/>
 										</Form.Group>
-
+										<ReactQuill
+												style={{ width: "800px", height: "500px" }}
+												modules={modules}
+										/>
 										{/* 코드 사진 첨부 */}
 
 										<div className={DefaultCSS.button_box}>

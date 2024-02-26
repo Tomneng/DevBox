@@ -5,7 +5,6 @@ import ShareDetail from "./pages/share/ShareDetail";
 import ShareUpdate from "./pages/share/ShareUpdate";
 import {Route, Routes} from "react-router-dom";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./components/default.css"
 
