@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
-import { Radar } from 'react-chartjs-2';
 
+import { Radar } from 'react-chartjs-2';
+import { Form } from 'react-bootstrap';
 import './WritePage.css';
 import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
@@ -131,9 +131,9 @@ const WritePage = () => {
 
         setProfile((prevProfile) => ({
             ...prevProfile,
-            userId: userInfo.userId
+            userId: userInfo.id
         }));
-        
+
         // 이전 프로필 상태를 가져와서 업데이트
         setProfile((prevProfile) => {
             if (type === 'checkbox') {
@@ -220,9 +220,23 @@ const WritePage = () => {
 
     // 새로운 레이더 차트 데이터 받아오는 함수
     const fetchAverageSkillsData =async () => {
-        let response = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
-        let data = response.data;
-        console.log(data)
+        try {
+            let response = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
+            let data = response.data;
+            console.log(data)
+
+            const averageSkillsData = {
+                labels: data.labels, // 레이더 차트의 라벨설정
+                datasets: [{
+                    ...averageSkillsChartData.datasets[0], // 기존데이터 복사후,
+                    data: data.averageValues,   // 새로운 평균값으로 데이터를 업데이트 해줌.
+                }],
+            };
+        setAverageSkillsChartData(averageSkillsData);
+        }   catch (error){
+            console.error('평균 기술 데이터 가져오다가 오류 발생했습니다. :', error)
+        }
+
     };
     useEffect(() => {
     // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.

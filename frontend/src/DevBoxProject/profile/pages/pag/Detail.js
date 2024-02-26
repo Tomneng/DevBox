@@ -75,12 +75,13 @@ const Detail = () => {
 
     let profilePicPreview;
     console.log(profile)
-    console.log(profile.id);
+    console.log(profile.id); // 로그인때문에 userId에서 id로 바꿈!!!!!!!!!!!!
+
     return (
         <Container className="mt-3">
             <div className="row">
                 <h2 className="display06">프로필 상세 보기</h2>
-                <hr/>
+                <hr />
                 <div className="col-md-6">
                     <Alert variant="light" className="d-flex justify-content-between">
                         <span>ID: {id}</span>
@@ -89,59 +90,59 @@ const Detail = () => {
                 <section>
                     <div className="mt-3">
                         <h5>이름</h5>
-                        <Form.Control type="text" readOnly value={profile.name}/>
+                        <Form.Control type="text" readOnly value={profile.name} />
                     </div>
                     <div className="mt-3">
                         <h5>전화번호</h5>
-                        <Form.Control type="text" readOnly value={profile.number}/>
+                        <Form.Control type="text" readOnly value={profile.number} />
                     </div>
                     <div className="mt-3">
                         <h5>나이</h5>
-                        <Form.Control type="text" readOnly value={profile.age}/>
+                        <Form.Control type="text" readOnly value={profile.age} />
                     </div>
                     <div className="mt-3">
                         <h5>학력</h5>
-                        <Form.Control type="text" readOnly value={profile.degree}/>
+                        <Form.Control type="text" readOnly value={profile.degree} />
                     </div>
                     <div className="mt-3">
                         <h5>전공자 유무</h5>
-                        <Form.Control type="text" readOnly value={profile.csDegree}/>
+                        <Form.Control type="text" readOnly value={profile.csDegree} />
                     </div>
                     <div className="mt-3">
                         <h5>기술스택</h5>
-                        <Form.Control type="text" readOnly value={profile.skills}/>
+                        <Form.Control type="text" readOnly value={profile.skills} />
                     </div>
                     <div className="mt-3">
                         <h5>기술능력</h5>
-                        <Form.Control type="text" readOnly value={Object.keys(profile.technicalSkills).join(', ')}/>
+                        <Form.Control type="text" readOnly value={Object.keys(profile.technicalSkills).join(', ')} />
                     </div>
                     <div className="mt-3">
                         <h5>경력</h5>
-                        <Form.Control type="text" readOnly value={profile.experience}/>
+                        <Form.Control type="text" readOnly value={profile.experience} />
                     </div>
                     <div className="mt-3">
                         <h5>직업</h5>
-                        <Form.Control type="text" readOnly value={profile.job}/>
+                        <Form.Control type="text" readOnly value={profile.job} />
                     </div>
                     <div className="mt-3">
                         <h5>프로젝트</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.projects}/>
+                        <Form.Control as="textarea" rows={3} readOnly value={profile.projects} />
                     </div>
                     <div className="mt-3">
                         <h5>자격증</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.licenses}/>
+                        <Form.Control as="textarea" rows={3} readOnly value={profile.licenses} />
                     </div>
                     <div className="mt-3">
                         <h5>짧은 자기소개</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.shortAppeal}/>
+                        <Form.Control as="textarea" rows={3} readOnly value={profile.shortAppeal} />
                     </div>
                     <div className="mt-3">
                         <h5>포트폴리오</h5>
-                        <Form.Control type="text" readOnly value={profile.portfolio}/>
+                        <Form.Control type="text" readOnly value={profile.portfolio} />
                     </div>
                 </section>
                 <div className="d-flex my-3">
-                    <Button variant="outline-dark " onClick={updateProfile}>
+                    <Button variant="outline-dark" onClick={updateProfile}>
                         수정
                     </Button>
                     <Button variant="outline-danger" className="ms-2" onClick={deleteProfile}>
@@ -151,6 +152,7 @@ const Detail = () => {
                         목록
                     </Link>
                 </div>
+
             </div>
         </Container>
     );
