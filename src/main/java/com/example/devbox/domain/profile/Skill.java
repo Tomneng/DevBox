@@ -23,5 +23,5 @@ public class Skill {
 
     private Double average; // 소수점 한자리 수까지
 
-    private Integer contributers;
+    private Integer contributers; // 기술에 기여한 사람의 수를 나타냄(평균을 위함)
 }

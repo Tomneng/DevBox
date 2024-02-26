@@ -61,6 +61,7 @@ const WritePage = () => {
         console.log("Profile information:", profile); // 프로필정보가 잘찍히는지 / 400에러 처리를 위함
         console.log("Radar chart data:", radarChartData); // 레이더 차트 데이터 확인
         const skillsArray = profile.skills.split(',');
+        // skills 배열을 가져오기 위해 쉼표로 구분된 skills 목록을 배열로 변환
         console.log("Skills array:", skillsArray); // 기술 배열 확인 / 400에러 처리를 위함
 
         // 이 효과는 profile.skills이 변경될 때마다 실행됩니다.
@@ -80,9 +81,10 @@ const WritePage = () => {
         }));
 
         let skillString = profile.skills.split(',').map((skill) => ''+ skill +"TTTTT"+ technicalSkills[skill])
+        // profile의 기술과 기술레벨을 문자열로 조합 후 기술스킬데이터를 업데이트 해줌
         setProfile((prevProfile) => ({
             ...prevProfile,
-            technicalSkills : skillString.join("TTTTT")
+            technicalSkills : skillString.join("TTTTT")//기술문자열에 ttttt조인해줌
         }))
     }, [profile.skills, profile.technicalSkills, technicalSkills]);// [profile.skills]이 변경될때마다 실행함
     console.log("Radar component:", Radar); // Radar 컴포넌트 위치 확인
@@ -101,7 +103,7 @@ const WritePage = () => {
     // 기술 스킬 변경 핸들러
     const toggleTechnicalSkills = (skill, level) => {
         // 이전 프로필 상태를 가져와서 기술 스킬(technicalSkills) 값을 업데이트합니다.
-        setTechnicalSkills((prevState) => ({
+        setTechnicalSkills((prevState) => ({// 호출후  기존skill을 키로 갖고 해당 level값을 설정해줌
             ...prevState,
             // 기존의 기술 스킬을 문자열로 변환하여 업데이트합니다.
                 [skill] : level
@@ -218,7 +220,7 @@ const WritePage = () => {
 
     // 새로운 레이더 차트 데이터 받아오는 함수
     const fetchAverageSkillsData =async () => {
-        let response = await auth.skillAvg();
+        let response = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
         let data = response.data;
         console.log(data)
     };
@@ -496,6 +498,7 @@ const WritePage = () => {
                         </Form.Group>
                         {/* 직업 입력 */}
                         <Form.Group className="mt-3" controlId="formBasicJob">
+
                             <Form.Label>
                                 <h5>직업</h5>
                             </Form.Label>

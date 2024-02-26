@@ -35,26 +35,31 @@ public class ProfileService {
         Profile profile = new Profile(); // 새로운 프로필 객체를 생성합니다.
 
         // 기술 추가
-        profile.setSkills(profileMap.get("skills")); // 입력 맵에서 기술을 가져옵니다.
+        profile.setSkills(profileMap.get("skills")); // 입력 맵에서 기술을 가져옴
 
+        // 기술과 평균값을 가져와 배열로 분리 TTTTT
         String calculateAvg = profileMap.get("technicalSkills");
-
         String[] calArray =  calculateAvg.split("TTTTT");
 
-        for (int i = 0; i< calArray.length; i+=2){
-            if (skillRepository.findByName(calArray[i]) == null){
+
+        for (int i = 0; i< calArray.length; i+=2){// 배열을 두 개씩 증가시키며 반복
+            if (skillRepository.findByName(calArray[i]) == null){// 만약 해당 이름의 기술이 데이터베이스에 없다면 새로운 Skill 객체를 생성하여 저장
                 Skill skill = Skill.builder()
                         .name(calArray[i])
                         .average(Double.parseDouble(calArray[i+1]))
+                        // calArray[i + 1]은 새로운 기여자가 제공한 기술에 대한 값, 기존평균에 더하고 기여자 반영을 위해 기존기여자에서 +1해줌
                         .contributers(1)
                         .build();
-                skillRepository.saveAndFlush(skill);
-            }else {
+                skillRepository.saveAndFlush(skill); // 새로운 기술 저장
+            }else { // 기존에 있는 기술일 경우
                 DecimalFormat df = new DecimalFormat("#.##");
+                // DecimalFormat을 사용하여 소수점 두 자리까지만 남기고 새로운 평균값을 계산
                 Skill skill = skillRepository.findByName(calArray[i]);
+                // 기존의 기술을 가져옴
                 Double newAvg = ((skill.getAverage() * skill.getContributers()) + Double.parseDouble(calArray[i+1]))/(skill.getContributers() + 1);
-                skill.setAverage(Double.parseDouble(df.format(newAvg)));
-                skill.setContributers(skill.getContributers()+1);
+                // 새로운 평균값 계산하고 설정
+                skill.setAverage(Double.parseDouble(df.format(newAvg)));// 평균값 설정
+                skill.setContributers(skill.getContributers()+1); // 기여자 수 +1 증가
             }
         }
 
