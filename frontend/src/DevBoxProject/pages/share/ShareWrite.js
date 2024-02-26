@@ -26,7 +26,8 @@ import {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
 
 import ReactQuill from "react-quill";
-
+import 'react-quill/dist/quill.snow.css'; // Quill의 스타일시트 가져오기
+import 'quill/dist/quill.core.css'; // Quill의 스타일시트 가져오기
 const ShareWrite = () => {
 		const navigate = useNavigate();
 		// 로그인 확인
@@ -55,12 +56,31 @@ const ShareWrite = () => {
 
 
 		const changeValue = (e) => {
-				const { name, value } = e.target;
-				setShare(prevShare => ({
-						...prevShare,
-						[name]: value
-				}));
+				const {name, value, type, checked} = e.target;
+				console.log("changeValue 에서 JSON.stringify(userInfo.userId) = " + JSON.stringify(userInfo.userId))
+				setShare((prevShare) => {
+						if (type === 'checkbox') {
+								return {
+										...prevShare,
+										[name]: checked
+												? prevShare[name].length > 0
+														? `${prevShare[name]},${value}`
+														: value
+												: prevShare[name]
+														.split(',')
+														.filter((item) => item !== value)
+														.join(',')
+								};
+						} else {
+								// 그 외의 경우 value 값을 사용
+								return {
+										...prevShare,
+										[name]: value,
+								};
+						}
+				});
 		};
+
 
 
 		const submitShare = async (e) => {
@@ -87,16 +107,27 @@ const ShareWrite = () => {
 				}
 		}
 // React - Quill
+
 		const modules = {
 				toolbar: {
 						container: [
 								["image"],
 								[{ header: [1, 2, 3, 4, 5, false] }],
-								["bold", "italic", "underline", "strike", "blockquote"],
+								['bold', 'italic', 'underline', 'strike'], // 기본 텍스트 스타일
+								['code-block'], // 코드 블록 삽입 버튼 추가
 						],
+						handlers: {
+								'code-block': insertCodeBlock, // 코드 블록 삽입 핸들러 등록
+						},
 				},
 		};
 
+		function insertCodeBlock() {
+				const range = this.quill.getSelection();
+				const codeBlock = '\n```javascript\n\n```'; // 예시로 JavaScript 코드 블록 삽입
+				this.quill.insertText(range.index, codeBlock);
+				this.quill.setSelection(range.index + 4, 0); // 삽입 후 커서 이동
+		}
 
 
 
@@ -274,9 +305,9 @@ const ShareWrite = () => {
 
 										<ReactQuill
 												style={{ width: "800px", height: "500px" }}
-												modules={modules}
 												value={share.scontent}
-												onChange={(value) => setShare(prevShare => ({ ...prevShare, scontent: value }))}
+												onChange={(value) => setShare({ ...share, scontent: value })}
+												modules={modules}
 												placeholder={"내용 입력"}
 												required />
 										</Form.Group>
