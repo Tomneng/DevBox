@@ -31,7 +31,7 @@ public class MyDocService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseEntity<?> getList(int page){
+    public ResponseEntity<?> getList(int page) {
         Pageable pageable = PageRequest.of(page - 1, 20, Sort.by("createdAt").descending());
         Page<MyDoc> myDocPage = myDocRepository.findAll(pageable);
 
@@ -44,24 +44,24 @@ public class MyDocService {
     }
 
     @Transactional
-    public ResponseEntity<?> getKeywords(){
+    public ResponseEntity<?> getKeywords() {
         List<MyDocTitles> titles = myDocRepository.findAllBy();
         return new ResponseEntity<>(titles, HttpStatus.OK);
     }
 
 
     @Transactional
-    public ResponseEntity<?> getMyDoc(Long id){
+    public ResponseEntity<?> getMyDoc(Long id) {
         return new ResponseEntity<>(myDocRepository.findById(id), HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<?> createMyDoc(Map<String, String> myMap){
+    public ResponseEntity<?> createMyDoc(Map<String, String> myMap) {
         Long userId = parseLong(myMap.get("userId"));
         User user = userRepository.findById(userId).orElse(null);
         String title = myMap.get("title");
         String lang = myMap.get("lang");
-        if (title != null && lang != null){
+        if (title != null && lang != null) {
             myMap.remove("title");
             myMap.remove("lang");
             myMap.remove("userId");
@@ -76,27 +76,31 @@ public class MyDocService {
     }
 
     @Transactional
-    public ResponseEntity<?> updateMyDoc(Map<String, String> myMap){
+    public ResponseEntity<?> updateMyDoc(Map<String, String> myMap) {
         String title = myMap.get("title");
         String lang = myMap.get("lang");
-        if (title != null && lang != null){
+        Long docId = parseLong(myMap.get("docId"));
+        MyDoc myDoc = myDocRepository.findById(docId).orElse(null);
+        if (title != null && lang != null) {
             myMap.remove("title");
             myMap.remove("lang");
             myMap.remove("userId");
+            myMap.remove("docId");
+            myMap.remove("createdAt");
+            myMap.remove("viewCnt");
             myMap.remove("content");
         }
         String content = joinMapToString(myMap, "replaceThisDevBox");
-        Long docId = parseLong(myMap.get("docId"));
-        MyDoc myDoc = myDocRepository.findById(docId).orElse(null);
         myDoc.setTitle(title);
         myDoc.setContent(content);
         myDoc.setLang(lang);
         return new ResponseEntity<>(myDocRepository.saveAndFlush(myDoc), HttpStatus.OK); // 201
     }
+
     @Transactional
-    public ResponseEntity<?> deleteMyDoc(Long myDocId){
+    public ResponseEntity<?> deleteMyDoc(Long myDocId) {
         myDocRepository.deleteById(myDocId);
-        if (myDocRepository.existsById(myDocId)){
+        if (myDocRepository.existsById(myDocId)) {
             return new ResponseEntity<>(0, HttpStatus.OK);
         }
         return new ResponseEntity<>(1, HttpStatus.OK);

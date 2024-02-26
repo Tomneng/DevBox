@@ -21,6 +21,12 @@ const MyDocUpdate = () => {
         let hTagexp = /제목/;
         let pTagexp = /문단/;
         let codeTagexp = /코드블록/;
+
+        let hTag = '제목'
+        let pTag = '문단'
+        let codeTag = '코드블록'
+
+
         try {
             const response = await auth.getmyDoc(id.did);
             setMyDoc(response.data);
@@ -32,10 +38,22 @@ const MyDocUpdate = () => {
                 let nextContent = contentsArray[index + 1];
 
                 if (content.search(hTagexp) !== -1) {
+                    setMyDoc(prevMyDoc => ({
+                        ...prevMyDoc,
+                        [hTag + index]: nextContent
+                    }));
                     await addH2('textarea', '제목', 'h2-style', nextContent);
                 } else if (content.search(pTagexp) !== -1) {
+                    setMyDoc(prevMyDoc => ({
+                        ...prevMyDoc,
+                        [pTag + index]: nextContent
+                    }));
                     await addP('textarea', '문단', 'p-style', nextContent);
                 } else if (content.search(codeTagexp) !== -1) {
+                    setMyDoc(prevMyDoc => ({
+                        ...prevMyDoc,
+                        [codeTag + index]: nextContent
+                    }));
                     await addCodeBlock('textarea', '코드블록', 'code-style', nextContent);
                 }
             }
@@ -111,26 +129,39 @@ const MyDocUpdate = () => {
     };
 
     const handleChange = (e) => {
-        setMyDoc({
-            ...myDoc,
+        setMyDoc((prevMyDoc) => ({
+            ...prevMyDoc,
             [e.target.name]: e.target.value
-        });
-    }
+        }));
+    };
 
     const updateMyDoc = async (e) => {
-        console.log(myDoc)
         e.preventDefault();
-        let response
-        let data;
-        response = await auth.updateMyDoc(myDoc)
-        data = response.data;
-        if (response.status === 200) {
-            alert("수정완료!")
-            navigate(`/myDoc/detail/${data.docId}`)
-        } else {
-            alert("수정실패!")
+        try {
+            // inputs를 활용하여 content를 업데이트
+            const updatedContent = inputs.map((input) => input.value).join('replaceThisDevBox');
+
+            // myDoc을 업데이트
+            setMyDoc((prevMyDoc) => ({
+                ...prevMyDoc,
+                content: updatedContent
+            }));
+
+            // API 호출
+            const response = await auth.updateMyDoc(myDoc);
+            const data = response.data;
+
+            if (response.status === 200) {
+                alert("수정완료!");
+                navigate(`/myDoc/detail/${data.docId}`);
+            } else {
+                alert("수정실패!");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("수정 중 오류가 발생했습니다.");
         }
-    }
+    };
 
     const handleDeleteTag = (index) => {
         const updatedInputs = [...inputs];
