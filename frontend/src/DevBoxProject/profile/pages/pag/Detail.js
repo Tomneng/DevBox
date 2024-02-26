@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Alert, Button, Container, Form } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Alert, Button, Container, Form} from 'react-bootstrap';
+import * as auth from "../../../apis/auth";
+import * as Swal from "../../../apis/alert";
+
 
 const Detail = () => {
     const navigate = useNavigate();
-    let { id } = useParams();
+    let {id} = useParams();
     const [profile, setProfile] = useState({
         id: '',
         name: '',
@@ -12,143 +15,140 @@ const Detail = () => {
         age: '',
         degree: '',
         csDegree: '',
+        jobType: '',   // 직무별
         skills: '',
+        technicalSkills: '', // 기술 능력을 객체로 변경
         job: '',
         experience: '',
         projects: '',
-        licenses: '',
-        technicalSkills: '',
+        licenses: '', // 자격증 파일 이름 저장
+        shortAppeal: '',
         portfolio: '',
-        profilePic: null,
-        createdAt: '', // 추가된 부분
+        profilePic: '',
+        createdAt: '',
     });
 
+    const DetailProfile = async () => {
+        let response; // 응답 변수 선언
+        let data
+        console.log('프로필 전송 시도 중...');
+
+        try {
+            response = await auth.profileDetail(id);
+            console.log(response)
+            console.log(response.data)
+            data = response.data
+            setProfile(data)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return;
+        }
+    };
     useEffect(() => {
-        fetch(`http://localhost:8080/profile/detail/${id}`)
-            .then((response) => response.json())
-            .then((data) => setProfile(data));
-    }, [id]);
+        DetailProfile()
+    }, []);
 
-    const deleteProfile = () => {
-        if (!window.confirm('삭제 할까요?')) return;
-        fetch(`http://localhost:8080/profile/delete/${id}`, {
-            method: 'DELETE',
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                if (data === 1) {
-                    alert('삭제 완료!');
-                    navigate('/');
-                } else {
-                    alert('삭제 실패!');
-                }
-            });
+    const deleteProfile = async (e) => {
+        let response;
+        let data;
+        try {
+            response = await auth.profileDelete(id);
+        } catch (error) {
+            console.error('에러', error);
+            return;
+        }
+
+        data = response.data;
+        if (data === 1) {
+            console.log('삭제성공');
+            navigate(`/profile/list`);
+            Swal.alert(" 성공", " 다시  해주세요.", "success");
+        } else {
+            console.log(`정보수정 실패`);
+            // 실패 시 알림을 표시합니다.
+            Swal.alert(" 실패", " 실패 하였습니다.", "error");
+        }
     };
-
     const updateProfile = () => {
-        navigate(`/update/${id}`);
+        navigate(`/profile/update/${id}`);
     };
-
-    // createdAt 값이 있는 경우에만 시간을 표시
-    const time = profile.createdAt
-        ? new Date(profile.createdAt).toLocaleString('ko-KR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZone: 'Asia/Seoul',
-        })
-        : null;
 
     let profilePicPreview;
-
+    console.log(profile)
+    console.log(profile.id);
     return (
         <Container className="mt-3">
             <div className="row">
-                <h2 className="display06">이력서 작성</h2>
-                <hr />
+                <h2 className="display06">프로필 상세 보기</h2>
+                <hr/>
                 <div className="col-md-6">
                     <Alert variant="light" className="d-flex justify-content-between">
-                        <span>Id : {id}</span>
-                        <span>{time && `${time} 작성`}</span>
+                        <span>ID: {id}</span>
                     </Alert>
                 </div>
                 <section>
-                    {profilePicPreview && (
-                        <img
-                            src={URL.createObjectURL(profile.profilePic)}
-                            style={{ maxWidth: '100%', height: '100px', display: 'block', marginTop: '10px' }}
-                            alt="프로필 미리보기"
-                        />
-                    )}
                     <div className="mt-3">
                         <h5>이름</h5>
-                        <Form.Control type="text" readOnly value={profile.name} />
+                        <Form.Control type="text" readOnly value={profile.name}/>
                     </div>
                     <div className="mt-3">
                         <h5>전화번호</h5>
-                        <Form.Control type="text" readOnly value={profile.number} />
+                        <Form.Control type="text" readOnly value={profile.number}/>
                     </div>
                     <div className="mt-3">
                         <h5>나이</h5>
-                        <Form.Control type="text" readOnly value={profile.age} />
+                        <Form.Control type="text" readOnly value={profile.age}/>
                     </div>
                     <div className="mt-3">
                         <h5>학력</h5>
-                        <Form.Control type="text" readOnly value={profile.degree} />
+                        <Form.Control type="text" readOnly value={profile.degree}/>
                     </div>
                     <div className="mt-3">
                         <h5>전공자 유무</h5>
-                        <Form.Control type="text" readOnly value={profile.csDegree} />
+                        <Form.Control type="text" readOnly value={profile.csDegree}/>
                     </div>
                     <div className="mt-3">
                         <h5>기술스택</h5>
-                        <Form.Control type="text" readOnly value={profile.skills} />
+                        <Form.Control type="text" readOnly value={profile.skills}/>
                     </div>
                     <div className="mt-3">
                         <h5>기술능력</h5>
-                        <Form.Control type="text" readOnly value={profile.technicalSkills} />
+                        <Form.Control type="text" readOnly value={Object.keys(profile.technicalSkills).join(', ')}/>
                     </div>
                     <div className="mt-3">
                         <h5>경력</h5>
-                        <Form.Control type="text" readOnly value={profile.experience} />
+                        <Form.Control type="text" readOnly value={profile.experience}/>
                     </div>
                     <div className="mt-3">
                         <h5>직업</h5>
-                        <Form.Control type="text" readOnly value={profile.job} />
+                        <Form.Control type="text" readOnly value={profile.job}/>
                     </div>
                     <div className="mt-3">
                         <h5>프로젝트</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.projects} />
+                        <Form.Control as="textarea" rows={3} readOnly value={profile.projects}/>
                     </div>
                     <div className="mt-3">
                         <h5>자격증</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.licenses} />
+                        <Form.Control as="textarea" rows={3} readOnly value={profile.licenses}/>
                     </div>
                     <div className="mt-3">
                         <h5>짧은 자기소개</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.shortAppeal} />
+                        <Form.Control as="textarea" rows={3} readOnly value={profile.shortAppeal}/>
                     </div>
                     <div className="mt-3">
                         <h5>포트폴리오</h5>
-                        <Form.Control type="text" readOnly value={profile.portfolio} />
+                        <Form.Control type="text" readOnly value={profile.portfolio}/>
                     </div>
                 </section>
                 <div className="d-flex my-3">
                     <Button variant="outline-dark " onClick={updateProfile}>
                         수정
                     </Button>
-                    <Link className="btn btn-outline-dark ms-2" to="/list">
-                        목록
-                    </Link>
-                    <Button variant="outline-danger" className=" ms-2" onClick={deleteProfile}>
+                    <Button variant="outline-danger" className="ms-2" onClick={deleteProfile}>
                         삭제
                     </Button>
-                    <Link className="btn btn-outline-dark ms-2" to="/write">
-                        작성
+                    <Link className="btn btn-outline-dark ms-2" to="/profile/list">
+                        목록
                     </Link>
                 </div>
             </div>

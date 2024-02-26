@@ -9,6 +9,9 @@ import 'swiper/swiper-bundle.css';
 import Chart from 'chart.js/auto';
 import './styles.css';
 import Sidebar from './Sidebar';
+import axios from "axios";
+import {profileList} from "../../../apis/auth";
+import * as auth from "../../../apis/auth";
 
 // 함수형 컴포넌트 정의
 const List = () => {
@@ -17,9 +20,19 @@ const List = () => {
 
     // 컴포넌트가 마운트될 때 서버에서 프로필 데이터를 가져오는 효과 훅
     useEffect(() => {
-        fetch('http://localhost:8080/profile/list')
-            .then((response) => response.json())
-            .then((data) => setProfiles(data));
+
+        const profile = async (e) => {
+            let response; // 응답 변수 선언
+            let status; // 상태 코드 변수 선언
+            try {
+                response = await auth.profileList(profile);
+                setProfiles(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        profile();
     }, []);
 
     // 프로필 데이터가 변경될 때 레이더 차트를 업데이트하는 효과 훅
@@ -179,7 +192,7 @@ const List = () => {
 
                     {/* 작성 링크 */}
                     <div className="d-flex my-3">
-                        <Link className="btn btn-outline-dark" to="/write">
+                        <Link className="btn btn-outline-dark" to="/profile/write">
                             작성
                         </Link>
                     </div>

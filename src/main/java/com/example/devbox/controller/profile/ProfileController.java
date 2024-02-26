@@ -1,6 +1,7 @@
 package com.example.devbox.controller.profile;
 
 import com.example.devbox.domain.profile.Profile;
+import com.example.devbox.repository.profile.SkillRepository;
 import com.example.devbox.service.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RequiredArgsConstructor   // 의존성 주입 생성자 주입을 임의의 코드 없이 자동으로 설정
 @RestController // 데이터 송수신용 컨트롤러
@@ -18,6 +21,8 @@ public class ProfileController {
 
     // SurveyService를 의존성 주입 받습니다.
     private final ProfileService profileService;
+
+    private final SkillRepository skillRepository;
 
     // CrossOrigin 어노테이션은 CORS(Cross-Origin Resource Sharing)를 허용합니다.
     // 다른 도메인에서도 이 컨트롤러의 API를 사용할 수 있도록 허용합니다.
@@ -35,9 +40,18 @@ public class ProfileController {
     // 설문 작성 API
     @CrossOrigin
     @PostMapping("/write")
-    private ResponseEntity<?> write(@RequestBody Profile profile) {
-        return new ResponseEntity<>(profileService.write(profile), HttpStatus.CREATED);  // HTTP 상태 코드 201: Created
+    private ResponseEntity<?> write(@RequestBody Map<String, String> profileMap) {
+        System.out.println(profileMap+"ㅇ"); // 클라이언트에서 서버로 보내주
+        return new ResponseEntity<>(profileService.write(profileMap), HttpStatus.CREATED);  // HTTP 상태 코드 201: Created
     }
+
+    @CrossOrigin
+    @GetMapping("/writeAvg")
+    private ResponseEntity<?> getAvg(){
+        System.out.println("평균값 보내기");
+        return new ResponseEntity<>(skillRepository.findAll(), HttpStatus.OK);
+    }
+
 
     // 설문 상세 조회 API
     @CrossOrigin
@@ -49,9 +63,10 @@ public class ProfileController {
     // 설문 수정 API
     @CrossOrigin
     @PutMapping("/update")
-    private ResponseEntity<?> update(@RequestBody Profile profile) {
-        return new ResponseEntity<>(profileService.update(profile), HttpStatus.OK);
+    private ResponseEntity<?> update(@RequestBody Map<String ,String > profileMap) {
+        return new ResponseEntity<>(profileService.update(profileMap), HttpStatus.OK);
     }
+
 
     // 설문 삭제 API
     @CrossOrigin
@@ -59,6 +74,8 @@ public class ProfileController {
     private ResponseEntity<?> delete(@PathVariable Long id) {
         return new ResponseEntity<>(profileService.delete(id), HttpStatus.OK);
     }
+
+
 
 
 }
