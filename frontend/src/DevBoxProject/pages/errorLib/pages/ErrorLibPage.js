@@ -36,12 +36,10 @@ const ErrorLibPage = () => {
         data = response.data
         setTotalItems(data.cnt) // 페이지 총 갯수
         setMyDocs(data.myDocList) // 슬라이스 된 페이지
-        console.log(titles.data)
         let titlearray = []
         for (let i = 0; i < titles.data.length; i++){
             titleId.set(titles.data[i].title, titles.data[i].docId)
             titlearray.push(titles.data[i].title)
-            console.log(titleId.get("wef"))
         }
         setKeywords(titlearray);
         setKeywordMap(titleId);
@@ -104,7 +102,11 @@ const ErrorLibPage = () => {
                             ))}
                         </ul>
                     )}
+
                     <div className="table-container">
+                        <div className="MyDocButtons">
+                            <Link to='/myDoc/write' className="writeButton">작성</Link>
+                        </div>
                         <div className="table-header">
                             <div className="table-cell">번호</div>
                             <div className="table-cell">언어</div>

@@ -54,10 +54,11 @@
     padding: 10px;
     border: 1px solid #333;
     border-radius: 4px;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .myDoccontainerdetail pre code {
+    overflow-y: auto;
     color: #a9b7c6;
 }
 

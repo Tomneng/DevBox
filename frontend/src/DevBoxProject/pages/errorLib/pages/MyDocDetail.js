@@ -42,14 +42,23 @@ const MyDocDetail = () => {
     }, []);
 
     const DeleteMyDoc = () => {
-        window.confirm("삭제 하시겠습니까?")
-        let deleteResponse = auth.deleteMyDoc(myDoc.docId)
-        if (deleteResponse.status === 200) {
-            alert("삭제 성공")
-            navigate("/myDoc/list")
+        const userConfirmed = window.confirm("삭제 하시겠습니까?");
+
+        if (userConfirmed) {
+            let deleteResponse = auth.deleteMyDoc(myDoc.docId)
+            if (deleteResponse.status === 200) {
+                alert("삭제 성공")
+                navigate("/myDoc/list")
+            } else {
+                alert("삭제 실패")
+            }
         } else {
-            alert("삭제 실패")
+            // 사용자가 취소를 선택한 경우 추가 처리 또는 아무 동작 없음
         }
+    }
+
+    const updateMyDoc = () => {
+        navigate("/myDoc/update")
     }
 
     return (
@@ -95,7 +104,7 @@ const MyDocDetail = () => {
                             <span><FontAwesomeIcon icon={faTrashCan}/></span>
                         </button>
                         <button type="button" className="updateButton button-grayBlack custom-btn"
-                                onClick={() => DeleteMyDoc()}>
+                                onClick={() => updateMyDoc()}>
                             <span>수정하기</span>
                         </button>
                     </div>

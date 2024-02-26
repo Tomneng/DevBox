@@ -86,6 +86,7 @@
 }
 
 .myDoccontainer pre code {
+    overflow: auto;
     color: #a9b7c6;
 }
 
