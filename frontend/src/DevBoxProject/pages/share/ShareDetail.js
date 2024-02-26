@@ -171,7 +171,7 @@ const ShareDetail = () => {
 
 								{/* 글 내용 */}
 								<h4>내용</h4>
-								<span>{share.scontent}</span>
+								<div dangerouslySetInnerHTML={{ __html: share.scontent }}/>
 
 
 								<div className={DefaultCSS.button_box}>

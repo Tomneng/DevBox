@@ -55,30 +55,11 @@ const ShareWrite = () => {
 
 
 		const changeValue = (e) => {
-				const {name, value, type, checked} = e.target;
-				console.log("changeValue 에서 JSON.stringify(userInfo.userId) = " + JSON.stringify(userInfo.userId))
-				setShare((prevShare) => {
-						if (type === 'checkbox') {
-
-								return {
-										...prevShare,
-										[name]: checked
-												? prevShare[name].length > 0
-														? `${prevShare[name]},${value}`
-														: value
-												: prevShare[name]
-														.split(',')
-														.filter((item) => item !== value)
-														.join(',')
-								};
-						} else {
-								// 그 외의 경우 value 값을 사용
-								return {
-										...prevShare,
-										[name]: value,
-								};
-						}
-				});
+				const { name, value } = e.target;
+				setShare(prevShare => ({
+						...prevShare,
+						[name]: value
+				}));
 		};
 
 
@@ -290,17 +271,16 @@ const ShareWrite = () => {
 										{/* 글 내용 입력란 */}
 										<Form.Group>
 												<Form.Label>코드 내용 :</Form.Label>
-												<Form.Control
-														type={"text"}
-														placeholder={"내용 입력"}
-														onChange={changeValue}
-														name={"scontent"}
-														required/>
-										</Form.Group>
+
 										<ReactQuill
 												style={{ width: "800px", height: "500px" }}
 												modules={modules}
-										/>
+												value={share.scontent}
+												onChange={(value) => setShare(prevShare => ({ ...prevShare, scontent: value }))}
+												placeholder={"내용 입력"}
+												required />
+										</Form.Group>
+
 										{/* 코드 사진 첨부 */}
 
 										<div className={DefaultCSS.button_box}>
