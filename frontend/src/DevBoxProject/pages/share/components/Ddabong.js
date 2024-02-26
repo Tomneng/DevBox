@@ -11,10 +11,10 @@ const Ddabong = (props) => {
 		const {share, user, updated, onUpdated} = props
 		const [steam, setSteam] = useState({
 				shareId: share.sid,
-				userId: user.userId,
+				userId: user.id,
 		})
 		const deleteSteamValue = async () => {
-				await auth.deleteSteam(share.sid, user.userId);
+				await auth.deleteSteam(share.sid, user.id);
 				onUpdated();
 		}
 
@@ -27,7 +27,7 @@ const Ddabong = (props) => {
 		return (
 				<>
 						<small>찜 : {share.steamList.length}</small>
-						{share.steamList.some(steamList => steamList.user.userId === user.userId)
+						{share.steamList.some(steamList => steamList.user.id === user.id)
 								?
 								<FontAwesomeIcon icon={faThumbsUp} style={{color: "#FFD43B",}} onClick={deleteSteamValue}/>
 								: <FontAwesomeIcon icon={faThumbsUpRegular} onClick={plusSteamValue}/>}

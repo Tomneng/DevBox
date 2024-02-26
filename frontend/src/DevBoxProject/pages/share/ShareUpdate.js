@@ -25,7 +25,7 @@ const ShareUpdate = () => {
 
 		let {sid} = useParams();
 		const navigate = useNavigate();
-		const {userInfo, isLogin} = useContext(LoginContext);
+		const { isLogin} = useContext(LoginContext);
 		const [share, setShare] = useState({
 				sid: '',
 				stitle: '',

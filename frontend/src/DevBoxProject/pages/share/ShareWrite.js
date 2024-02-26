@@ -46,7 +46,7 @@ const ShareWrite = () => {
 				scontent: '',
 				slanguage: '',
 				sdescription: '',
-				userId: userInfo ? userInfo.userId : '',
+				userId: userInfo ? userInfo.id : '',
 		});
 
 		// 빈 배열을 만든후 이 배열에 체크된 언어만 넣고 이 배열을 가지고 언어 아이콘을 보여줄 계획

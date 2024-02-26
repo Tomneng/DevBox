@@ -63,7 +63,7 @@ public class SteamService {
         List<Steam> steamList = share.getSteamList();
         for (Iterator<Steam> iterator = steamList.iterator(); iterator.hasNext();) {
             Steam steam = iterator.next();
-            if (Objects.equals(steam.getUser().getUserId(), userId)) {
+            if (Objects.equals(steam.getUser().getId(), userId)) {
                 iterator.remove();
             }
         }

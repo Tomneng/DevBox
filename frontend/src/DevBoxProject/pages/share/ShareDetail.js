@@ -94,7 +94,7 @@ const ShareDetail = () => {
 		const {isLogin} = useContext(LoginContext)
 		const [comment, setComment] = useState({
 				ccontent: '',
-				userId: userInfo.userId,
+				userId: userInfo.id,
 				sid: sid,
 		});
 
@@ -102,7 +102,7 @@ const ShareDetail = () => {
 				setComment({
 						...comment,
 						[e.target.name]: e.target.value,
-						userId: userInfo.userId,
+						userId: userInfo.id,
 				});
 		};
 		const commentSubmit = async (e) => {
@@ -175,7 +175,7 @@ const ShareDetail = () => {
 
 
 								<div className={DefaultCSS.button_box}>
-										{userInfo.userId === share.userId.userId &&
+										{userInfo.id === share.userId.id &&
 												<>
 														<button onClick={updatePost}>수정</button>
 														<button onClick={deletePost}>삭제</button>
