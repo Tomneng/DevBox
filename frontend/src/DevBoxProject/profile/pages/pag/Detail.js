@@ -3,6 +3,7 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Alert, Button, Container, Form} from 'react-bootstrap';
 import * as auth from "../../../apis/auth";
 import * as Swal from "../../../apis/alert";
+import {isToken} from "../../../apis/auth";
 
 
 const Detail = () => {
@@ -34,6 +35,7 @@ const Detail = () => {
         console.log('프로필 전송 시도 중...');
 
         try {
+            isToken()
             response = await auth.profileDetail(id);
             console.log(response)
             console.log(response.data)
@@ -51,7 +53,7 @@ const Detail = () => {
     const deleteProfile = async (e) => {
         let response;
         let data;
-        try {
+        try {isToken()
             response = await auth.profileDelete(id);
         } catch (error) {
             console.error('에러', error);

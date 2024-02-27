@@ -20,6 +20,7 @@ import Header from "../../components/Header";
 import * as Swal from "../../apis/alert";
 import loginContextProvider, {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
+import {isToken} from "../../apis/auth";
 
 
 import ReactQuill from "react-quill";
@@ -41,6 +42,7 @@ const ShareUpdate = () => {
 
 
 		const getCodeShareDetail = async () => {
+			isToken()
 				const response = await auth.codeShareDetail(sid)
 				const data = response.data
 				setShare(data)
@@ -84,6 +86,7 @@ const ShareUpdate = () => {
 
 		const submitShare = async (e) => {
 				e.preventDefault(); // 기본 subimt 동작 차단.
+			isToken()
 
 				//  PUT request
 				const response = await auth.codeShareUpdate(share)

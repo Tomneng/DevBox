@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 //  CSS
 import CommentListCSS from "../CSS/CommentList.module.css"
+import {isToken} from "../../../apis/auth";
 
 const CommentList = (props) => {
 		const { sid } = props.share;
@@ -12,7 +13,7 @@ const CommentList = (props) => {
 		const navigate = useNavigate();
 		useEffect(() => {
 				const fetchCommentList = async () => {
-						try {
+						try {isToken()
 								const response = await auth.codeShareCommentList(sid);
 								setCommentList(response.data);
 								console.log(response.data)

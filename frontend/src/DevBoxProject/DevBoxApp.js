@@ -5,7 +5,6 @@ import ShareDetail from "./pages/share/ShareDetail";
 import ShareUpdate from "./pages/share/ShareUpdate";
 import {Route, Routes} from "react-router-dom";
 
-
 import "./components/default.css"
 
 import HomePage from "./pages/Utils/HomePage";
@@ -38,7 +37,7 @@ const DevBoxApp = () => {
 										<Route path='/myDoc/list' Component={ErrorLibPage}></Route>
 										<Route path='/myDoc/detail/:did' Component={MyDocDetail}></Route>
 										<Route path='/myDoc/write/' Component={MyDocWrite}></Route>
-										<Route path='/myDoc/update/' Component={MyDocUpdate}></Route>
+										<Route path='/myDoc/update/:did' Component={MyDocUpdate}></Route>
 
 										{/* lib */}
 

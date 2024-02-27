@@ -6,6 +6,7 @@ import "../CSS/MyDocDetail.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {alert} from "../../../apis/alert";
+import {isToken} from "../../../apis/auth";
 
 const MyDocDetail = () => {
 
@@ -26,12 +27,14 @@ const MyDocDetail = () => {
     let codeTagexp = /코드블록/;
     let response;
     const initgetDoc = async () => {
+        isToken()
         try {
+            isToken()
             const response = await auth.getmyDoc(id.did);
             setMyDoc(response.data);
             const contentsArray = response.data.content.split("replaceThisDevBox");
             setContents(contentsArray);
-            console.log()
+            console.log(response.data)
         } catch (error) {
             console.log(error);
         }
@@ -41,11 +44,11 @@ const MyDocDetail = () => {
         initgetDoc();
     }, []);
 
-    const DeleteMyDoc = () => {
+    const DeleteMyDoc = async () => {
+        isToken()
         const userConfirmed = window.confirm("삭제 하시겠습니까?");
-
         if (userConfirmed) {
-            let deleteResponse = auth.deleteMyDoc(myDoc.docId)
+            let deleteResponse = await auth.deleteMyDoc(myDoc.docId)
             if (deleteResponse.status === 200) {
                 alert("삭제 성공")
                 navigate("/myDoc/list")
@@ -58,7 +61,7 @@ const MyDocDetail = () => {
     }
 
     const updateMyDoc = () => {
-        navigate("/myDoc/update")
+        navigate(`/myDoc/update/${id.did}`)
     }
 
     return (

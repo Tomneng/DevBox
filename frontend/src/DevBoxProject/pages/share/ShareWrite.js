@@ -25,6 +25,7 @@ import Header from "../../components/Header";
 
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
+import {isToken} from "../../apis/auth";
 
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'; // Quill의 스타일시트 가져오기
@@ -81,6 +82,7 @@ const ShareWrite = () => {
 
 
 		const submitShare = async (e) => {
+			isToken()
 				e.preventDefault();
 				console.log(share)
 				//  POST request

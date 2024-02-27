@@ -71,7 +71,7 @@ jwt:
   secretKey: 8LCWN2sF99tcdvOuW2shyJ2LYXwQlRHaFtvU9RcoA5LItunmtgOiu1x7dtLpTjyN
 
   access:
-    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+    expiration: 360000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
     header: Authorization
 
   refresh:

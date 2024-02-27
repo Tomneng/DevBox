@@ -2,6 +2,7 @@ package com.example.devbox.domain.myLib;
 
 import com.example.devbox.domain.common.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +35,7 @@ public class MyDoc {
     private LocalDateTime createdAt;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @ColumnDefault(value = "0") // 이친구는 primitive 타입에만 적용되는듯

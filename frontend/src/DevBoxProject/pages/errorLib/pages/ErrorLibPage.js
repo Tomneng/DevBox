@@ -7,6 +7,8 @@ import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import * as auth from '../../../apis/auth'
 import TableCells from "../components/TableCells";
 import Pagination from "../components/Pagination";
+import {isToken} from "../../../apis/auth";
+import Cookies from "js-cookie";
 
 const ErrorLibPage = () => {
     const [myDocs, setMyDocs] = useState([])
@@ -22,10 +24,12 @@ const ErrorLibPage = () => {
     let titleId = new Map;
 
     const getDocs = async () =>{
+
         let data
         let response
         let titles
         try {
+            isToken()
             response = await auth.getDocs(page)
             titles = await auth.getKeyWords();
         } catch (error) {

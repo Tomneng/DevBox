@@ -1,7 +1,5 @@
-show tables;
-SELECT * FROM Profile;
-DESC Profile;
+SELECT * from mydoc;
 
-DROP TABLE Profile;
+SELECT * from users;
 
 

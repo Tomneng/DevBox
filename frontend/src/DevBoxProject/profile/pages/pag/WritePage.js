@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { Button, Form } from 'react-bootstrap';
 import { Radar } from 'react-chartjs-2';
 import { Form } from 'react-bootstrap';
 import './WritePage.css';
 import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
+import {isToken} from "../../../apis/auth";
 const WritePage = () => {
 
     const {userInfo} = useContext(LoginContext) // 현재 로그인된 사용자의 정보=userInfo

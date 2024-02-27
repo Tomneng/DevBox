@@ -3,6 +3,7 @@ import * as auth from "../../../apis/auth";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {faThumbsUp as faThumbsUpRegular} from "@fortawesome/free-regular-svg-icons";
+import {isToken} from "../../../apis/auth";
 
 
 const Ddabong = (props) => {
@@ -14,11 +15,13 @@ const Ddabong = (props) => {
 				userId: user.id,
 		})
 		const deleteSteamValue = async () => {
+			isToken()
 				await auth.deleteSteam(share.sid, user.id);
 				onUpdated();
 		}
 
 		const plusSteamValue = async () => {
+			isToken()
 				await auth.plusSteam(steam);
 				onUpdated();
 		}

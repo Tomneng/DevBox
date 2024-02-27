@@ -4,8 +4,9 @@ import '../CSS/MyDocWirte.css';
 import * as auth from "../../../apis/auth"
 import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
+import {isToken} from "../../../apis/auth";
 
 const MyDocUpdate = () => {
     const [inputs, setInputs] = useState([]);
@@ -13,15 +14,66 @@ const MyDocUpdate = () => {
     const textareaRef = useRef(null);
     const myDocContainerRef = useRef(null);
     const [myDoc, setMyDoc] = useState({});
+    const id = useParams();
 
     const navigate = useNavigate();
+    let number = 0;
 
-    const {userInfo} = useContext(LoginContext);
+    const initgetDoc = async () => {
+        let hTagexp = /제목/;
+        let pTagexp = /문단/;
+        let codeTagexp = /코드블록/;
+
+        let hTag = '제목'
+        let pTag = '문단'
+        let codeTag = '코드블록'
+
+
+        try {
+            isToken()
+            const response = await auth.getmyDoc(id.did);
+            setMyDoc(response.data);
+            const contentsArray = response.data.content.split("replaceThisDevBox");
+            console.log(response.data.title)
+            console.log(contentsArray)
+            for (let index = 0; index < contentsArray.length; index += 2) {
+                let content = contentsArray[index];
+                let nextContent = contentsArray[index + 1];
+
+                if (content.search(hTagexp) !== -1) {
+                    setMyDoc(prevMyDoc => ({
+                        ...prevMyDoc,
+                        [hTag + ++number]: nextContent
+                    }));
+                    console.log(number)
+                    await addH2('textarea', '제목', 'h2-style', nextContent);
+                } else if (content.search(pTagexp) !== -1) {
+                    setMyDoc(prevMyDoc => ({
+                        ...prevMyDoc,
+                        [pTag + ++number]: nextContent
+                    }));
+                    console.log(number)
+                    await addP('textarea', '문단', 'p-style', nextContent);
+                } else if (content.search(codeTagexp) !== -1) {
+                    setMyDoc(prevMyDoc => ({
+                        ...prevMyDoc,
+                        [codeTag + ++number]: nextContent
+                    }));
+                    console.log(number)
+                    await addCodeBlock('textarea', '코드블록', 'code-style', nextContent);
+                }
+            }
+            console.log(inputs)
+        } catch (error) {
+            console.log(error);
+        }
+        console.log(myDoc)
+    }
 
     useEffect(() => {
-        let response;
-
-    })
+        initgetDoc()
+        console.log(inputs)
+    }, [])
 
     useEffect(() => {
         // textarea의 내용이 변경될 때마다 높이 조절
@@ -31,10 +83,6 @@ const MyDocUpdate = () => {
         }
         adjustMyDocContainerHeight();
 
-        setMyDoc({
-            ...myDoc,
-            userId: userInfo.id
-        })
     }, [inputs]);
 
     const adjustMyDocContainerHeight = () => {
@@ -52,66 +100,93 @@ const MyDocUpdate = () => {
     const handleAddTag = () => {
         switch (selectedTag) {
             case 'h2':
-                addH2('textarea', '제목', 'h2-style');
+                addH2('textarea', '제목', 'h2-style', '');
                 break;
             case 'p':
-                addP('textarea', '문단', 'p-style');
+                addP('textarea', '문단', 'p-style', '');
                 break;
             case 'code':
-                addCodeBlock();
+                addCodeBlock('textarea', '코드블록', 'code-style', '');
                 break;
             default:
                 break;
         }
     };
 
-    const addH2 = (type, placeholder, style) => {
-        setInputs((prevInputs) => [...prevInputs, {type, placeholder, style}]);
+    const addH2 = (type, placeholder, style, value) => {
+        setInputs((prevInputs) => [...prevInputs, {type, placeholder, style, value}]);
     };
-    const addP = (type, placeholder, style) => {
-        setInputs((prevInputs) => [...prevInputs, {type, placeholder, style}]);
+    const addP = (type, placeholder, style, value) => {
+        setInputs((prevInputs) => [...prevInputs, {type, placeholder, style, value}]);
     };
-    const addCodeBlock = () => {
-        setInputs((prevInputs) => [...prevInputs, {type: 'textarea', placeholder: '코드블록', style: 'code-style'}]);
+    const addCodeBlock = (type, placeholder, style, value) => {
+        setInputs((prevInputs) => [...prevInputs, {type, placeholder, style, value}]);
     };
 
     const handleInputChange = (e, index, value) => {
         const updatedInputs = [...inputs];
         updatedInputs[index].value = value;
         setInputs(updatedInputs);
-        setMyDoc({
-            ...myDoc,
-            [e.target.name]: e.target.value
-        });
+        const updatedContentArray = Array.from(document.getElementsByClassName('contents'));
+        const updatedContent = updatedContentArray.map(content => content.name + 'replaceThisDevBox' + content.value).join('replaceThisDevBox');
+        console.log(updatedContent);
+        setMyDoc((prevMyDoc) => ({
+            ...prevMyDoc,
+            content: updatedContent
+        }));
         console.log(myDoc)
     };
 
     const handleChange = (e) => {
-        setMyDoc({
-            ...myDoc,
+        setMyDoc((prevMyDoc) => ({
+            ...prevMyDoc,
             [e.target.name]: e.target.value
-        });
-    }
+        }));
+    };
 
-    const writeMyDoc = async (e) => {
+    const updateMyDoc = async (e) => {
+        console.log(inputs)
+        console.log(myDoc)
+
         e.preventDefault();
-        let response
-        let data;
-        response = await auth.writeMyDoc(myDoc)
-        data = response.data;
-        if (response.status === 201) {
-            alert("작성완료!")
-            navigate(`/myDoc/detail/${data.docId}`)
-        } else {
-            alert("작성 실패!")
-        }
-    }
+        try {
+            isToken()
+            // API 호출
+            const response = await auth.updateMyDoc(myDoc);
+            const data = response.data;
 
-    const handleDeleteTag = (index) => {
+            if (response.status === 200) {
+                alert("수정완료!");
+                navigate(`/myDoc/detail/${data.docId}`);
+            } else {
+                alert("수정실패!");
+            }
+        } catch (error) {
+            console.log(error);
+            alert("수정 중 오류가 발생했습니다.");
+        }
+    };
+
+    const handleDeleteTag = (e, index) => {
         const updatedInputs = [...inputs];
         updatedInputs.splice(index, 1);
         setInputs(updatedInputs);
-    };
+        const parentElement = e.currentTarget.parentElement;
+
+        // 부모 노드에서 textarea를 찾음
+        const textarea = parentElement.querySelector('textarea');
+
+        // textarea가 존재하고, name 속성이 있다면 가져옴
+        if (textarea && textarea.name) {
+            const textareaName = textarea.name;
+            console.log('Textarea name:', textareaName);
+
+            setMyDoc((prevMyDoc) => {
+                const { [textareaName]: omittedKey, ...rest } = prevMyDoc;
+                return rest;
+            });
+        }
+    }
 
     return (
         <>
@@ -130,8 +205,8 @@ const MyDocUpdate = () => {
                     </div>
                 </div>
                 <div className="myDoccontainer" ref={myDocContainerRef}>
-                    <form onSubmit={(e) => writeMyDoc(e)}>
-                        <input name="title" placeholder="제목" className="title" onChange={(e) => handleChange(e)}/>
+                    <form onSubmit={(e) => updateMyDoc(e)}>
+                        <input name="title" placeholder="제목" className="title" onChange={(e) => handleChange(e)} value={myDoc.title}/>
                         <hr/>
                         {inputs.map((input, index) => (
                             <div key={index} className="tagContainer">
@@ -139,11 +214,11 @@ const MyDocUpdate = () => {
                                 placeholder={input.placeholder}
                                 value={input.value || ''}
                                 onChange={(e) => handleInputChange(e, index, e.target.value)}
-                                className={input.style}
+                                className={`${input.style} contents`}
                                 ref={textareaRef}
                                 name={`${input.placeholder}${index}`}
                             />
-                                <button type="button" className="deleteButton" onClick={() => handleDeleteTag(index)}>
+                                <button type="button" className="deleteButton" onClick={(e) => handleDeleteTag(e,index)}>
                                     <FontAwesomeIcon icon={faTrashCan}/>
                                 </button>
                             </div>

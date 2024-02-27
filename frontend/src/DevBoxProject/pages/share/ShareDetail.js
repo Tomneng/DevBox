@@ -32,6 +32,7 @@ import CommentList from "./components/CommentList";
 import commentCSS from "./CSS/Comment.module.css";
 
 import Ddabong from "./components/Ddabong";
+import {isToken} from "../../apis/auth";
 
 const ShareDetail = () => {
 		// 유저 확인
@@ -57,6 +58,7 @@ const ShareDetail = () => {
 		console.log(share)
 		const codeShareDetail = async () => {
 				try {
+					isToken()
 						const response = await auth.codeShareDetail(sid);
 						const data = response.data;
 						setShare(data);
@@ -74,6 +76,7 @@ const ShareDetail = () => {
 		}, []);
 		const deletePost = async () => {
 				if (!window.confirm('삭제 할랍니꺼')) return;
+			isToken()
 
 				const response = await auth.codeShareDelete(sid)
 				const status = response.status
@@ -119,6 +122,7 @@ const ShareDetail = () => {
 						});
 						return null;
 				}
+			isToken()
 				const response = await auth.codeShareCommentWrite(comment)
 
 				if (response.status === 201) {

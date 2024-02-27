@@ -113,13 +113,10 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * 그 후 다음 인증 필터로 진행
      */
     public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                                  FilterChain filterChain) throws ServletException, IOException {
-        log.info("checkAccessTokenAndAuthentication() 호출");
+                                                  FilterChain filterChain) throws ServletException, IOException {log.info("checkAccessTokenAndAuthentication() 호출");
         jwtService.extractAccessToken(request)
-                .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> userRepository.findByEmail(email)
-                                .ifPresent(this::saveAuthentication)));
+                .filter(jwtService::isTokenValid).flatMap(jwtService::extractEmail).ifPresent(email -> userRepository.findByEmail(email)
+                        .ifPresent(this::saveAuthentication));
 
         filterChain.doFilter(request, response);
     }

@@ -6,6 +6,7 @@ import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate} from "react-router-dom";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
+import {isToken} from "../../../apis/auth";
 
 const MyDocWrite = () => {
     const [inputs, setInputs] = useState([]);
@@ -79,6 +80,7 @@ const MyDocWrite = () => {
             [e.target.name]: e.target.value
         });
         console.log(myDoc)
+        console.log(inputs);
     };
 
     const handleChange = (e) => {
@@ -89,6 +91,8 @@ const MyDocWrite = () => {
     }
 
     const writeMyDoc = async (e) => {
+        isToken()
+        console.log(myDoc)
         e.preventDefault();
         let response
         let data;

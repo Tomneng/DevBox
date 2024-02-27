@@ -1,16 +1,17 @@
+// List.js
+
 // 필요한 React 컴포넌트 및 라이브러리를 가져옵니다.
-import React, {useContext, useEffect, useState} from 'react'; // 리액트 및 훅을 가져옵니다.
-import { Link } from 'react-router-dom'; // 리액트 라우터의 링크 컴포넌트를 가져옵니다.
-import { Button, Container, Card } from 'react-bootstrap'; // 부트스트랩 컴포넌트를 가져옵니다.
-import { Swiper, SwiperSlide } from 'swiper/react'; // Swiper 슬라이드 관련 컴포넌트를 가져옵니다.
-import 'swiper/swiper-bundle.css'; // Swiper의 스타일을 가져옵니다.
-import Chart from 'chart.js/auto'; // 차트 관련 라이브러리를 가져옵니다.
-import './styles.css'; // 컴포넌트에 적용할 스타일 시트를 가져옵니다.
-import Sidebar from './Sidebar'; // 사이드바 컴포넌트를 가져옵니다.
-import axios from "axios"; // axios 라이브러리를 가져옵니다.
-import {profileList} from "../../../apis/auth"; // 프로필 목록 API 함수를 가져옵니다.
-import * as auth from "../../../apis/auth"; // 인증 관련 API 함수들을 가져옵니다.
-import {LoginContext} from "../../../contexts/LoginContextProvider"; // 로그인 컨텍스트를 가져옵니다.
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Container, Card } from 'react-bootstrap';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import Chart from 'chart.js/auto';
+import './styles.css';
+import Sidebar from './Sidebar';
+import axios from "axios";
+import {isToken, profileList} from "../../../apis/auth";
+import * as auth from "../../../apis/auth";
 
 // 함수형 컴포넌트 정의
 const List = () => {
@@ -26,8 +27,9 @@ const List = () => {
             let response; // 응답 변수 선언
             let status; // 상태 코드 변수 선언
             try {
-                response = await auth.profileList(profile); // 프로필 목록을 가져오는 API 호출
-                setProfiles(response.data); // 가져온 데이터로 프로필 목록 상태 업데이트
+                isToken()
+                response = await auth.profileList(profile);
+                setProfiles(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error); // 오류 메시지 출력
             }
