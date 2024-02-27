@@ -24,6 +24,7 @@ import * as Swal from "../../apis/alert";
 
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
+import {isToken} from "../../apis/auth";
 
 
 const ShareWrite = () => {
@@ -82,6 +83,7 @@ const ShareWrite = () => {
 
 
 		const submitShare = async (e) => {
+			isToken()
 				e.preventDefault();
 				console.log(share)
 				//  POST request

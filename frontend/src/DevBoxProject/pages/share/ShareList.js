@@ -7,6 +7,7 @@ import {faArrowUp} from "@fortawesome/free-solid-svg-icons/faArrowUp";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as auth from "../../apis/auth";
 import DefaultCSS from "./CSS/Default.module.css"
+import {isToken} from "../../apis/auth";
 const ShareList = () => {
 		// 원본 글 리스트
 		const [shareList, setShareList] = useState([]);
@@ -29,6 +30,7 @@ const ShareList = () => {
 
 		const codeShareList = async () => {
 				try {
+					isToken()
 						const response = await auth.codeShareList();
 						const data = response.data;
 						setShareList(data);

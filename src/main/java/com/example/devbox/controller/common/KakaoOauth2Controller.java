@@ -211,7 +211,7 @@ public class KakaoOauth2Controller {
         System.out.println(accessToken);
         String refreshToken = jwtService.createRefreshToken();
         response.addCookie(creatCookie("Authorization", accessToken));
-        response.addCookie(creatCookie("AuthorizationSecond", refreshToken));
+        response.addCookie(creatCookie("Authorization-refresh", refreshToken));
         response.sendRedirect("http://localhost:3000/");
         System.out.println("이거 찍히고 redirect가 되야되긴함");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

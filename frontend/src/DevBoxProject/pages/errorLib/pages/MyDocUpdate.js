@@ -6,6 +6,7 @@ import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate, useParams} from "react-router-dom";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
+import {isToken} from "../../../apis/auth";
 
 const MyDocUpdate = () => {
     const [inputs, setInputs] = useState([]);
@@ -16,6 +17,7 @@ const MyDocUpdate = () => {
     const id = useParams();
 
     const navigate = useNavigate();
+    let number = 0;
 
     const initgetDoc = async () => {
         let hTagexp = /제목/;
@@ -28,6 +30,7 @@ const MyDocUpdate = () => {
 
 
         try {
+            isToken()
             const response = await auth.getmyDoc(id.did);
             setMyDoc(response.data);
             const contentsArray = response.data.content.split("replaceThisDevBox");
@@ -40,20 +43,23 @@ const MyDocUpdate = () => {
                 if (content.search(hTagexp) !== -1) {
                     setMyDoc(prevMyDoc => ({
                         ...prevMyDoc,
-                        [hTag + index]: nextContent
+                        [hTag + ++number]: nextContent
                     }));
+                    console.log(number)
                     await addH2('textarea', '제목', 'h2-style', nextContent);
                 } else if (content.search(pTagexp) !== -1) {
                     setMyDoc(prevMyDoc => ({
                         ...prevMyDoc,
-                        [pTag + index]: nextContent
+                        [pTag + ++number]: nextContent
                     }));
+                    console.log(number)
                     await addP('textarea', '문단', 'p-style', nextContent);
                 } else if (content.search(codeTagexp) !== -1) {
                     setMyDoc(prevMyDoc => ({
                         ...prevMyDoc,
-                        [codeTag + index]: nextContent
+                        [codeTag + ++number]: nextContent
                     }));
+                    console.log(number)
                     await addCodeBlock('textarea', '코드블록', 'code-style', nextContent);
                 }
             }
@@ -121,10 +127,13 @@ const MyDocUpdate = () => {
         const updatedInputs = [...inputs];
         updatedInputs[index].value = value;
         setInputs(updatedInputs);
-        setMyDoc({
-            ...myDoc,
-            [e.target.name]: e.target.value
-        });
+        const updatedContentArray = Array.from(document.getElementsByClassName('contents'));
+        const updatedContent = updatedContentArray.map(content => content.name + 'replaceThisDevBox' + content.value).join('replaceThisDevBox');
+        console.log(updatedContent);
+        setMyDoc((prevMyDoc) => ({
+            ...prevMyDoc,
+            content: updatedContent
+        }));
         console.log(myDoc)
     };
 
@@ -136,17 +145,12 @@ const MyDocUpdate = () => {
     };
 
     const updateMyDoc = async (e) => {
+        console.log(inputs)
+        console.log(myDoc)
+
         e.preventDefault();
         try {
-            // inputs를 활용하여 content를 업데이트
-            const updatedContent = inputs.map((input) => input.value).join('replaceThisDevBox');
-
-            // myDoc을 업데이트
-            setMyDoc((prevMyDoc) => ({
-                ...prevMyDoc,
-                content: updatedContent
-            }));
-
+            isToken()
             // API 호출
             const response = await auth.updateMyDoc(myDoc);
             const data = response.data;
@@ -163,11 +167,26 @@ const MyDocUpdate = () => {
         }
     };
 
-    const handleDeleteTag = (index) => {
+    const handleDeleteTag = (e, index) => {
         const updatedInputs = [...inputs];
         updatedInputs.splice(index, 1);
         setInputs(updatedInputs);
-    };
+        const parentElement = e.currentTarget.parentElement;
+
+        // 부모 노드에서 textarea를 찾음
+        const textarea = parentElement.querySelector('textarea');
+
+        // textarea가 존재하고, name 속성이 있다면 가져옴
+        if (textarea && textarea.name) {
+            const textareaName = textarea.name;
+            console.log('Textarea name:', textareaName);
+
+            setMyDoc((prevMyDoc) => {
+                const { [textareaName]: omittedKey, ...rest } = prevMyDoc;
+                return rest;
+            });
+        }
+    }
 
     return (
         <>
@@ -195,11 +214,11 @@ const MyDocUpdate = () => {
                                 placeholder={input.placeholder}
                                 value={input.value || ''}
                                 onChange={(e) => handleInputChange(e, index, e.target.value)}
-                                className={input.style}
+                                className={`${input.style} contents`}
                                 ref={textareaRef}
                                 name={`${input.placeholder}${index}`}
                             />
-                                <button type="button" className="deleteButton" onClick={() => handleDeleteTag(index)}>
+                                <button type="button" className="deleteButton" onClick={(e) => handleDeleteTag(e,index)}>
                                     <FontAwesomeIcon icon={faTrashCan}/>
                                 </button>
                             </div>

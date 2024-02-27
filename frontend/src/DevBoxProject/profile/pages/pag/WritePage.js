@@ -7,6 +7,7 @@ import './WritePage.css';
 import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
+import {isToken} from "../../../apis/auth";
 const WritePage = () => {
 
     const {userInfo} = useContext(LoginContext) // 현재 로그인된 사용자의 정보=userInfo
@@ -169,6 +170,7 @@ const WritePage = () => {
         // 프로필 정보를 서버에 저장하는 비동기 함수
         console.log(profile)
         try {
+            isToken()
             // auth.profileWrite 함수를 호출하고 응답을 기다립니다.
             response = await auth.profileWrite(profile); // axios 내부적으로 사용될 수 있음
             console.log("response = "+ response);
@@ -220,6 +222,8 @@ const WritePage = () => {
 
     // 새로운 레이더 차트 데이터 받아오는 함수
     const fetchAverageSkillsData =async () => {
+        isToken()
+
         let response = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
         let data = response.data;
         console.log(data)

@@ -1,4 +1,5 @@
 import api from './api';
+import Cookies from "js-cookie";
 
 export const login = (username, password) => api.post(`/login?username=${username}&password=${password}`)
 
@@ -49,3 +50,22 @@ export const deleteMyDoc = (docId) => api.delete(`/myDoc/delete/${docId}`)
 export const profileDelete = (userId) => api.delete(`/profile/delete/${userId}`);
 
 export const skillAvg = () => api.get("/profile/writeAvg");
+
+function isTokenExpired (token) {
+    let decodedToken;
+    if (token){
+        decodedToken = JSON.parse(atob(token.split('.')[1])); // 디코딩
+    }
+    const expirationTime = decodedToken.exp * 1000; // 밀리초로 변환
+    return expirationTime < Date.now(); // 현재 시간과 비교
+}
+
+export const isToken = () =>{
+    let accessToken = Cookies.get("Authorization")
+    if (isTokenExpired(accessToken)) {
+        let refreshToken = Cookies.get("Authorization-refresh");
+        api.defaults.headers.common.Authorization = `Bearer ${refreshToken}`;
+    } else {
+        console.log('Access token is still valid.');
+    }
+}

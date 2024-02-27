@@ -10,7 +10,7 @@ import Chart from 'chart.js/auto';
 import './styles.css';
 import Sidebar from './Sidebar';
 import axios from "axios";
-import {profileList} from "../../../apis/auth";
+import {isToken, profileList} from "../../../apis/auth";
 import * as auth from "../../../apis/auth";
 
 // 함수형 컴포넌트 정의
@@ -25,6 +25,7 @@ const List = () => {
             let response; // 응답 변수 선언
             let status; // 상태 코드 변수 선언
             try {
+                isToken()
                 response = await auth.profileList(profile);
                 setProfiles(response.data);
             } catch (error) {

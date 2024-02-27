@@ -88,11 +88,9 @@ public class MyDocService {
             myMap.remove("docId");
             myMap.remove("createdAt");
             myMap.remove("viewCnt");
-            myMap.remove("content");
         }
-        String content = joinMapToString(myMap, "replaceThisDevBox");
         myDoc.setTitle(title);
-        myDoc.setContent(content);
+        myDoc.setContent(myMap.get("content"));
         myDoc.setLang(lang);
         return new ResponseEntity<>(myDocRepository.saveAndFlush(myDoc), HttpStatus.OK); // 201
     }

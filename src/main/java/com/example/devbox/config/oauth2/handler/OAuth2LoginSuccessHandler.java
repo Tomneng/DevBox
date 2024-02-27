@@ -25,11 +25,11 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("OAuth2 Login 성공!");
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-
+            log.info(oAuth2User.toString());
             String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
             String refreshToken = jwtService.createRefreshToken();
             response.addCookie(creatCookie("Authorization", accessToken));
-            response.addCookie(creatCookie("AuthorizationSecond", refreshToken));
+            response.addCookie(creatCookie("Authorization-refresh", refreshToken));
             response.sendRedirect("http://localhost:3000/");
             System.out.println(accessToken);
             jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);

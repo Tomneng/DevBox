@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import * as auth from '../apis/auth'
 import {useNavigate} from "react-router-dom";
 import * as Swal from '../apis/alert'
+import {isToken} from "../apis/auth";
 
 
 export const LoginContext = createContext();
@@ -66,8 +67,8 @@ const LoginContextProvider = ({children}) => {
 
         // 쿠키에서 jwt 토큰 가져오기
         const accessToken = Cookies.get("Authorization")
+        const refreshToken = Cookies.get("Authorization-refresh")
         console.log(`accessToken : ${accessToken}`);
-
 
         // accessToken (jwt) 이 없음
         if (!accessToken) {
@@ -81,10 +82,12 @@ const LoginContextProvider = ({children}) => {
         // header 에 jwt 담기
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`
 
+
         // 사용자 정보 요청
         let response
         let data
         try {
+            isToken(accessToken)
             response = await auth.info()
         } catch (error) {
             console.log(`error : ${error}`);
@@ -133,6 +136,7 @@ const LoginContextProvider = ({children}) => {
             if (status === 200) {
                 // 쿠키에 accessToken(jwt) 저장
                 Cookies.set("accessToken", accessToken) // 이게 JWT임
+                Cookies.set()
 
                 // 로그인 체크 (/user/{userId} <--- userData )
                 loginCheck();
@@ -168,13 +172,6 @@ const LoginContextProvider = ({children}) => {
                 }
             }
         )
-
-        // if (check) {
-        //     // 로그아웃
-        //     logoutSetting();
-        //     // 메인이동
-        //     navigate("/");
-        // }
     }
 
     // 로그인 세팅
@@ -210,7 +207,7 @@ const LoginContextProvider = ({children}) => {
         api.defaults.headers.common.Authorization = undefined;
         // 쿠키 초기화
         Cookies.remove("Authorization")
-        Cookies.remove("AuthorizationSecond")
+        Cookies.remove("Authorization-refresh")
         // 로그인 여부 : false
         setLogin(false);
         // 유저 정보 초기화
