@@ -222,6 +222,7 @@ const WritePage = () => {
     // 새로운 레이더 차트 데이터 받아오는 함수
     const fetchAverageSkillsData =async () => {
         try {
+            isToken()
             let response = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
             let data = response.data;
             console.log(data)
