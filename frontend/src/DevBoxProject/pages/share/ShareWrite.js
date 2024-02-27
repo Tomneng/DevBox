@@ -14,13 +14,14 @@ import JAVALogo from "../../components/image/java.png"
 import JSLogo from "../../components/image/javascript.png"
 import PYTHONLogo from "../../components/image/python.png"
 import REACTLogo from "../../components/image/react.png"
+
 import * as auth from "../../apis/auth";
+import * as Swal from "../../apis/alert";
 
 
 import WriteCSS from "./CSS/ShareUpdateCSS.module.css"
 import DefaultCSS from "./CSS/Default.module.css"
 import Header from "../../components/Header";
-import * as Swal from "../../apis/alert";
 
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
@@ -28,17 +29,14 @@ import Cookies from "js-cookie";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'; // Quill의 스타일시트 가져오기
 import 'quill/dist/quill.core.css'; // Quill의 스타일시트 가져오기
+
+
 const ShareWrite = () => {
 		const navigate = useNavigate();
 		// 로그인 확인
 		const {isLogin, userInfo} = useContext(LoginContext)
 
-		if (Cookies.get("accessToken") === null) {
-				console.log("if userInfo "+isLogin)
-				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
-						navigate("/login");
-				});
-		}else if (!isLogin){
+		if (Cookies.get("accessToken") === null && isLogin) {
 				Swal.alert("로그인 후 이용해주세요", "로그인 화면으로 갑니다", "success", () => {
 						navigate("/login");
 				});
@@ -82,7 +80,6 @@ const ShareWrite = () => {
 		};
 
 
-
 		const submitShare = async (e) => {
 				e.preventDefault();
 				console.log(share)
@@ -102,34 +99,45 @@ const ShareWrite = () => {
 								alert('실패!!!  뚜두둥 뚜두둥');
 						}
 				} else {
-						console.log("response = " +  response)
+						console.log("response = " + response)
 						return null;
 				}
 		}
-// React - Quill
 
+
+// React - Quill
+		const quillRef = useRef(null);
+
+		const removeCodeBlock = () => {
+				const editor = quillRef.current.getEditor();
+				if (editor) {
+						const range = editor.getSelection();
+						if (range) {
+								const [block, offset] = editor.getLine(range.index);
+								if (block && block.statics.blotName === 'code-block') {
+										const length = block.length();
+										editor.deleteText(range.index, length);
+								}
+						}
+				}
+		};
 		const modules = {
 				toolbar: {
 						container: [
-								["image"],
+								['image'],
 								[{ header: [1, 2, 3, 4, 5, false] }],
-								['bold', 'italic', 'underline', 'strike'], // 기본 텍스트 스타일
-								['code-block'], // 코드 블록 삽입 버튼 추가
+								['bold', 'italic', 'underline', 'strike'],
+								[{ 'code-block': 'code-block' }],
 						],
-						handlers: {
-								'code-block': insertCodeBlock, // 코드 블록 삽입 핸들러 등록
-						},
 				},
 		};
 
-		function insertCodeBlock() {
-				const range = this.quill.getSelection();
-				const codeBlock = '\n```javascript\n\n```'; // 예시로 JavaScript 코드 블록 삽입
-				this.quill.insertText(range.index, codeBlock);
-				this.quill.setSelection(range.index + 4, 0); // 삽입 후 커서 이동
-		}
-
-
+		const formats = [
+				'bold', 'italic', 'underline', 'strike',
+				'list', 'bullet',
+				'code-block',
+				'link', 'image',
+		];
 
 
 
@@ -301,15 +309,17 @@ const ShareWrite = () => {
 
 										{/* 글 내용 입력란 */}
 										<Form.Group>
-												<Form.Label>코드 내용 :</Form.Label>
+												<Form.Label>내용 :</Form.Label>
 
-										<ReactQuill
-												style={{ width: "800px", height: "500px" }}
-												value={share.scontent}
-												onChange={(value) => setShare({ ...share, scontent: value })}
-												modules={modules}
-												placeholder={"내용 입력"}
-												required />
+												<ReactQuill
+														ref={quillRef}
+														style={{width: "800px", height: "500px"}}
+														value={share.scontent}
+														onChange={(value) => setShare({...share, scontent: value})}
+														modules={modules}
+														formats={formats}
+														placeholder={"내용 입력"}
+														required/>
 										</Form.Group>
 
 										{/* 코드 사진 첨부 */}

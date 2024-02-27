@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Image} from "react-bootstrap";
 import PYTHONLogo from "../../components/image/python.png";
@@ -19,6 +19,12 @@ import ShareDetailCSS from "./CSS/ShareDetail.module.css"
 import ListItemCSS from "./CSS/ShareListItemCSS.module.css"
 import DefaultCSS from "./CSS/Default.module.css"
 
+import 'quill/dist/quill.core.css'; // Quill의 스타일시트 가져오기
+
+// Quill 라이브러리 및 모듈 가져오기
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Quill의 스타일시트 가져오기
+
 // 유저 확인
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import Header from "../../components/Header";
@@ -33,7 +39,7 @@ const ShareDetail = () => {
 
 		const navigate = useNavigate();
 		let {sid} = useParams();
-
+		const quillRef = useRef(null);
 		const [share, setShare] = useState({
 				sid: sid,
 				stitle: '',
@@ -133,6 +139,7 @@ const ShareDetail = () => {
 		};
 
 
+
 		return (
 				<>
 						<Header/>
@@ -171,8 +178,13 @@ const ShareDetail = () => {
 
 								{/* 글 내용 */}
 								<h4>내용</h4>
-								<div dangerouslySetInnerHTML={{ __html: share.scontent }}/>
-
+								<ReactQuill
+										ref={quillRef}
+										value={share.scontent}
+										readOnly={true}
+										theme="snow"
+										modules={{ toolbar: false }} // 툴바를 비활성화합니다.
+								/>
 
 								<div className={DefaultCSS.button_box}>
 										{userInfo.id === share.userId.id &&

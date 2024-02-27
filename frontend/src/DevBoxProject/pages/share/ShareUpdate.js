@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Image, Row} from "react-bootstrap";
 import PYTHONLogo from "../../components/image/python.png";
@@ -21,6 +21,10 @@ import * as Swal from "../../apis/alert";
 import loginContextProvider, {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
 
+
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css'; // Quill의 스타일시트 가져오기
+import 'quill/dist/quill.core.css'; // Quill의 스타일시트 가져오기
 const ShareUpdate = () => {
 
 		let {sid} = useParams();
@@ -105,7 +109,46 @@ const ShareUpdate = () => {
 
 				});
 
-		}
+		};
+
+
+		// React - Quill
+		const quillRef = useRef(null);
+
+		const removeCodeBlock = () => {
+				const editor = quillRef.current.getEditor();
+				if (editor) {
+						const range = editor.getSelection();
+						if (range) {
+								const [block, offset] = editor.getLine(range.index);
+								if (block && block.statics.blotName === 'code-block') {
+										const length = block.length();
+										editor.deleteText(range.index, length);
+								}
+						}
+				}
+		};
+		const modules = {
+				toolbar: {
+						container: [
+								['image'],
+								[{ header: [1, 2, 3, 4, 5, false] }],
+								['bold', 'italic', 'underline', 'strike'],
+								[{ 'code-block': 'code-block' }],
+						],
+				},
+		};
+
+		const formats = [
+				'bold', 'italic', 'underline', 'strike',
+				'list', 'bullet',
+				'code-block',
+				'link', 'image',
+		];
+
+
+
+
 		return (
 				<>
 						<Header/>
@@ -304,12 +347,15 @@ const ShareUpdate = () => {
 										{/* 내용 */}
 										<Form.Group className="my-3" controlId="formBasicScontent">
 												<Form.Label>내용 : </Form.Label>
-												<Form.Control
-														type="text"
+												<ReactQuill
+														ref={quillRef}
+														style={{width: "800px", height: "500px"}}
 														value={share.scontent}
-														onChange={changeValue}
-														name="scontent"
-												/>
+														onChange={(value) => setShare({...share, scontent: value})}
+														modules={modules}
+														formats={formats}
+														placeholder={"내용 입력"}
+														required/>
 										</Form.Group>
 
 										<div className={DefaultCSS.button_box}>
