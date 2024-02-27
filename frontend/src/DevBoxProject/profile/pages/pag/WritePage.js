@@ -1,15 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
-import { Radar } from 'react-chartjs-2';
-import { Form } from 'react-bootstrap';
+import {Link, useNavigate} from 'react-router-dom';
+import {Button, Form} from 'react-bootstrap';
+import {Radar} from 'react-chartjs-2';
 import './WritePage.css';
 import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
 import {isToken} from "../../../apis/auth";
-const WritePage = () => {
 
+const WritePage = () => {
     const {userInfo} = useContext(LoginContext) // 현재 로그인된 사용자의 정보=userInfo
     const navigate = useNavigate();// 페이지이동을 위함
     const [selectedTheme, setSelectedTheme] = useState(null); //테마선택을 위한 useState null로 설정
@@ -36,7 +35,7 @@ const WritePage = () => {
         portfolio: '',
         profilePic: '',
         createdAt: '',
-        userId : '',
+        userId: '',
         // 이모든건 key와 value의 값이다. = 즉 자바에서는 map 이다!
     });
 
@@ -81,11 +80,11 @@ const WritePage = () => {
             ],
         }));
 
-        let skillString = profile.skills.split(',').map((skill) => ''+ skill +"TTTTT"+ technicalSkills[skill])
+        let skillString = profile.skills.split(',').map((skill) => '' + skill + "TTTTT" + technicalSkills[skill])
         // profile의 기술과 기술레벨을 문자열로 조합 후 기술스킬데이터를 업데이트 해줌
         setProfile((prevProfile) => ({
             ...prevProfile,
-            technicalSkills : skillString.join("TTTTT")//기술문자열에 ttttt조인해줌
+            technicalSkills: skillString.join("TTTTT")//기술문자열에 ttttt조인해줌
         }))
     }, [profile.skills, profile.technicalSkills, technicalSkills]);// [profile.skills]이 변경될때마다 실행함
     console.log("Radar component:", Radar); // Radar 컴포넌트 위치 확인
@@ -107,28 +106,16 @@ const WritePage = () => {
         setTechnicalSkills((prevState) => ({// 호출후  기존skill을 키로 갖고 해당 level값을 설정해줌
             ...prevState,
             // 기존의 기술 스킬을 문자열로 변환하여 업데이트합니다.
-                [skill] : level
+            [skill]: level
         }));
         console.log(String(level));
         console.log(technicalSkills)
 
     };
 
-
-// 선택된 기술 스택의 평균 레벨을 계산하는 함수
-    const averageSkillLevel = (skillLevel) => {
-        // 만약 skillLevel이 배열이 아니면 그대로 반환합니다.
-        if (!Array.isArray(skillLevel)) {
-            return skillLevel;
-        }
-        // skillLevel이 배열인 경우에만 각 레벨의 합을 계산하고 배열의 평균을 반환합니다.
-        const sum = skillLevel.reduce((acc, level) => acc + level, 0);
-        return sum / skillLevel.length;
-    };
-
 // 값 변경 핸들러
     const changeValue = (e) => {
-        const { name, value, type, checked } = e.target;
+        const {name, value, type, checked} = e.target;
 
         setProfile((prevProfile) => ({
             ...prevProfile,
@@ -170,9 +157,10 @@ const WritePage = () => {
         // 프로필 정보를 서버에 저장하는 비동기 함수
         console.log(profile)
         try {
+            isToken()
             // auth.profileWrite 함수를 호출하고 응답을 기다립니다.
             response = await auth.profileWrite(profile); // axios 내부적으로 사용될 수 있음
-            console.log("response = "+ response);
+            console.log("response = " + response);
         } catch (error) {
             // 오류가 발생하면 콘솔에 오류 메시지를 출력하고 함수를 종료합니다.
             console.error('프로필 전송 중 오류 발생:', error);
@@ -220,46 +208,32 @@ const WritePage = () => {
     };
 
     // 새로운 레이더 차트 데이터 받아오는 함수
-    const fetchAverageSkillsData =async () => {
+    const fetchAverageSkillsData = async () => {
         try {
             isToken()
             let response = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
-            let data = response.data;
-            console.log(data)
-
-            const averageSkillsData = {
-                labels: data.labels, // 레이더 차트의 라벨설정
-                datasets: [{
-                    ...averageSkillsChartData.datasets[0], // 기존데이터 복사후,
-                    data: data.averageValues,   // 새로운 평균값으로 데이터를 업데이트 해줌.
-                }],
-            };
-        setAverageSkillsChartData(averageSkillsData);
-        }   catch (error){
+            let datas = response.data;
+            console.log(datas)
+            for (let i = 0; i < datas.length; i++){
+                setAverageSkillsChartData((reaverageSkillsChartData) =>({
+                    ...reaverageSkillsChartData,
+                    [datas[i].name] : datas[i].average
+                }))
+            }
+        } catch (error) {
             console.error('평균 기술 데이터 가져오다가 오류 발생했습니다. :', error)
         }
 
     };
     useEffect(() => {
-    // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.
+        // useEffect를 사용하여 컴포넌트가 로드될 때 새로운 레이더 차트 데이터를 가져옵니다.
         fetchAverageSkillsData();
-    }, [] );
+    }, []);
     // dependency : 의존성 , effect : 영향 / useEffect는 즉 영향을 받아서 이안의 작업을 처리한다.
     // useEffect : 의존성이 []로 부여되지 않아서 즉 한번만 실행이 된다. 즉 [] 이안에는 통상적으로 상태값들이 들어와야한다. 변하는 값들!!!!
 
     // 새로운 레이더 차트 데이터를 저장할 상태 변수
     const [averageSkillsChartData, setAverageSkillsChartData] = useState({
-        labels: [],
-        datasets: [{
-            label: '평균 기술 스택',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
-            data: [],
-        }],
     });
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -273,6 +247,7 @@ const WritePage = () => {
     // 폰트 선택 핸들러
     const handleFontChange = (e) => {
         setSelectedFont(e.target.value); // 선택된 폰트 업데이트
+        console.log(averageSkillsChartData)
     };
 
     // 선택한 폰트를 적용하기 위한 스타일
@@ -320,7 +295,7 @@ const WritePage = () => {
                 {/* 중간 - 이력서 작성 폼 */}
                 <div className="col-md-4 write-page-middle">
                     <h2 className="display06">이력서 작성</h2>
-                    <hr />
+                    <hr/>
                     <Form onSubmit={submitProfile}>
                         {/* 프로필 사진 입력 */}
                         <div className="mt-3">
@@ -336,7 +311,7 @@ const WritePage = () => {
                             {profilePicPreview && (
                                 <img
                                     src={URL.createObjectURL(profile.profilePic)}
-                                    style={{ maxWidth: '100%', height: '100px', display: 'block', marginTop: '10px' }}
+                                    style={{maxWidth: '100%', height: '100px', display: 'block', marginTop: '10px'}}
                                     alt="프로필 미리보기"
                                 />
                             )}
@@ -454,7 +429,7 @@ const WritePage = () => {
                             </Form.Label>
                             <div className="row">
                                 {['c++', 'Kotlin', 'Python', 'Java', 'C#', 'HTML/CSS', 'MyBatis', 'Jpa', 'Aws',
-                                    'MongoDB','Jsp','Spring','Bootstrap', 'Ajax', 'PHP', 'MySql', 'React', 'RDBMS', 'API'
+                                    'MongoDB', 'Jsp', 'Spring', 'Bootstrap', 'Ajax', 'PHP', 'MySql', 'React', 'RDBMS', 'API'
                                 ].map((skill, index) => (
                                     <div key={index} className="col-2">
                                         <div className="form-check">
@@ -543,7 +518,7 @@ const WritePage = () => {
                             <div className="mb-3 mt-3">
                                 <label>자격증:</label>
                                 <div id="files">
-                                    <input type="file" className="form-control col-xs-3" onChange={handleFileChange} />
+                                    <input type="file" className="form-control col-xs-3" onChange={handleFileChange}/>
                                 </div>
                             </div>
                         </div>
@@ -586,13 +561,13 @@ const WritePage = () => {
                 </div>
 
                 {/* 오른쪽 - 프로필 내용 및 레이더 차트 */}
-                <div className="col-md-4 write-page-right" style={{ backgroundColor: profileBackgroundColor }}>
+                <div className="col-md-4 write-page-right" style={{backgroundColor: profileBackgroundColor}}>
                     <div id="renderedContent" style={fontStyles}>
                         <h2>프로필 내용</h2>
                         {profilePicPreview && (
                             <img
                                 src={profilePicPreview}
-                                style={{ maxWidth: '100%', height: '100px', marginTop: '10px' }}
+                                style={{maxWidth: '100%', height: '100px', marginTop: '10px'}}
                                 alt="프로필 미리보기"
                             />
                         )}
@@ -635,7 +610,7 @@ const WritePage = () => {
                                         pointBorderColor: '#fff',
                                         pointHoverBackgroundColor: '#fff',
                                         pointHoverBorderColor: 'rgba(255,99,132,1)',
-                                        data: profile.skills.split(',').map(skill => averageSkillLevel(profile.technicalSkills[skill] || 0)),
+                                        data: profile.skills.split(',').map(skill => averageSkillsChartData[skill] || 0),
                                     },
                                 ],
                             }}
@@ -645,7 +620,7 @@ const WritePage = () => {
                                         beginAtZero: true,
                                         min: 1, // 최소값 설정
                                         max: 5, // 최대값 설정
-                                         stepSize: 1, // 간격 설정
+                                        stepSize: 1, // 간격 설정
                                     },
                                 },
                             }}

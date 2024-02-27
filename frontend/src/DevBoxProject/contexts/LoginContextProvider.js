@@ -87,7 +87,7 @@ const LoginContextProvider = ({children}) => {
         let response
         let data
         try {
-            isToken(accessToken)
+            isToken()
             response = await auth.info()
         } catch (error) {
             console.log(`error : ${error}`);
