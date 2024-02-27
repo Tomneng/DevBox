@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './LoginPage.css'
-import Header from "../../components/Header";
-import {Container} from "react-bootstrap";
-import LoginContextCounsumer from "../../contexts/LoginContextCounsumer";
+
 import RegisterForm from "../../components/register/RegisterForm";
 import * as auth from '../../apis/auth'
 import {Link, useNavigate, useParams} from "react-router-dom";

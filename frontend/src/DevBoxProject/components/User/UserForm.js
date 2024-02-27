@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from "react-bootstrap";
+
 
 const UserForm = ({userInfo, updateUser, deleteuser}) => {
 
@@ -68,12 +68,7 @@ const UserForm = ({userInfo, updateUser, deleteuser}) => {
                     />
 
                 </div>
-                <Button type="submit">
-                    정보 수정
-                </Button>
-                <Button type="button" onClick={() => deleteuser(userInfo.userId)}>
-                    회원 탈퇴
-                </Button>
+
             </form>
         </div>
     );

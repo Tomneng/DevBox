@@ -26,7 +26,7 @@ const Header = () => {
                     <Link to="/myDoc/list">Dev Library</Link>
                     </div>
                     <div className="nav">
-                    <Link to="/profile">Profile</Link>
+                    <Link to="/profile/list">Profile</Link>
                     </div>
                     {!isLogin ? (
                         <>
