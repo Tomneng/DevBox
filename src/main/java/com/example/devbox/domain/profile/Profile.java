@@ -26,7 +26,6 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long profile_id;
 
     @Column(nullable = false)
     private String name;

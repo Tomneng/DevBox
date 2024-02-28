@@ -29,7 +29,7 @@ export const profileUpdate = (data) => api.put(`/profile/update`, data);
 
 export const profileDetail = (userId) => api.get(`/profile/detail/${userId}`);
 
-export const profileList = (data) => api.get(`/profile/list`, data);
+export const profileList = () => api.get(`/profile/list`);
 
 //  댓글
 export const codeShareCommentList = (sid) => api.get(`/comment/list/${sid}`);

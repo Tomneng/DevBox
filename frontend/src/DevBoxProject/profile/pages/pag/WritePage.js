@@ -147,7 +147,7 @@ const WritePage = () => {
         });
         console.log(profile)
     };
-    // 데이터 들어간다잉 입벌려
+
     const submitProfile = async (e) => {
         e.preventDefault(); // 폼 제출 동작 막음
         let response; // 응답 변수 선언
