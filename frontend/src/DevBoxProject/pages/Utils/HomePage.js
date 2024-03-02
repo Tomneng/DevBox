@@ -6,7 +6,7 @@ import "./HomePage.css"
 const HomePage = () => {
     return (
         <>
-            <div className="fullPage">
+            <div className="fullPage2">
                 <Header/>
                 <div className="maincontainer">
                     <section className="category-card" id="codeShare">

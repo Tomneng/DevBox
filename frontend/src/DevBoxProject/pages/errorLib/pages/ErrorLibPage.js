@@ -84,7 +84,7 @@ const ErrorLibPage = () => {
 
     return (
         <>
-            <div className="fullPage">
+            <div className="fullPage2">
                 <Header/>
                 <div className="errcontainer">
                     <div className="title">MY LIBRARY</div>

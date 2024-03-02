@@ -7,14 +7,12 @@ import * as Swal from "../../../apis/alert";
 import * as auth from "../../../apis/auth";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
 import {isToken} from "../../../apis/auth";
+import Header from "../../../components/Header";
 
 const WritePage = () => {
     const {userInfo} = useContext(LoginContext) // 현재 로그인된 사용자의 정보=userInfo
     const navigate = useNavigate();// 페이지이동을 위함
-    const [selectedTheme, setSelectedTheme] = useState(null); //테마선택을 위한 useState null로 설정
-    const [selectedFont, setSelectedFont] = useState('Arial'); // 기본 폰트는 Arial로 설정
     const [profileBackgroundColor, setProfileBackgroundColor] = useState('#ffffff'); // 기본 배경색은 흰색
-    const availableColors = ['#ffffff', '#e0f7fa', '#f8bbd0', '#b2ebf2', '#ffcdd2', '#c8e6c9', '#f0f4c3', '#d1c4e9', '#ffcc80', '#bcaaa4'];
     const [technicalSkills, setTechnicalSkills] = useState({});
 
     const [profile, setProfile] = useState({
@@ -40,7 +38,6 @@ const WritePage = () => {
     });
 
     const [profilePicPreview, setProfilePicPreview] = useState(null);// useState을 사용해서 profilePicPreview상태변수 설정후, 초기값은 null
-
     const [radarChartData, setRadarChartData] = useState({
         labels: [],
         datasets: [
@@ -56,7 +53,6 @@ const WritePage = () => {
             },
         ],
     });
-
     useEffect(() => {
         console.log("Profile information:", profile); // 프로필정보가 잘찍히는지 / 400에러 처리를 위함
         console.log("Radar chart data:", radarChartData); // 레이더 차트 데이터 확인
@@ -202,10 +198,6 @@ const WritePage = () => {
             setProfilePicPreview(null);
         }
     };
-    // 배경색 변경 함수
-    const changeBackgroundColor = (color) => {
-        setProfileBackgroundColor(color);
-    };
 
     // 새로운 레이더 차트 데이터 받아오는 함수
     const fetchAverageSkillsData = async () => {
@@ -244,204 +236,93 @@ const WritePage = () => {
         }));
         console.log('업로드된 파일:', file);
     };
-    // 폰트 선택 핸들러
-    const handleFontChange = (e) => {
-        setSelectedFont(e.target.value); // 선택된 폰트 업데이트
-        console.log(averageSkillsChartData)
-    };
+    const formFields = [
+        { label: '이름', type: 'text', placeholder: '이름을 입력하세요', name: 'name', required: true },
+        { label: '전화번호', type: 'number', placeholder: '전화번호를 입력하세요', name: 'number', required: true },
+        { label: '나이', type: 'number', placeholder: '나이를 입력하세요', name: 'age', required: true },
+        { label: '학력', type: 'text', placeholder: '예시) 00고등학교 졸업', name: 'degree' },
+        { label: '전공자 유무', type: 'select', options: ['', '비전공자', '전공자'], name: 'csDegree' },
+        { label: '직무별 유무', type: 'select', options: ['', '백엔드 개발자', '프론트엔드 개발자', '웹 개발자'], name: 'jobType' },
+        { label: '회사', type: 'text', placeholder: '현재 근무중인 회사명을 입력해주세요', name: 'job' },
+        { label: '짧은 자기소개', type: 'textarea', placeholder: '짧은 자기소개를 입력하세요', name: 'shortAppeal', rows: 3 },
+        { label: '포트폴리오', type: 'text', placeholder: '포트폴리오 링크를 입력하세요', name: 'portfolio' },
+    ];
 
-    // 선택한 폰트를 적용하기 위한 스타일
-    const fontStyles = {
-        fontFamily: selectedFont, // 선택된 폰트 적용
+    const renderFields = () => {
+        return formFields.map((field, index) => (
+            <Form.Group controlId={`formBasic${field.name}`} key={index}>
+                <Form.Label>
+                    <h5>{field.label}{field.required && <small>(필수)</small>}</h5>
+                </Form.Label>
+                {field.type === 'select' ? (
+                    <Form.Select
+                        className="form-select"
+                        name={field.name}
+                        id={field.name}
+                        value={profile[field.name]}
+                        onChange={changeValue}
+                    >
+                        {field.options.map((option, optionIndex) => (
+                            <option key={optionIndex} value={option}>{option}</option>
+                        ))}
+                    </Form.Select>
+                ) : (
+                    field.type === 'textarea' ? (
+                        <Form.Control
+                            as="textarea"
+                            rows={field.rows}
+                            placeholder={field.placeholder}
+                            onChange={changeValue}
+                            name={field.name}
+                            value={profile[field.name]}
+                        />
+                    ) : (
+                        <Form.Control
+                            type={field.type}
+                            placeholder={field.placeholder}
+                            onChange={changeValue}
+                            name={field.name}
+                            value={profile[field.name]}
+                            required={field.required}
+                        />
+                    )
+                )}
+                {profile[field.name] === '' && <div></div>}
+            </Form.Group>
+        ));
     };
     return (
-        <div className="container mt-3">
-            <div className="row">
+        <>
+            <Header/>
+        <div className="profile-container">
+            <div className="profile-container-left">
                 {/* 이력서 테마 선택과 폰트 선택이 한 줄에 보이도록 수정 */}
-                <div className="col-md-4 write-page-left">
-                    <div className="d-flex justify-content-between">
-                        <div>
-                            <h4>이력서 테마 선택</h4>
-                            <Form.Select
-                                onChange={(e) => setProfileBackgroundColor(e.target.value)}
-                                value={profileBackgroundColor}
-                            >
-                                {availableColors.map((color, index) => (
-                                    <option key={index} value={color}>
-                                        배경색 {index + 1}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                        </div>
-                        <div>
-                            <h4>폰트 선택</h4>
-                            <Form.Select
-                                onChange={handleFontChange}
-                                value={selectedFont}
-                            >
-                                <option value="Arial">Arial</option>
-                                <option value="Times New Roman">Times New Roman</option>
-                                <option value="Helvetica">Helvetica</option>
-                                <option value="Verdana">Verdana</option>
-                                <option value="Roboto">Roboto</option>
-                                <option value="Montserrat">Montserrat</option>
-                                <option value="Avenir Light">Avenir Light</option>
-                                <option value="PT Sans Bold">PT Sans Bold</option>
-                                {/* 원하는 폰트들을 추가할 수 있습니다 */}
-                            </Form.Select>
-                        </div>
-                    </div>
-                </div>
                 {/* 중간 - 이력서 작성 폼 */}
-                <div className="col-md-4 write-page-middle">
-                    <h2 className="display06">이력서 작성</h2>
-                    <hr/>
+                    <h2>이력서 작성</h2>
                     <Form onSubmit={submitProfile}>
-                        {/* 프로필 사진 입력 */}
-                        <div className="mt-3">
-                            <label htmlFor="profilePic"><h5>프로필 사진</h5></label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                id="profilePic"
-                                accept="image/*"
-                                onChange={handleProfilePicChange}
-                            />
-                            {/* 미리보기 이미지 영역 */}
-                            {profilePicPreview && (
-                                <img
-                                    src={URL.createObjectURL(profile.profilePic)}
-                                    style={{maxWidth: '100%', height: '100px', display: 'block', marginTop: '10px'}}
-                                    alt="프로필 미리보기"
-                                />
-                            )}
-                        </div>
-                        {/* 이름 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicName">
-                            <Form.Label>
-                                <h5>이름<small>(필수)</small></h5>
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="이름을 입력하세요"
-                                onChange={changeValue}
-                                name="name"
-                                required
-                            />
-                            {profile.name === '' && (
-                                <div>
-                                </div>
-                            )}
-                        </Form.Group>
-                        {/* 전화번호 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicNumber">
-                            <Form.Label>
-                                <h5>전화번호<small>(필수)</small></h5>
-                            </Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="전화번호를 입력하세요"
-                                onChange={changeValue}
-                                name="number"
-                                required
-                            />
-                            {profile.number === '' && (
-                                <div>
-                                </div>
-                            )}
-                        </Form.Group>
-                        {/* 나이 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicAge">
-                            <Form.Label>
-                                <h5>나이<small>(필수)</small></h5>
-                            </Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="나이을 입력하세요"
-                                onChange={changeValue}
-                                name="age"
-                                required
-                            />
-                            {profile.age === '' && (
-                                <div>
-                                </div>
-                            )}
-                        </Form.Group>
-                        {/* 학력 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicDegree">
-                            <Form.Label>
-                                <h5>학력</h5>
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="예시) 00고등학교 졸업"
-                                onChange={changeValue}
-                                name="degree"
-                            />
-                        </Form.Group>
-                        {/* 전공자 유무 선택 */}
-                        <Form.Group className="mt-3" controlId="formBasicCsDegree">
-                            <Form.Label>
-                                <h5>전공자 유무</h5>
-                            </Form.Label>
-                            <Form.Select
-                                className="form-select"
-                                name="csDegree"
-                                id="csDegree"
-                                value={profile.csDegree}
-                                onChange={changeValue}
-                            >
-                                <option value="" disabled>-- 전공자유무를 선택해 주세요 --</option>
-                                <option value="비전공자">비전공자</option>
-                                <option value="전공자">전공자</option>
-                            </Form.Select>
-                            {profile.csDegree === '' && (
-                                <div>
-                                </div>
-                            )}
-                        </Form.Group>
-                        {/* 직무별 유무 선택 */}
-                        <Form.Group className="mt-3" controlId="formBasicJobType">
-                            <Form.Label>
-                                <h5>직무별</h5>
-                            </Form.Label>
-                            <Form.Select
-                                className="form-select"
-                                name="jobType"
-                                id="jobType"
-                                value={profile.jobType}
-                                onChange={changeValue}
-                            >
-                                <option value="" disabled>-- 직무를 선택해 주세요 --</option>
-                                <option value="백엔드 개발자">백엔드 개발자</option>
-                                <option value="프론트엔드 개발자">프론트엔드 개발자</option>
-                                <option value="웹 개발자">웹 개발자</option>
-                            </Form.Select>
-                            {profile.jobType === '' && (
-                                <div>
-                                </div>
-                            )}
-                        </Form.Group>
+                        {renderFields()}
                         {/* 기술스택 선택 */}
                         <Form.Group className="mt-3" controlId="formBasicSkills">
                             <Form.Label>
                                 <h5>기술스택<small>(다중선택 가능)</small></h5>
                             </Form.Label>
-                            <div className="row">
-                                {['c++', 'Kotlin', 'Python', 'Java', 'C#', 'HTML/CSS', 'MyBatis', 'Jpa', 'Aws',
+                            <div className="skillsCheckBoxes">
+                                {['c++', 'Kotlin', 'Python', 'Java', 'C#', 'HTML/CSS', 'MyBatis', 'Jpa', 'Aws EC2', 'Aws RDS',
                                     'MongoDB', 'Jsp', 'Spring', 'Bootstrap', 'Ajax', 'PHP', 'MySql', 'React', 'RDBMS', 'API'
                                 ].map((skill, index) => (
-                                    <div key={index} className="col-2">
                                         <div className="form-check">
-                                            <Form.Check
+                                            <input
                                                 type="checkbox"
-                                                label={skill}
+                                                className="mbties"
                                                 id={`skills-${index}`}
                                                 name="skills"
                                                 value={skill}
                                                 checked={profile.skills.includes(skill)}
                                                 onChange={changeValue}
                                             />
+                                            <label htmlFor={`skills-${index}`} className="mbties-label">
+                                                {skill}
+                                            </label>
                                             {/* 기술 스택에 대한 기술 능력 선택 */}
                                             {profile.skills.includes(skill) && (
                                                 <div>
@@ -458,7 +339,6 @@ const WritePage = () => {
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
                                 ))}
                             </div>
                             {profile.skills === '' && (
@@ -466,55 +346,8 @@ const WritePage = () => {
                                 </div>
                             )}
                         </Form.Group>
-                        {/* 경력 선택 */}
-                        <Form.Group className="mt-3 d-flex" controlId="formBasicExperience">
-                            <Form.Label className="flex-grow-1">
-                                <h5>경력 <small>(하나만 선택)</small></h5>
-                            </Form.Label>
-                            <div className="d-flex align-items-center">
-                                {['상', '중', '하'].map((level, index) => (
-                                    <Form.Check
-                                        key={index}
-                                        type="radio"
-                                        label={level}
-                                        id={`experience-${index}`}
-                                        name="experience"
-                                        value={level}
-                                        checked={profile.experience === level}
-                                        onChange={toggleExperience}
-                                        className="me-3"
-                                    />
-                                ))}
-                            </div>
-                        </Form.Group>
-                        {/* 직업 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicJob">
-
-                            <Form.Label>
-                                <h5>직업</h5>
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="현재 직업을 입력해주세요"
-                                onChange={changeValue}
-                                name="job"
-                            />
-                        </Form.Group>
-                        {/* 프로젝트 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicProjects">
-                            <Form.Label>
-                                <h5>프로젝트</h5>
-                            </Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                placeholder="프로젝트 경험에 대한 설명을 입력하세요"
-                                onChange={changeValue}
-                                name="projects"
-                            />
-                        </Form.Group>
                         {/* 자격증 */}
-                        <div className="container mt-3 mb-3 border rounded">
+                        <div className="mt-3 mb-3 border rounded">
                             <div className="mb-3 mt-3">
                                 <label>자격증:</label>
                                 <div id="files">
@@ -523,115 +356,117 @@ const WritePage = () => {
                             </div>
                         </div>
                         {/* 자격증 */}
-                        {/* 짧은 자기소개 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicShortAppeal">
-                            <Form.Label>
-                                <h5>짧은 자기소개</h5>
-                            </Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                placeholder="짧은 자기소개를 입력하세요"
-                                onChange={changeValue}
-                                name="shortAppeal"
-                            />
-                        </Form.Group>
-                        {/* 포트폴리오 입력 */}
-                        <Form.Group className="mt-3" controlId="formBasicPortfolio">
-                            <Form.Label>
-                                <h5>포트폴리오</h5>
-                            </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="포트폴리오 링크를 입력하세요"
-                                onChange={changeValue}
-                                name="portfolio"
-                            />
-                        </Form.Group>
+                        {/* 직업 입력 */}
                         <div className="mb-3"></div>
                         {/* 제출 버튼 */}
                         <button onClick={submitProfile}>프로필 제출</button>
-
                         {/* 목록으로 돌아가기 버튼 */}
                         <Link className="btn btn-outline-dark ms-2" to="/list">
                             목록
                         </Link>
-
                     </Form>
+
+            </div>
+            <div className="resume-container" style={{ backgroundColor: profileBackgroundColor }}>
+                <div className="resume-header">
+                    <h1>이력서</h1>
                 </div>
-
-                {/* 오른쪽 - 프로필 내용 및 레이더 차트 */}
-                <div className="col-md-4 write-page-right" style={{backgroundColor: profileBackgroundColor}}>
-                    <div id="renderedContent" style={fontStyles}>
-                        <h2>프로필 내용</h2>
-                        {profilePicPreview && (
-                            <img
-                                src={profilePicPreview}
-                                style={{maxWidth: '100%', height: '100px', marginTop: '10px'}}
-                                alt="프로필 미리보기"
-                            />
-                        )}
-                        <p>이름: {profile.name}</p>
-                        <p>전화번호: {profile.number}</p>
-                        <p>나이: {profile.age}</p>
-                        <p>학력: {profile.degree}</p>
-                        <p>전공자 유무: {profile.csDegree}</p>
-                        <p>직무별 유무: {profile.jobType}</p>
-                        <p>기술 스택: {profile.skills}</p>
-
-                        {/* 기술 능력 출력 */}
-                        <p>경력: {profile.experience}</p>
-                        <p>직업: {profile.job}</p>
-                        <p>프로젝트: {profile.projects}</p>
-                        <p>자격증: {profile.licenses}</p>
-                        <p>짧은 자기소개: {profile.shortAppeal}</p>
-                        <p>포트폴리오: {profile.portfolio}</p>
+                <div className="resume-content">
+                    <div className="resume-section">
+                        <h2>인적 정보</h2>
+                        <div className="resume-item">
+                            <label>이름:</label>
+                            <span>{profile.name}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>전화번호:</label>
+                            <span>{profile.number}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>나이:</label>
+                            <span>{profile.age}</span>
+                        </div>
                     </div>
-                    <div className="mt-3">
-                        <Radar
-                            data={{
-                                labels: profile.skills.split(','),
-                                datasets: [
-                                    {
-                                        label: '기술 스택',
-                                        backgroundColor: 'rgba(179,181,198,0.2)',
-                                        borderColor: 'rgba(179,181,198,1)',
-                                        pointBackgroundColor: 'rgba(179,181,198,1)',
-                                        pointBorderColor: '#fff',
-                                        pointHoverBackgroundColor: '#fff',
-                                        pointHoverBorderColor: 'rgba(179,181,198,1)',
-                                        data: profile.skills.split(',').map(skill => technicalSkills[skill] || 0),
-                                    },
-                                    {
-                                        label: '평균 기술 스택',
-                                        backgroundColor: 'rgba(255,99,132,0.2)',
-                                        borderColor: 'rgba(255,99,132,1)',
-                                        pointBackgroundColor: 'rgba(255,99,132,1)',
-                                        pointBorderColor: '#fff',
-                                        pointHoverBackgroundColor: '#fff',
-                                        pointHoverBorderColor: 'rgba(255,99,132,1)',
-                                        data: profile.skills.split(',').map(skill => averageSkillsChartData[skill] || 0),
-                                    },
-                                ],
-                            }}
-                            options={{
-                                scale: {
-                                    ticks: {
-                                        beginAtZero: true,
-                                        min: 1, // 최소값 설정
-                                        max: 5, // 최대값 설정
-                                        stepSize: 1, // 간격 설정
-                                    },
+
+                    <div className="resume-section">
+                        <h2>학력</h2>
+                        <div className="resume-item">
+                            <label>학교:</label>
+                            <span>{profile.degree}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>전공:</label>
+                            <span>{profile.csDegree}</span>
+                        </div>
+                    </div>
+
+                    <div className="resume-section">
+                        <h2>경력</h2>
+                        <div className="resume-item">
+                            <label>회사:</label>
+                            <span>{profile.job}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>직무:</label>
+                            <span>{profile.jobType}</span>
+                        </div>
+                    </div>
+
+                    <div className="resume-section">
+                        <h2>About Me</h2>
+                        <div className="resume-item">
+                            <label>자기소개:</label>
+                            <span>{profile.shortAppeal}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>포트폴리오:</label>
+                            <span>{profile.portfolio}</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-3">
+                    <Radar
+                        data={{
+                            labels: profile.skills.split(','),
+                            datasets: [
+                                {
+                                    label: '기술 스택',
+                                    backgroundColor: 'rgba(179,181,198,0.2)',
+                                    borderColor: 'rgba(179,181,198,1)',
+                                    pointBackgroundColor: 'rgba(179,181,198,1)',
+                                    pointBorderColor: '#fff',
+                                    pointHoverBackgroundColor: '#fff',
+                                    pointHoverBorderColor: 'rgba(179,181,198,1)',
+                                    data: profile.skills.split(',').map(skill => technicalSkills[skill] || 0),
                                 },
-                            }}
-                        />
-                    </div>
+                                {
+                                    label: '평균 기술 스택',
+                                    backgroundColor: 'rgba(255,99,132,0.2)',
+                                    borderColor: 'rgba(255,99,132,1)',
+                                    pointBackgroundColor: 'rgba(255,99,132,1)',
+                                    pointBorderColor: '#fff',
+                                    pointHoverBackgroundColor: '#fff',
+                                    pointHoverBorderColor: 'rgba(255,99,132,1)',
+                                    data: profile.skills.split(',').map(skill => averageSkillsChartData[skill] || 0),
+                                },
+                            ],
+                        }}
+                        options={{
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true,
+                                    min: 1,
+                                    max: 5,
+                                    stepSize: 1,
+                                },
+                            },
+                        }}
+                    />
                 </div>
             </div>
+
         </div>
+        </>
     );
 };
-
 export default WritePage;
-
-

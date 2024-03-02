@@ -1,61 +1,20 @@
-/* WritePage.css */
-
-/* Container */
-.container {
-    margin-top: 3rem;
-    padding-right: 15px;
-    padding-left: 40px;
-}
-
-.col-md-4 {
-    width: 30%;
-}
-
-/* Row */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-/* Column */
-.col-4 {
-    flex: 0 0 33.33333%; /* 각 컬럼의 너비를 33.33333%로 설정 */
-    width: 33.33333%;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
-/* Form */
-.form-control {
-    display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
+/* Form Controls */
+.form-control,
 .form-select {
     display: block;
-    width: 100%;
+    width:90%;
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     line-height: 1.5;
     color: #495057;
     background-color: #fff;
-    background-image: none;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-/* Button */
+/* Buttons */
 .btn {
     display: inline-block;
     font-weight: 400;
@@ -75,7 +34,6 @@
 .btn-outline-dark {
     color: #343a40;
     background-color: transparent;
-    background-image: none;
     border-color: #343a40;
 }
 
@@ -116,6 +74,117 @@
     margin-bottom: 10px;
 }
 
+/* Write Page Middle Column */
 .write-page-middle {
     width: 40%;
+}
+
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 15px;
+    margin: 0px 10%;
+}
+
+.profile-container-left, .profile-container-right{
+    width: 45%;
+}
+
+
+.profile-container-left{
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.skillsCheckBoxes{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3%;
+}
+
+.mbties {
+    display: none;
+}
+
+.mbties:checked + .mbties-label {
+    background-color: grey; /* 선택되었을 때의 배경색 */
+    color: white; /* 선택되었을 때의 텍스트 색상 */
+}
+
+.mbties-label {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border: 2px solid grey;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%; /* 각 라벨이 그리드 셀을 채우도록 너비 조절 */
+    text-align: center; /* 가운데 정렬 */
+}
+
+.form-check{
+    width: 20%;
+}
+
+.resume-container {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 80%;
+    max-width: 600px;
+}
+
+.resume-header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.resume-header h1 {
+    margin: 0;
+}
+
+.resume-content {
+    padding: 20px;
+}
+
+.resume-section {
+    margin-bottom: 20px;
+}
+
+.resume-section h2 {
+    border-bottom: 2px solid #555;
+    padding-bottom: 5px;
+}
+
+.resume-item {
+    margin-bottom: 10px;
+}
+
+.resume-item label {
+    font-weight: bold;
+    color: #444;
+}
+
+.resume-item span {
+    color: #666;
+}
+
+.resume-btn {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.resume-btn:hover {
+    background-color: #444;
 }
