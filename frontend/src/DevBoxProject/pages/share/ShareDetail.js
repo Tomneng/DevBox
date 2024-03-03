@@ -75,7 +75,7 @@ const ShareDetail = () => {
 
 		}, []);
 		const deletePost = async () => {
-				if (!window.confirm('삭제 할랍니꺼')) return;
+				if (!window.confirm('삭제 하시겠습니까?')) return;
 			isToken()
 
 				const response = await auth.codeShareDelete(sid)

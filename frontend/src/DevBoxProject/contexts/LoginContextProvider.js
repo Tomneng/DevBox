@@ -73,7 +73,11 @@ const LoginContextProvider = ({children}) => {
         // accessToken (jwt) 이 없음
         if (!accessToken) {
             console.log(`쿠키에 accessToken(jwt)이 없음`);
+            if (!accessToken && !refreshToken){
             logoutSetting()
+            }else {
+                isToken()
+            }
             return
         }
 
