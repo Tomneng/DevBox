@@ -6,7 +6,6 @@ import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useNavigate, useParams} from "react-router-dom";
 import {LoginContext} from "../../../contexts/LoginContextProvider";
-import {isToken} from "../../../apis/auth";
 
 const MyDocUpdate = () => {
     const [inputs, setInputs] = useState([]);
@@ -30,7 +29,6 @@ const MyDocUpdate = () => {
 
 
         try {
-            isToken()
             const response = await auth.getmyDoc(id.did);
             setMyDoc(response.data);
             const contentsArray = response.data.content.split("replaceThisDevBox");
@@ -150,7 +148,7 @@ const MyDocUpdate = () => {
 
         e.preventDefault();
         try {
-            isToken()
+
             // API 호출
             const response = await auth.updateMyDoc(myDoc);
             const data = response.data;

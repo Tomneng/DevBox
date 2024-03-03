@@ -4,7 +4,7 @@ import { Button, Container, Form } from 'react-bootstrap';
 import * as auth from "../../../apis/auth";
 import {Radar} from "react-chartjs-2";
 import Swal from "sweetalert2";
-import {isToken} from "../../../apis/auth";
+
 
 const UpdatePage = () => {
     // URL 파라미터에서 ID 추출
@@ -83,7 +83,7 @@ const UpdatePage = () => {
         // 프로필 정보를 서버에 저장하는 비동기 함수
 
         try {
-            isToken()
+
              response = await auth.profileUpdate(profile); // 프로필 수정을 위한 API 호출
             console.log("response = "+ response);
         } catch (error) {

@@ -5,7 +5,6 @@ import * as auth from "../../apis/auth";
 import {LoginContext} from "../../contexts/LoginContextProvider";
 import {useNavigate} from "react-router-dom";
 import * as Swal from "../../apis/alert";
-import {isToken} from "../../apis/auth";
 
 const MyPage = () => {
 
@@ -15,7 +14,7 @@ const MyPage = () => {
 
     // 회원 정보 조회 -
     const getuserInfo = async () => {
-        isToken()
+
         // 비로그인 혹은 권한 없는 경우 로그인으로 이동
         if (!isLogin || !roles.isUser) {
             console.log(isLogin)

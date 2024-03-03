@@ -1,6 +1,7 @@
 package com.example.devbox.config.oauth2.handler;
 
 import com.example.devbox.config.oauth2.CustomOAuth2User;
+import com.example.devbox.domain.common.User;
 import com.example.devbox.repository.common.UserRepository;
 import com.example.devbox.service.common.JwtService;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
@@ -29,6 +31,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Value("${jwt.refresh.expiration}")
     private int refreshTokenExpirationPeriod;
 
+    private final UserRepository userRepository;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("OAuth2 Login 성공!");
@@ -40,10 +44,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             response.addCookie(creatCookie("Authorization", accessToken));
             response.addCookie(creatRefreshCookie("Authorization-refresh", refreshToken));
             response.sendRedirect("http://localhost:3000/");
-            System.out.println(accessToken);
             jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
             jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
-
         } catch (Exception e) {
             throw e;
         }

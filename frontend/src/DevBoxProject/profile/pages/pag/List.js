@@ -9,7 +9,6 @@ import 'swiper/swiper-bundle.css';
 import Chart from 'chart.js/auto';
 import Sidebar from './Sidebar';
 import axios from "axios";
-import {isToken, profileList} from "../../../apis/auth";
 import * as auth from "../../../apis/auth";
 import Header from "../../../components/Header";
 import {Radar} from "react-chartjs-2";
@@ -37,7 +36,6 @@ const List = () => {
         let response; // 응답 변수 선언
         let datas;
         try {
-            isToken()
             response = await auth.profileList();
             let responseFromAvg = await auth.skillAvg();
             datas = responseFromAvg.data

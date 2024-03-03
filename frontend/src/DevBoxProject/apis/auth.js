@@ -50,13 +50,3 @@ export const deleteMyDoc = (docId) => api.delete(`/myDoc/delete/${docId}`)
 export const profileDelete = (userId) => api.delete(`/profile/delete/${userId}`);
 
 export const skillAvg = () => api.get("/profile/writeAvg");
-
-export const isToken = () =>{
-    let accessToken = Cookies.get("Authorization")
-    if (accessToken === null) {
-        let refreshToken = Cookies.get("Authorization-refresh");
-        api.defaults.headers.common.Authorization = `Bearer ${refreshToken}`;
-    } else {
-        console.log('Access token is still valid.');
-    }
-}

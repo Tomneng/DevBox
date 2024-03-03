@@ -4,7 +4,6 @@ import Cookies from 'js-cookie'
 import * as auth from '../apis/auth'
 import {useNavigate} from "react-router-dom";
 import * as Swal from '../apis/alert'
-import {isToken} from "../apis/auth";
 
 
 export const LoginContext = createContext();
@@ -76,7 +75,8 @@ const LoginContextProvider = ({children}) => {
             if (!accessToken && !refreshToken){
             logoutSetting()
             }else {
-                isToken()
+                let refreshToken = Cookies.get("Authorization-refresh");
+                api.defaults.headers.common['Authorization-refresh'] = `Bearer ${refreshToken}`;
             }
             return
         }
@@ -91,7 +91,6 @@ const LoginContextProvider = ({children}) => {
         let response
         let data
         try {
-            isToken()
             response = await auth.info()
         } catch (error) {
             console.log(`error : ${error}`);
