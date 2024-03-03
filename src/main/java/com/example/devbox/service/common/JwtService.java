@@ -160,6 +160,7 @@ public class JwtService {
     public void updateRefreshToken(String email, String refreshToken) {
         User user = userRepository.findByEmail(email).orElse(null);
         user.setRefreshToken(refreshToken);
+        userRepository.saveAndFlush(user);
         log.info("유저에 토큰저장완료");
     }
 
