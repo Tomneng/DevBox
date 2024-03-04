@@ -7,10 +7,12 @@ import com.example.devbox.service.common.JwtService;
 import com.example.devbox.util.PasswordUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 /**
  * Jwt 인증 필터
@@ -42,6 +45,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
+
+    @Value("${jwt.access.expiration}")
+    private int accessTokenExpirationPeriod;
+
+    @Value("${jwt.refresh.expiration}")
+    private int refreshTokenExpirationPeriod;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
@@ -85,12 +94,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         log.info("여기로 이건 찍히나?" +refreshToken);
-        userRepository.findByRefreshToken(refreshToken)
-                .ifPresent(user -> {
-                    String reIssuedRefreshToken = reIssueRefreshToken(user);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getEmail()),
-                            reIssuedRefreshToken);
-                });
+        response.setStatus(HttpServletResponse.SC_OK);
+        User user = userRepository.findByRefreshToken(refreshToken).orElse(null);
+        String reIssuedRefreshToken = reIssueRefreshToken(user);
+        response.addCookie(creatCookie("Authorization", jwtService.createAccessToken(user.getEmail())));
+        response.addCookie(creatRefreshCookie("Authorization-refresh", reIssuedRefreshToken));
     }
 
     /**
@@ -156,5 +164,43 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication); // 이 시점에서 로그인 실행
 
         log.info("이게 지금 context에 있는거임" +SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+    }
+
+    public Cookie creatCookie(String key, String value){
+        Cookie cookie = new Cookie(key, value);
+
+        // 한국 시간대로 설정
+        TimeZone koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul");
+
+        // UTC 시간을 한국 시간으로 변환
+        long koreaTime = System.currentTimeMillis() + koreaTimeZone.getRawOffset();
+
+        // 쿠키 만료 시간 설정 (현재 시간을 기준으로 초 단위)
+        int maxAgeInSeconds = (int) ((accessTokenExpirationPeriod + koreaTimeZone.getDSTSavings()) / 1000);
+        cookie.setMaxAge(maxAgeInSeconds);
+
+        cookie.setPath("/");
+        cookie.setHttpOnly(false);
+
+        return cookie;
+    }
+
+    public Cookie creatRefreshCookie(String key, String value){
+        Cookie cookie = new Cookie(key, value);
+
+        // 한국 시간대로 설정
+        TimeZone koreaTimeZone = TimeZone.getTimeZone("Asia/Seoul");
+
+        // UTC 시간을 한국 시간으로 변환
+        long koreaTime = System.currentTimeMillis() + koreaTimeZone.getRawOffset();
+
+        // 쿠키 만료 시간 설정 (현재 시간을 기준으로 초 단위)
+        int maxAgeInSeconds = (int) ((refreshTokenExpirationPeriod + koreaTimeZone.getDSTSavings()) / 1000);
+        cookie.setMaxAge(maxAgeInSeconds);
+
+        cookie.setPath("/");
+        cookie.setHttpOnly(false);
+
+        return cookie;
     }
 }

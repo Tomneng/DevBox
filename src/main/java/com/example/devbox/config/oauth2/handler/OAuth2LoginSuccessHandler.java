@@ -44,7 +44,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             response.addCookie(creatCookie("Authorization", accessToken));
             response.addCookie(creatRefreshCookie("Authorization-refresh", refreshToken));
             response.sendRedirect("http://localhost:3000/");
-            jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
             jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
         } catch (Exception e) {
             throw e;
