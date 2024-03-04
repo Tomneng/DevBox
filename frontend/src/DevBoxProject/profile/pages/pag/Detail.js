@@ -3,12 +3,15 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Alert, Button, Container, Form} from 'react-bootstrap';
 import * as auth from "../../../apis/auth";
 import * as Swal from "../../../apis/alert";
+import {Radar} from "react-chartjs-2";
+import Header from "../../../components/Header";
 
 
 
 const Detail = () => {
     const navigate = useNavigate();
     let {id} = useParams();
+    const [averageSkillsChartData, setAverageSkillsChartData] = useState({});
     const [profile, setProfile] = useState({
         id: '',
         name: '',
@@ -35,10 +38,22 @@ const Detail = () => {
         console.log('프로필 전송 시도 중...');
 
         try {
+            let response2 = await auth.skillAvg();// 호출해서 레이더 차트에 표시할 평균 기술 데이터를 가져옴
+            let datas = response2.data;
+            console.log(datas)
+            for (let i = 0; i < datas.length; i++){
+                setAverageSkillsChartData((reaverageSkillsChartData) =>({
+                    ...reaverageSkillsChartData,
+                    [datas[i].name] : datas[i].average
+                }))
+            }
             response = await auth.profileDetail(id);
             console.log(response)
             console.log(response.data)
             data = response.data
+            for (let i = 0; i < response.data.length; i++){
+                response.data[i].technicalSkills.split("TTTTT")
+            }
             setProfile(data)
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -48,6 +63,19 @@ const Detail = () => {
     useEffect(() => {
         DetailProfile()
     }, []);
+
+    function removeOddIndexes(arr) {
+        let skills = arr.split("TTTTT");
+        console.log(skills)
+        let realArr = [];
+        for (let i = 1; i < skills.length; i++) {
+            if (i % 2 !== 0) {
+                realArr.push(skills[i])
+            }
+        }
+        console.log(realArr.reverse())
+        return realArr.reverse()
+    }
 
     const deleteProfile = async (e) => {
         let response;
@@ -74,88 +102,117 @@ const Detail = () => {
         navigate(`/profile/update/${id}`);
     };
 
-    let profilePicPreview;
     console.log(profile)
     console.log(profile.id); // 로그인때문에 userId에서 id로 바꿈!!!!!!!!!!!!
 
     return (
-        <Container className="mt-3">
-            <div className="row">
-                <h2 className="display06">프로필 상세 보기</h2>
-                <hr />
-                <div className="col-md-6">
-                    <Alert variant="light" className="d-flex justify-content-between">
-                        <span>ID: {id}</span>
-                    </Alert>
-                </div>
+        <>
+            <Header/>
+            <div className="resume-container">
+                <h2 className="resume-header">프로필 상세 보기</h2>
+                <hr/>
                 <section>
-                    <div className="mt-3">
-                        <h5>이름</h5>
-                        <Form.Control type="text" readOnly value={profile.name} />
+                    <div className="resume-section">
+                        <h2>인적 정보</h2>
+                        <div className="resume-item">
+                            <label>이름:</label>
+                            <span>{profile.name}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>전화번호:</label>
+                            <span>{profile.number}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>나이:</label>
+                            <span>{profile.age}</span>
+                        </div>
+                    </div>
+                    <div className="resume-section">
+                        <h2>학력</h2>
+                        <div className="resume-item">
+                            <label>학교:</label>
+                            <span>{profile.degree}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>전공:</label>
+                            <span>{profile.csDegree}</span>
+                        </div>
+                    </div>
+                    <div className="resume-section">
+                        <h2>경력</h2>
+                        <div className="resume-item">
+                            <label>회사:</label>
+                            <span>{profile.job}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>직무:</label>
+                            <span>{profile.jobType}</span>
+                        </div>
+                    </div>
+                    <div className="resume-section">
+                        <h2>About Me</h2>
+                        <div className="resume-item">
+                            <label>자기소개:</label>
+                            <span>{profile.shortAppeal}</span>
+                        </div>
+                        <div className="resume-item">
+                            <label>포트폴리오:</label>
+                            <span>{profile.portfolio}</span>
+                        </div>
                     </div>
                     <div className="mt-3">
-                        <h5>전화번호</h5>
-                        <Form.Control type="text" readOnly value={profile.number} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>나이</h5>
-                        <Form.Control type="text" readOnly value={profile.age} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>학력</h5>
-                        <Form.Control type="text" readOnly value={profile.degree} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>전공자 유무</h5>
-                        <Form.Control type="text" readOnly value={profile.csDegree} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>기술스택</h5>
-                        <Form.Control type="text" readOnly value={profile.skills} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>기술능력</h5>
-                        <Form.Control type="text" readOnly value={Object.keys(profile.technicalSkills).join(', ')} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>경력</h5>
-                        <Form.Control type="text" readOnly value={profile.experience} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>직업</h5>
-                        <Form.Control type="text" readOnly value={profile.job} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>프로젝트</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.projects} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>자격증</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.licenses} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>짧은 자기소개</h5>
-                        <Form.Control as="textarea" rows={3} readOnly value={profile.shortAppeal} />
-                    </div>
-                    <div className="mt-3">
-                        <h5>포트폴리오</h5>
-                        <Form.Control type="text" readOnly value={profile.portfolio} />
+                        <Radar
+                            data={{
+                                labels: profile.skills.split(','),
+                                datasets: [
+                                    {
+                                        label: '기술 스택',
+                                        backgroundColor: 'rgba(179,181,198,0.2)',
+                                        borderColor: 'rgba(179,181,198,1)',
+                                        pointBackgroundColor: 'rgba(179,181,198,1)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgba(179,181,198,1)',
+                                        data: removeOddIndexes(profile.technicalSkills),
+                                    },
+                                    {
+                                        label: '평균 기술 스택',
+                                        backgroundColor: 'rgba(255,99,132,0.2)',
+                                        borderColor: 'rgba(255,99,132,1)',
+                                        pointBackgroundColor: 'rgba(255,99,132,1)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgba(255,99,132,1)',
+                                        data: profile.skills.split(',').map(skill => averageSkillsChartData[skill] || 0),
+                                    },
+                                ],
+                            }}
+                            options={{
+                                scale: {
+                                    ticks: {
+                                        beginAtZero: true,
+                                        min: 1,
+                                        max: 5,
+                                        stepSize: 1,
+                                    },
+                                },
+                            }}
+                        />
                     </div>
                 </section>
+            </div>
                 <div className="d-flex my-3">
                     <Button variant="outline-dark" onClick={updateProfile}>
                         수정
                     </Button>
-                    <Button variant="outline-danger" className="ms-2" onClick={deleteProfile}>
+                    <Button variant="outline-danger" onClick={deleteProfile}>
                         삭제
                     </Button>
                     <Link className="btn btn-outline-dark ms-2" to="/profile/list">
                         목록
                     </Link>
                 </div>
-
-            </div>
-        </Container>
+    </>
     );
 };
 
