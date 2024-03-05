@@ -1,0 +1,6 @@
+#profileDetailContainer{
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+    padding: 15px;
+}

@@ -133,12 +133,6 @@ const ShareDetail = () => {
 				}
 		}
 
-		const [updated, setUpdated] = useState(false);
-
-		const DdabongUpdate = () => {
-				setUpdated(!updated); // 상태 토글
-		};
-
 		return (
 				<>
 						<Header/>
@@ -150,7 +144,7 @@ const ShareDetail = () => {
 										{/* 조회수 */}
 										<div className={ShareDetailCSS.view_box}>
 												<small>조회수 : {share.sviewCnt}</small>
-												<Ddabong key={share.sid} share={share} user={userInfo} onUpdated={DdabongUpdate}/>
+												<Ddabong key={share.sid} share={share} user={userInfo}/>
 										</div>
 								</div>
 

@@ -5,6 +5,7 @@ import * as auth from "../../../apis/auth";
 import * as Swal from "../../../apis/alert";
 import {Radar} from "react-chartjs-2";
 import Header from "../../../components/Header";
+import "../CSS/Detail.css"
 
 
 
@@ -108,6 +109,8 @@ const Detail = () => {
     return (
         <>
             <Header/>
+            <div id="profileDetailContainer">
+
             <div className="resume-container">
                 <h2 className="resume-header">프로필 상세 보기</h2>
                 <hr/>
@@ -212,6 +215,7 @@ const Detail = () => {
                         목록
                     </Link>
                 </div>
+            </div>
     </>
     );
 };

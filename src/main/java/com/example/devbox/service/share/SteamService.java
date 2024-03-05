@@ -92,4 +92,11 @@ public class SteamService {
         System.out.println("후" + share.getSteamList());
         return "ok";
     }
+
+    public List<Steam> getSteam(Long shareId) {
+
+        Share share = shareRepository.findById(shareId).orElseThrow(null);
+
+        return share.getSteamList();
+    }
 }

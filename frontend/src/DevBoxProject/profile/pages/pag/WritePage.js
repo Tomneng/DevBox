@@ -84,17 +84,6 @@ const WritePage = () => {
     }, [profile.skills, profile.technicalSkills, technicalSkills]);// [profile.skills]이 변경될때마다 실행함
     console.log("Radar component:", Radar); // Radar 컴포넌트 위치 확인
 
-
-// 경험 토글 핸들러
-    const toggleExperience = (e) => {
-        const value = e.target.value;
-        // 이전 프로필 상태를 가져와서 경험(experience) 값을 새로운 값으로 업데이트합니다.
-        setProfile((prevProfile) => ({
-            ...prevProfile,
-            experience: value,
-        }));
-    };
-
     // 기술 스킬 변경 핸들러
     const toggleTechnicalSkills = (skill, level) => {
         // 이전 프로필 상태를 가져와서 기술 스킬(technicalSkills) 값을 업데이트합니다.
@@ -358,7 +347,7 @@ const WritePage = () => {
                         {/* 직업 입력 */}
                         <div className="mb-3"></div>
                         {/* 제출 버튼 */}
-                        <button onClick={submitProfile}>프로필 제출</button>
+                        <button type="submit">프로필 제출</button>
                         {/* 목록으로 돌아가기 버튼 */}
                         <Link className="btn btn-outline-dark ms-2" to="/list">
                             목록

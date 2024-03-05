@@ -27,7 +27,7 @@ export const profileWrite = (data) => api.post(`/profile/write`, data);
 
 export const profileUpdate = (data) => api.put(`/profile/update`, data);
 
-export const profileDetail = (userId) => api.get(`/profile/detail/${userId}`);
+export const profileDetail = (profileId) => api.get(`/profile/detail/${profileId}`);
 
 export const profileList = () => api.get(`/profile/list`);
 
@@ -40,6 +40,8 @@ export const codeShareCommentDelete = (cid) => api.delete(`/comment/delete/${cid
 export const plusSteam = (data) => api.post(`/steam/plus`, data);
 export const deleteSteam = (shareId, userId) => api.delete(`/steam/delete/${shareId}/${userId}`);
 
+export const getSteam = (shareId) => api.get(`steam/getSteam/${shareId}`)
+
 export const getmyDoc = (docId) => api.get(`/myDoc/detail/${docId}`);
 
 export const writeMyDoc = (myDoc) => api.post(`/myDoc/write`, myDoc)
@@ -50,3 +52,4 @@ export const deleteMyDoc = (docId) => api.delete(`/myDoc/delete/${docId}`)
 export const profileDelete = (userId) => api.delete(`/profile/delete/${userId}`);
 
 export const skillAvg = () => api.get("/profile/writeAvg");
+

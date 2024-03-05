@@ -62,7 +62,7 @@ const MyDocDetail = () => {
 
     return (
         <>
-            <div className="fullPage">
+            <div className="fullPage2">
                 <Header/>
                 <div className="myDoccontainerdetail">
                     <h1>{myDoc.title}</h1>

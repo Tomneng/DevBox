@@ -29,4 +29,9 @@ public class SteamController {
         return new ResponseEntity<>(steamService.deleteSteam(shareId, userId), HttpStatus.OK);
     }
 
+    @GetMapping("/getSteam/{shareId}")
+    public ResponseEntity<?> getsteam(@PathVariable Long shareId){
+        return new ResponseEntity<>(steamService.getSteam(shareId), HttpStatus.OK);
+    }
+
 }
