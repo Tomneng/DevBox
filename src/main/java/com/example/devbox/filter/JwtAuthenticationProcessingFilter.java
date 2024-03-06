@@ -95,7 +95,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         log.info("여기로 이건 찍히나?" +refreshToken);
         response.setStatus(HttpServletResponse.SC_OK);
-        User user = userRepository.findByRefreshToken(refreshToken).orElse(null);
+        User user = userRepository.findByRefreshToken(refreshToken);
         String reIssuedRefreshToken = reIssueRefreshToken(user);
         response.addCookie(creatCookie("Authorization", jwtService.createAccessToken(user.getEmail())));
         response.addCookie(creatRefreshCookie("Authorization-refresh", reIssuedRefreshToken));

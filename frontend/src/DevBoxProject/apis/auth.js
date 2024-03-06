@@ -40,7 +40,7 @@ export const codeShareCommentDelete = (cid) => api.delete(`/comment/delete/${cid
 export const plusSteam = (data) => api.post(`/steam/plus`, data);
 export const deleteSteam = (shareId, userId) => api.delete(`/steam/delete/${shareId}/${userId}`);
 
-export const getSteam = (shareId) => api.get(`steam/getSteam/${shareId}`)
+export const getSteam = (shareId) => api.get(`http://localhost:8080/steam/getSteam/${shareId}`)
 
 export const getmyDoc = (docId) => api.get(`/myDoc/detail/${docId}`);
 

@@ -60,6 +60,7 @@ const ShareDetail = () => {
 						const response = await auth.codeShareDetail(sid);
 						const data = response.data;
 						setShare(data);
+					console.log(userInfo)
 				} catch (error) {
 						console.error("Error fetching code share detail:", error);
 						// 에러 처리를 추가하거나 적절한 방식으로 처리합니다.

@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -56,6 +57,11 @@ public class Share {
 
     @OneToMany
     private List<Steam> steamList = new ArrayList<>();
+
+    public void addSteam(Steam... steams){
+        Collections.addAll(this.steamList, steams);
+    }
+
 
 /**
  * 'One To Many' attribute type should be a container 이슈

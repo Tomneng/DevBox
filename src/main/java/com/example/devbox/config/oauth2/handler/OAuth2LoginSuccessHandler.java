@@ -31,8 +31,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Value("${jwt.refresh.expiration}")
     private int refreshTokenExpirationPeriod;
 
-    private final UserRepository userRepository;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("OAuth2 Login 성공!");
