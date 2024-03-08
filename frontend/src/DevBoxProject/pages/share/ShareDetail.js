@@ -96,8 +96,6 @@ const ShareDetail = () => {
 		};
 
 		//  댓글 작성
-
-
 		const {isLogin} = useContext(LoginContext)
 		const [comment, setComment] = useState({
 				ccontent: '',
