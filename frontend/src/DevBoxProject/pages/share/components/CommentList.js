@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as auth from "../../../apis/auth";
-import { useNavigate } from "react-router-dom";
 
 
 //  CSS
@@ -10,7 +9,6 @@ import CommentListCSS from "../CSS/CommentList.module.css"
 const CommentList = (props) => {
 		const { sid } = props.share;
 		const [commentList, setCommentList] = useState([]);
-		const navigate = useNavigate();
 		useEffect(() => {
 				const fetchCommentList = async () => {
 						try {
@@ -24,7 +22,7 @@ const CommentList = (props) => {
 				};
 
 				fetchCommentList();
-		}, []);
+		}, [props.share.commentList]);
 
 
 

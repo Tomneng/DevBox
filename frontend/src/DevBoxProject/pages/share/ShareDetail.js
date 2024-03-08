@@ -54,7 +54,6 @@ const ShareDetail = () => {
 		});
 
 
-		console.log(share)
 		const codeShareDetail = async () => {
 				try {
 						const response = await auth.codeShareDetail(sid);
@@ -69,7 +68,6 @@ const ShareDetail = () => {
 
 
 		useEffect(() => {
-
 				codeShareDetail(sid)
 
 		}, []);
@@ -203,7 +201,7 @@ const ShareDetail = () => {
 								</form>
 
 								<hr/>
-								<CommentList key={share.sid} share={share}/>
+								<CommentList key={sid} share={share}/>
 						</div>
 				</>
 		)
