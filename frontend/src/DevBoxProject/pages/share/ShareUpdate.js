@@ -10,18 +10,17 @@ import HTMLLogo from "../../components/image/html.png";
 import CSSLogo from "../../components/image/css.png";
 import JSLogo from "../../components/image/javascript.png";
 import REACTLogo from "../../components/image/react.png";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDatabase} from "@fortawesome/free-solid-svg-icons";
-import {faSwift} from "@fortawesome/free-brands-svg-icons";
+
 import * as auth from "../../apis/auth";
-import WriteCSS from "./CSS/ShareUpdateCSS.module.css";
-import DefaultCSS from "./CSS/Default.module.css";
+
 import Header from "../../components/Header";
 import * as Swal from "../../apis/alert";
 import loginContextProvider, {LoginContext} from "../../contexts/LoginContextProvider";
 import Cookies from "js-cookie";
 
-
+//  css
+import WriteCSS from "./CSS/ShareUpdateCSS.module.css";
+import DefaultCSS from "./CSS/Default.module.css";
 
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'; // Quill의 스타일시트 가져오기
@@ -255,68 +254,21 @@ const ShareUpdate = () => {
 														checked={share.slanguage.includes("REACT")}
 
 												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"GO LANG"}
-														label={"GO LANG"}
-														onChange={changeValue}
-														checked={share.slanguage.includes("GO LANG")}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"TYPE SCRIPT"}
-														label={"TYPE SCRIPT"}
-														onChange={changeValue}
-														checked={share.slanguage.includes("TYPE SCRIPT")}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"SQL"}
-														label={"SQL"}
-														onChange={changeValue}
-														checked={share.slanguage.includes("SQL")}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"KOTLIN"}
-														label={"KOTLIN"}
-														onChange={changeValue}
-														checked={share.slanguage.includes("KOTLIN")}
-
-												/>
-												<Form.Check
-														type={"checkbox"}
-														name={"slanguage"}
-														value={"SWIFT"}
-														label={"SWIFT"}
-														onChange={changeValue}
-														checked={share.slanguage.includes("SWIFT")}
-
-												/>
 										</Col>
 								</Form.Group>
 
 
 								{/* 사용 언어 아이콘*/}
 								<div>
-										{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
-										{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
-										{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
-										{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
-										{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
-										{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
-										{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
-										{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
-										{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
-										{share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
-										{share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
+										{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("JAVA") && <Image src={JAVALogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("BASICC") && <Image src={CLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("C++") && <Image src={CPPLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("C#") && <Image src={CSHARPLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("HTML") && <Image src={HTMLLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("CSS") && <Image src={CSSLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("JS") && <Image src={JSLogo} className={WriteCSS.skillImg}/>}
+										{share.slanguage.includes("REACT") && <Image src={REACTLogo} className={WriteCSS.skillImg}/>}
 								</div>
 
 								<Form onSubmit={submitShare}>

@@ -33,6 +33,8 @@ import commentCSS from "./CSS/Comment.module.css";
 
 import Ddabong from "./components/Ddabong";
 
+
+
 const ShareDetail = () => {
 		// 유저 확인
 		const {userInfo} = useContext(LoginContext)
@@ -179,11 +181,11 @@ const ShareDetail = () => {
 								<div className={DefaultCSS.button_box}>
 										{userInfo.id === share.userId.id &&
 												<>
-														<button onClick={updatePost}>수정</button>
-														<button onClick={deletePost}>삭제</button>
+														<button className={"custom-btn button-grayBlack"} onClick={updatePost}>수정</button>
+														<button className={"custom-btn button-grayBlack"} onClick={deletePost}>삭제</button>
 												</>}
-										<Link className={DefaultCSS.link_box} to="/codeshare/write">작성</Link>
-										<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
+										<Link className={`${DefaultCSS.link_box} custom-btn button-grayBlack`} to="/codeshare/write">작성</Link>
+										<Link className={`${DefaultCSS.link_box} custom-btn button-grayBlack`} to="/codeshare">목록</Link>
 								</div>
 
 
@@ -197,7 +199,9 @@ const ShareDetail = () => {
 												onChange={changeValueComment}
 												required
 										/>
-										<button type={"submit"}>댓글 작성</button>
+										<button type={"submit"} className={"custom-btn button-grayBlack"}>
+												작성
+										</button>
 								</form>
 
 								<hr/>
