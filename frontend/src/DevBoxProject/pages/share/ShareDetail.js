@@ -130,6 +130,7 @@ const ShareDetail = () => {
 				} else {
 						alert('작성 실패');
 				}
+
 		}
 
 		return (

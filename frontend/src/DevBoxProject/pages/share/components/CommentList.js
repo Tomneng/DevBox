@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import * as auth from "../../../apis/auth";
 
 
@@ -29,33 +29,34 @@ const CommentList = (props) => {
 				fetchCommentList();
 		}, [props.share.commentList]);
 
-const deleteComment= async (cid) => {
-		if (!window.confirm('삭제 하시겠습니까?')) return;
-		await auth.codeShareCommentDelete(cid)
-}
-		console.log("props.share.commentList.cid = " + props.share.commentList.cid)
-		console.log("props.share.commentList.userId = " + props.share.commentList.userId)
-		console.log("JSON.stringify(props.share.commentList) = " + JSON.stringify(props.share.commentList))
+
+		const deleteComment = async (e) => {
+				e.preventDefault();
+				console.log(e.cid)
+				if (!window.confirm('삭제 하시겠습니까?')) return;
+			await 	auth.codeShareCommentDelete(e.cid)
+		}
 		return (
 				<>
 						<div>댓글 목록</div>
 						{
-
 								commentList.map(comment => (
+										<form>
 												<div key={comment.cid} className={CommentListCSS.comment_box}>
 
-																<div>{comment.userId.nickname}</div>
+														<div>{comment.userId.nickname}</div>
 
-
+														<div>{comment.cid}</div>
 														<div>{comment.ccontent}</div>
 														<div>{comment.localDateTime}</div>
 														{userInfo.id === comment.userId.id &&
 
-																<div className={CommentListCSS.delete_btn}>
-																		<FontAwesomeIcon onClick={deleteComment} icon={faXmark} style={{color: "#ff0000",}} />
-																</div>
+																<button className={CommentListCSS.delete_btn} onClick={deleteComment}>
+																		<FontAwesomeIcon icon={faXmark} style={{color: "#ff0000",}}/>
+																</button>
 														}
 												</div>
+										</form>
 										)
 								)}
 				</>
