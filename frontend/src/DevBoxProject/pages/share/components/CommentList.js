@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import * as auth from "../../../apis/auth";
 
 
 //  CSS
 import CommentListCSS from "../CSS/CommentList.module.css"
+import {LoginContext} from "../../../contexts/LoginContextProvider";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
 
 const CommentList = (props) => {
-		const { sid } = props.share;
+		const {sid} = props.share;
+		const {userInfo} = useContext(LoginContext)
 		const [commentList, setCommentList] = useState([]);
 		useEffect(() => {
 				const fetchCommentList = async () => {
@@ -25,20 +29,28 @@ const CommentList = (props) => {
 		}, [props.share.commentList]);
 
 
-
 		return (
 				<>
 						<div>댓글 목록</div>
 						{
 
 								commentList.map(comment => (
-										<div key={comment.cid} className={CommentListCSS.comment_box}>
-												<div>{comment.userId.username}</div>
-												<div>{comment.ccontent}</div>
-												<div>{comment.localDateTime}</div>
-										</div>
-								)
-						)}
+												<div key={comment.cid} className={CommentListCSS.comment_box}>
+
+																<div>{comment.userId.nickname}</div>
+
+
+														<div>{comment.ccontent}</div>
+														<div>{comment.localDateTime}</div>
+														{userInfo.id === comment.userId.id &&
+
+																<div className={CommentListCSS.delete_btn}>
+																		<FontAwesomeIcon  icon={faXmark} style={{color: "#ff0000",}} />
+																</div>
+														}
+												</div>
+										)
+								)}
 				</>
 		);
 };

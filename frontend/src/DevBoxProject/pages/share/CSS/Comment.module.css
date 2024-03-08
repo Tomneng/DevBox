@@ -1,4 +1,4 @@
-.input_box{
+.input_box {
     display: flex;
     margin: 50px;
 }
@@ -9,8 +9,14 @@
 }
 
 .input_box > input {
-    margin: 0 3%;
+    margin: auto;
+    width: 50%;
+    height: 40px;
+    border-radius: 15px;
 }
 
+.input_box > input::placeholder {
+    text-align: center;
+}
 
 

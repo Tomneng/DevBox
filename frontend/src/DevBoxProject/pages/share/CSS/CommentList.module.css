@@ -1,4 +1,16 @@
 .comment_box{
     display: flex;
     justify-content: space-between;
+    margin-top: 10px;
+}
+
+.delete_btn{
+    width: 1%;
+    position: absolute;
+    right: 8%;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+}
+.delete_btn:hover{
+    scale: 1.5;
 }
