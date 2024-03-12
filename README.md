@@ -17,10 +17,10 @@
 
 ## 사용기술
  - 언어
-  - JAVA, HTML, CSS, JS, MySQL
+   - JAVA, HTML, CSS, JS, MySQL
 
  - 프레임워크
-  - Spring, Spring Boot, React, Spring JPA, Spring Security 
+   - Spring, Spring Boot, React, Spring JPA, Spring Security 
 
  - 라이브러리
-  - OAuth2Client, Sweetalert, chat.js, jwt,quill 
+   - OAuth2Client, Sweetalert, chat.js, jwt,quill 
