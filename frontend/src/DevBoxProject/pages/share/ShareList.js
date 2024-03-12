@@ -64,6 +64,9 @@ const ShareList = () => {
 						{/*content wrapper*/}
 
 						<div className={`${DefaultCSS.main_wrapper}`}>
+								<Link to={"/codeshare/write"} className={`${ShareListCSS.write_button} custom-btn button-grayBlack`}>
+										작성
+								</Link>
 								<div className={ShareListCSS.search_write_box}>
 										<form className={`${ShareListCSS.search_box} line`} onSubmit={submitSearch}>
 												<input
@@ -76,11 +79,7 @@ const ShareList = () => {
 												<button className={"search-button"} type={"submit"}><FontAwesomeIcon icon={faArrowUp}/></button>
 										</form>
 
-										<Link to={"/codeshare/write"} className={ShareListCSS.write_button}>
-												<button>
-														작성
-												</button>
-										</Link>
+
 
 								</div>
 

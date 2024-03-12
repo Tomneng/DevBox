@@ -1,3 +1,15 @@
-.check_box{
-    display: flex;
+.check_box {
+    display: flex
+}
+
+.skillImg {
+    width: 60px !important;
+    height: 60px !important;
+    border: 0 solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 5px !important;
+}
+
+.inputBox{
+    width: 97% !important;
 }

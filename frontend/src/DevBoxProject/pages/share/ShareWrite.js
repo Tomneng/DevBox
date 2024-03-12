@@ -146,7 +146,7 @@ const ShareWrite = () => {
 				<>
 						<Header/>
 
-						<Container className={`${DefaultCSS.main_wrapper} myDoccontainer`}>
+						<Container className={`${DefaultCSS.main_wrapper}`}>
 								<h2>Share</h2>
 								<hr/>
 
@@ -228,62 +228,20 @@ const ShareWrite = () => {
 																onChange={changeValue}
 
 														/>
-														<Form.Check
-																type={"checkbox"}
-																name={"slanguage"}
-																value={"GO LANG"}
-																label={"GO LANG"}
-																onChange={changeValue}
-
-														/>
-														<Form.Check
-																type={"checkbox"}
-																name={"slanguage"}
-																value={"TYPE SCRIPT"}
-																label={"TYPE SCRIPT"}
-																onChange={changeValue}
-
-														/>
-														<Form.Check
-																type={"checkbox"}
-																name={"slanguage"}
-																value={"SQL"}
-																label={"SQL"}
-																onChange={changeValue}
-
-														/>
-														<Form.Check
-																type={"checkbox"}
-																name={"slanguage"}
-																value={"KOTLIN"}
-																label={"KOTLIN"}
-																onChange={changeValue}
-
-														/>
-														<Form.Check
-																type={"checkbox"}
-																name={"slanguage"}
-																value={"SWIFT"}
-																label={"SWIFT"}
-																onChange={changeValue}
-
-														/>
 												</Col>
 										</Form.Group>
 
 										{/* 사용 언어 아이콘*/}
 										<div>
-												{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo}/>}
-												{share.slanguage.includes("JAVA") && <Image src={JAVALogo}/>}
-												{share.slanguage.includes("BASICC") && <Image src={CLogo}/>}
-												{share.slanguage.includes("C++") && <Image src={CPPLogo}/>}
-												{share.slanguage.includes("C#") && <Image src={CSHARPLogo}/>}
-												{share.slanguage.includes("HTML") && <Image src={HTMLLogo}/>}
-												{share.slanguage.includes("CSS") && <Image src={CSSLogo}/>}
-												{share.slanguage.includes("JS") && <Image src={JSLogo}/>}
-												{share.slanguage.includes("REACT") && <Image src={REACTLogo}/>}
-												{share.slanguage.includes("SQL") && <FontAwesomeIcon icon={faDatabase}/>}
-												{share.slanguage.includes("SWIFT") && <FontAwesomeIcon icon={faSwift}/>}
+												{share.slanguage.includes("PYTHON") && <Image src={PYTHONLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("JAVA") && <Image src={JAVALogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("BASICC") && <Image src={CLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("C++") && <Image src={CPPLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("C#") && <Image src={CSHARPLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("HTML") && <Image src={HTMLLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("CSS") && <Image src={CSSLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("JS") && <Image src={JSLogo} className={WriteCSS.skillImg}/>}
+												{share.slanguage.includes("REACT") && <Image src={REACTLogo} className={WriteCSS.skillImg}/>}
 										</div>
 
 										{/*  글 제목 입력 란  */}
@@ -294,7 +252,9 @@ const ShareWrite = () => {
 														placeholder={"제목 입력"}
 														onChange={changeValue}
 														name={"stitle"}
-														required/>
+														required
+														className={WriteCSS.inputBox}
+												/>
 										</Form.Group>
 
 										{/* 글 간략 설명*/}
@@ -305,7 +265,10 @@ const ShareWrite = () => {
 														placeholder={"간략설명"}
 														onChange={changeValue}
 														name={"sdescription"}
-														required/>
+														required
+														className={WriteCSS.inputBox}
+
+												/>
 										</Form.Group>
 
 										{/* 글 내용 입력란 */}
@@ -314,7 +277,7 @@ const ShareWrite = () => {
 
 												<ReactQuill
 														ref={quillRef}
-														style={{width: "800px", height: "500px"}}
+														style={{width: "100%", paddingBottom: "20px"}}
 														value={share.scontent}
 														onChange={(value) => setShare({...share, scontent: value})}
 														modules={modules}
@@ -326,8 +289,8 @@ const ShareWrite = () => {
 										{/* 코드 사진 첨부 */}
 
 										<div className={DefaultCSS.button_box}>
-												<Button type={"submit"}>나눔 하기</Button>
-												<Link className={DefaultCSS.link_box} to="/codeshare">목록</Link>
+												<Button className={'custom-btn button-grayBlack'} type={"submit"}>나눔 하기</Button>
+												<Link className={`${DefaultCSS.link_box} custom-btn button-grayBlack`} to="/codeshare">목록</Link>
 										</div>
 								</Form>
 						</Container>
